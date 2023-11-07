@@ -43,7 +43,7 @@ const Navbar = () => {
         ))}
       </ul>
 
-      <div className="ml-auto flex gap-4">
+      <div className="ml-auto flex items-center gap-4">
         <DropdownMenu>
           <Avatar>
             <AvatarImage src="https://github.com/shadcn.png" alt="" aria-hidden="true" />
