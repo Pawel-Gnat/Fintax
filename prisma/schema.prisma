@@ -7,45 +7,68 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Owner {
-  id          String      @id @default(auto()) @map("_id") @db.ObjectId
-  name        String
-  surname     String
-  companyName String
-  email       String      @unique
-  password    String
-  image       String?
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  locations   String[]
-  employees   Employee[]
-  settlements Settlement[]
+model Account {
+  id                 String   @id @default(cuid()) @map("_id") @db.ObjectId
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?  @db.String
+  access_token       String?  @db.String
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?  @db.String
+  session_state      String?
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId             String   @db.ObjectId
+  employee           Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  employeeId         String   @db.ObjectId
+  @@unique([provider, providerAccountId])
+}
+
+model User {
+  id                String      @id @default(cuid()) @map("_id") @db.ObjectId
+  name              String
+  surname           String
+  companyName       String
+  email             String      @unique
+  emailVerified     DateTime?
+  hashedPassword    String
+  image             String?
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  accounts          Account[]
+  locations         String[]
+  employees         Employee[]
+  settlements       Settlement[]
 }
 
 model Employee {
-  id          String        @id @default(auto()) @map("_id") @db.ObjectId
-  name        String
-  surname     String
-  email       String        @unique
-  password    String
-  role        String     
-  image       String?
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt    
-  location    String    
-  settlements Settlement[] 
-  owner       Owner         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  ownerId     String        @db.ObjectId
+  id              String        @id @default(cuid()) @map("_id") @db.ObjectId
+  name            String
+  surname         String
+  email           String        @unique
+  emailVerified   DateTime?
+  hashedPassword  String
+  role            String     
+  image           String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  accounts        Account[]   
+  location        String    
+  settlements     Settlement[] 
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          String        @db.ObjectId
 }
 
 model Settlement {
-  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  id          String     @id @default(cuid()) @map("_id") @db.ObjectId
   name        String
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt 
   location    String    
   employee    Employee   @relation(fields: [employeeId], references: [id], onDelete: Cascade)
   employeeId  String     @db.ObjectId
-  owner       Owner      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  ownerId     String     @db.ObjectId
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String     @db.ObjectId
 }
