@@ -1,7 +1,9 @@
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { CSSProperties, useState } from 'react';
 import axios from 'axios';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 import capitalizeFirstLetter from '@/utils/capitalizeFirstLetter';
 
@@ -37,8 +39,13 @@ const formSchema = z.object({
   }),
 });
 
+const override: CSSProperties = {
+  borderColor: 'var(--background) var(--background) transparent',
+};
+
 const RegisterForm: React.FC<RegisterFormProps> = ({ toggleAuthStatus }) => {
   const { toast } = useToast();
+  const [loading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -58,6 +65,8 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ toggleAuthStatus }) => {
       surname: capitalizeFirstLetter(values.surname),
     };
 
+    setIsLoading(true);
+
     axios
       .post('/api/register', formData)
       .then(() => {
@@ -69,11 +78,12 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ toggleAuthStatus }) => {
       .catch((error) => {
         toast({
           variant: 'destructive',
-          description: 'Something went wrong.',
+          // description: 'Something went wrong.',
+          description: error.message,
         });
       })
       .finally(() => {
-        console.log('ok');
+        setIsLoading(false);
       });
   }
 
@@ -146,7 +156,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ toggleAuthStatus }) => {
           )}
         />
         <Button type="submit" className="w-full">
-          Register
+          {loading ? <ClipLoader size={25} cssOverride={override} /> : 'Register'}
         </Button>
       </form>
     </Form>
