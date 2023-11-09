@@ -8,7 +8,7 @@ datasource db {
 }
 
 model Account {
-  id                 String   @id @default(cuid()) @map("_id") @db.ObjectId
+  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
   type               String
   provider           String
   providerAccountId  String
@@ -27,7 +27,7 @@ model Account {
 }
 
 model User {
-  id                String      @id @default(cuid()) @map("_id") @db.ObjectId
+  id                String      @id @default(auto()) @map("_id") @db.ObjectId
   name              String
   surname           String
   companyName       String
@@ -44,7 +44,7 @@ model User {
 }
 
 model Employee {
-  id              String        @id @default(cuid()) @map("_id") @db.ObjectId
+  id              String        @id @default(auto()) @map("_id") @db.ObjectId
   name            String
   surname         String
   email           String        @unique
@@ -62,7 +62,7 @@ model Employee {
 }
 
 model Settlement {
-  id          String     @id @default(cuid()) @map("_id") @db.ObjectId
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt 

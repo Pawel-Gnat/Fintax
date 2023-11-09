@@ -16,6 +16,10 @@ import RegisterForm from './components/register-form';
 const AuthPage = () => {
   const [login, setIsLogin] = useState(true);
 
+  const toggleAuthStatus = () => {
+    setIsLogin((prev) => !prev);
+  };
+
   return (
     <div className="container grid min-h-screen items-center">
       <Card>
@@ -29,10 +33,12 @@ const AuthPage = () => {
               : 'Enter your personal and company info, email address and password to create an account.'}
           </CardDescription>
         </CardHeader>
-        <CardContent>{login ? <LoginForm /> : <RegisterForm />}</CardContent>
+        <CardContent>
+          {login ? <LoginForm /> : <RegisterForm toggleAuthStatus={toggleAuthStatus} />}
+        </CardContent>
         <CardFooter>
           <p>{login ? `Don't have an account?` : 'Already have an account?'}</p>
-          <button onClick={() => setIsLogin((prev) => !prev)} className="ml-1">
+          <button onClick={toggleAuthStatus} className="ml-1">
             {login ? 'Create new account' : 'Login'}
           </button>
         </CardFooter>

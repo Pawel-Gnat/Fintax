@@ -1,6 +1,9 @@
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import axios from 'axios';
+
+import capitalizeFirstLetter from '@/utils/capitalizeFirstLetter';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -12,13 +15,21 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { useToast } from '@/components/ui/use-toast';
+
+interface RegisterFormProps {
+  toggleAuthStatus: () => void;
+}
 
 const formSchema = z.object({
   companyName: z.string().trim().min(3, {
     message: 'Company name must be at least 3 characters.',
   }),
-  username: z.string().trim().min(2, {
-    message: 'Username must be at least 2 characters.',
+  name: z.string().trim().min(2, {
+    message: 'Name must be at least 2 characters.',
+  }),
+  surname: z.string().trim().min(2, {
+    message: 'Surname must be at least 2 characters.',
   }),
   email: z.string().trim().email(),
   password: z.string().trim().min(2, {
@@ -26,19 +37,44 @@ const formSchema = z.object({
   }),
 });
 
-const RegisterForm = () => {
+const RegisterForm: React.FC<RegisterFormProps> = ({ toggleAuthStatus }) => {
+  const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       companyName: '',
-      username: '',
+      name: '',
+      surname: '',
       email: '',
       password: '',
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    const formData = {
+      ...values,
+      companyName: capitalizeFirstLetter(values.companyName),
+      name: capitalizeFirstLetter(values.name),
+      surname: capitalizeFirstLetter(values.surname),
+    };
+
+    axios
+      .post('/api/register', formData)
+      .then(() => {
+        toast({
+          description: 'The account has been created.',
+        });
+        toggleAuthStatus();
+      })
+      .catch((error) => {
+        toast({
+          variant: 'destructive',
+          description: 'Something went wrong.',
+        });
+      })
+      .finally(() => {
+        console.log('ok');
+      });
   }
 
   return (
@@ -59,12 +95,25 @@ const RegisterForm = () => {
         />
         <FormField
           control={form.control}
-          name="username"
+          name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input placeholder="Username" {...field} />
+                <Input placeholder="Name" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="surname"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Surname</FormLabel>
+              <FormControl>
+                <Input placeholder="Surname" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
