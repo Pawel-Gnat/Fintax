@@ -31,7 +31,7 @@ export const authOptions: AuthOptions = {
           },
         });
 
-        if (!user || user?.hashedPassword) {
+        if (!user || !user?.hashedPassword) {
           throw new Error('Invalid credentials');
         }
 
@@ -53,7 +53,7 @@ export const authOptions: AuthOptions = {
     strategy: 'jwt',
   },
   pages: {
-    signIn: '/',
+    signIn: '/auth',
   },
   secret: process.env.NEXTAUTH_SECRET,
 };

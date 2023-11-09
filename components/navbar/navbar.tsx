@@ -2,9 +2,11 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { signOut } from 'next-auth/react';
 import { LuUsers2 } from 'react-icons/lu';
 import { LuBarChartBig } from 'react-icons/lu';
 import { LuFolderKanban } from 'react-icons/lu';
+import { User } from '@prisma/client';
 
 import Logo from '@/public/logo.svg';
 import NavLink from './nav-link';
@@ -15,6 +17,10 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+
+interface NavbarProps {
+  user: User;
+}
 
 const PAGES = [
   { src: '/', label: 'Dashboard', icon: LuBarChartBig },
@@ -30,7 +36,13 @@ const PAGES = [
   },
 ];
 
-const Navbar = () => {
+const Navbar: React.FC<NavbarProps> = ({ user }) => {
+  const { name, surname, image } = user;
+
+  const transformUserDetails = () => {
+    return `${name.charAt(0).toUpperCase()}${surname.charAt(0).toUpperCase()}`;
+  };
+
   return (
     <nav className="container flex items-center gap-4 p-5">
       <Image src={Logo} alt="" aria-hidden="true" width={30} height={30} />
@@ -46,11 +58,11 @@ const Navbar = () => {
       <div className="ml-auto flex items-center gap-4">
         <DropdownMenu>
           <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" alt="" aria-hidden="true" />
-            <AvatarFallback>NK</AvatarFallback>
+            {image && <AvatarImage src={image} alt="" aria-hidden="true" />}
+            <AvatarFallback>{transformUserDetails()}</AvatarFallback>
           </Avatar>
           <DropdownMenuTrigger className="p-2 text-background opacity-70 transition-opacity hover:opacity-100">
-            Nazwa konta
+            {`${name} ${surname}`}
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem>
@@ -59,9 +71,7 @@ const Navbar = () => {
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <Link href="/" className="w-full">
-                Log out
-              </Link>
+              <button onClick={() => signOut()}>Log out</button>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

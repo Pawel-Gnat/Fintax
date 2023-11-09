@@ -12,13 +12,13 @@ const getCurrentUser = async () => {
     // const session = await getSession();
     const session = await getServerSession(authOptions);
 
-    if (session?.user?.email) {
+    if (!session?.user?.email) {
       return null;
     }
 
     const user = await prisma.user.findUnique({
       where: {
-        email: session?.user?.email as string,
+        email: session.user.email as string,
       },
     });
 

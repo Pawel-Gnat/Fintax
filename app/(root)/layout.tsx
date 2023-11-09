@@ -17,7 +17,7 @@ export default async function DashboardLayout({
   return (
     <>
       <header className="bg-primary">
-        <Navbar />
+        <Navbar user={user}/>
       </header>
       <main className="container text-primary">{children}</main>
     </>

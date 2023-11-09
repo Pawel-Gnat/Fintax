@@ -1,7 +1,12 @@
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { CSSProperties, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import ClipLoader from 'react-spinners/ClipLoader';
+import { signIn } from 'next-auth/react';
 
+import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -20,7 +25,15 @@ const formSchema = z.object({
   }),
 });
 
+const override: CSSProperties = {
+  borderColor: 'var(--background) var(--background) transparent',
+};
+
 const LoginForm = () => {
+  const { toast } = useToast();
+  const [loading, setIsLoading] = useState(false);
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -30,7 +43,25 @@ const LoginForm = () => {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    setIsLoading(true);
+
+    signIn('credentials', { ...values, redirect: false }).then((callback) => {
+      setIsLoading(false);
+
+      if (callback?.ok) {
+        router.push('/');
+        toast({
+          description: 'You have logged in.',
+        });
+      }
+
+      if (callback?.error) {
+        toast({
+          variant: 'destructive',
+          description: callback.error,
+        });
+      }
+    });
   }
 
   return (
@@ -63,7 +94,7 @@ const LoginForm = () => {
           )}
         />
         <Button type="submit" className="w-full">
-          Login
+          {loading ? <ClipLoader size={25} cssOverride={override} /> : 'Login'}
         </Button>
       </form>
     </Form>
