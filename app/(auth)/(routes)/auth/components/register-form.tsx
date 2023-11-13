@@ -24,7 +24,7 @@ interface RegisterFormProps {
 }
 
 const formSchema = z.object({
-  companyName: z.string().trim().min(3, {
+  company: z.string().trim().min(3, {
     message: 'Company name must be at least 3 characters.',
   }),
   name: z.string().trim().min(2, {
@@ -49,7 +49,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ toggleAuthStatus }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      companyName: '',
+      company: '',
       name: '',
       surname: '',
       email: '',
@@ -60,10 +60,12 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ toggleAuthStatus }) => {
   function onSubmit(values: z.infer<typeof formSchema>) {
     const formData = {
       ...values,
-      companyName: capitalizeFirstLetter(values.companyName),
+      companyName: capitalizeFirstLetter(values.company),
       name: capitalizeFirstLetter(values.name),
       surname: capitalizeFirstLetter(values.surname),
     };
+
+    if (loading) return;
 
     setIsLoading(true);
 
@@ -78,7 +80,6 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ toggleAuthStatus }) => {
       .catch((error) => {
         toast({
           variant: 'destructive',
-          // description: 'Something went wrong.',
           description: error.message,
         });
       })
@@ -92,12 +93,12 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ toggleAuthStatus }) => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="companyName"
+          name="company"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Company name</FormLabel>
+              <FormLabel>Company</FormLabel>
               <FormControl>
-                <Input placeholder="Company name" {...field} />
+                <Input placeholder="Company" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -155,7 +156,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ toggleAuthStatus }) => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full">
+        <Button type="submit" className={loading ? 'w-full opacity-60' : 'w-full'}>
           {loading ? <ClipLoader size={25} cssOverride={override} /> : 'Register'}
         </Button>
       </form>

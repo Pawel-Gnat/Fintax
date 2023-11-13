@@ -21,6 +21,10 @@ import {
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 
+interface LocationFormProps {
+  setIsOpen: (value: boolean) => void;
+}
+
 const formSchema = z.object({
   location: z.string().trim().min(2, {
     message: 'Location must be at least 2 characters.',
@@ -31,7 +35,7 @@ const override: CSSProperties = {
   borderColor: 'var(--background) var(--background) transparent',
 };
 
-const LocationForm = () => {
+const LocationForm: React.FC<LocationFormProps> = ({ setIsOpen }) => {
   const { toast } = useToast();
   const [loading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -47,27 +51,27 @@ const LocationForm = () => {
       location: capitalizeFirstLetter(values.location),
     };
 
-    console.log(formData);
+    if (loading) return;
 
-    // setIsLoading(true);
+    setIsLoading(true);
 
-    // axios
-    //   .post('/api/register', formData)
-    //   .then(() => {
-    //     toast({
-    //       description: 'New employee has been created.',
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     toast({
-    //       variant: 'destructive',
-    //       // description: 'Something went wrong.',
-    //       description: error.message,
-    //     });
-    //   })
-    //   .finally(() => {
-    //     setIsLoading(false);
-    //   });
+    axios
+      .post('/api/locations', formData)
+      .then(() => {
+        toast({
+          description: 'New location has been added.',
+        });
+        setIsOpen(false);
+      })
+      .catch((error) => {
+        toast({
+          variant: 'destructive',
+          description: error.message,
+        });
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }
 
   return (
@@ -86,7 +90,7 @@ const LocationForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full">
+        <Button type="submit" className={loading ? 'w-full opacity-60' : 'w-full'}>
           {loading ? <ClipLoader size={25} cssOverride={override} /> : 'Add'}
         </Button>
       </form>

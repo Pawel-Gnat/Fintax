@@ -65,13 +65,15 @@ const EmployeeForm: React.FC<EmployeeFormProps> = () => {
 
     console.log(formData);
 
+    if (loading) return;
+
     // setIsLoading(true);
 
     // axios
     //   .post('/api/register', formData)
     //   .then(() => {
     //     toast({
-    //       description: 'New employee has been created.',
+    //       description: 'New employee has been added.',
     //     });
     //   })
     //   .catch((error) => {
@@ -154,7 +156,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full">
+        <Button type="submit" className={loading ? 'w-full opacity-60' : 'w-full'}>
           {loading ? <ClipLoader size={25} cssOverride={override} /> : 'Add'}
         </Button>
       </form>
