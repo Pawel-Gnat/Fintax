@@ -155,7 +155,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = () => {
           )}
         />
         <Button type="submit" className="w-full">
-          {loading ? <ClipLoader size={25} cssOverride={override} /> : 'Create'}
+          {loading ? <ClipLoader size={25} cssOverride={override} /> : 'Add'}
         </Button>
       </form>
     </Form>

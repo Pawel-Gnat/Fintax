@@ -3,9 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { signOut } from 'next-auth/react';
-import { LuUsers2 } from 'react-icons/lu';
-import { LuBarChartBig } from 'react-icons/lu';
-import { LuFolderKanban } from 'react-icons/lu';
+import { LuBarChartBig, LuAtom, LuFolderKanban, LuUsers2 } from 'react-icons/lu';
 import { User } from '@prisma/client';
 
 import Logo from '@/public/logo.svg';
@@ -25,14 +23,19 @@ interface NavbarProps {
 const PAGES = [
   { src: '/', label: 'Dashboard', icon: LuBarChartBig },
   {
-    src: '/settlements',
-    label: 'Settlements',
-    icon: LuFolderKanban,
+    src: '/manage',
+    label: 'Manage',
+    icon: LuAtom,
   },
   {
     src: '/employees',
     label: 'Employees',
     icon: LuUsers2,
+  },
+  {
+    src: '/settlements',
+    label: 'Settlements',
+    icon: LuFolderKanban,
   },
 ];
 

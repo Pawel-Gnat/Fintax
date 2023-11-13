@@ -22,7 +22,6 @@ const EmployeesTable: React.FC<EmployeesTableProps> = ({ employees }) => {
 
   return (
     <Table>
-      <TableCaption>A list of your employees.</TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead>Employee</TableHead>
