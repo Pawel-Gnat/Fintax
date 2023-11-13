@@ -2,7 +2,8 @@ import getTitle from '@/utils/getFormTitle';
 import getDescription from '@/utils/getFormDescription';
 
 import EmployeeForm from '@/app/(root)/(routes)/employees/components/employee-form';
-import ManageForm from '@/app/(root)/(routes)/manage/components/manage-form';
+import LocationForm from '@/app/(root)/(routes)/manage/components/location-form';
+import DepartmentForm from '@/app/(root)/(routes)/manage/components/department-form';
 import {
   Sheet,
   SheetContent,
@@ -18,11 +19,11 @@ interface ModalSheetProps {
 
 const getModalForm = (title: string) => {
   if (title === 'Locations') {
-    return <ManageForm title={title} />;
+    return <LocationForm />;
   }
 
   if (title === 'Departments') {
-    return <ManageForm title={title} />;
+    return <DepartmentForm />;
   }
 
   if (title === 'Employees') {
@@ -35,7 +36,7 @@ const ModalSheet: React.FC<ModalSheetProps> = ({ title }) => {
     <Sheet>
       <SheetTrigger>Add new {getTitle(title)}</SheetTrigger>
       <SheetContent>
-        <SheetHeader>
+        <SheetHeader className="mb-5">
           <SheetTitle>Add new {getTitle(title)}</SheetTitle>
           <SheetDescription>{getDescription(title)}</SheetDescription>
         </SheetHeader>

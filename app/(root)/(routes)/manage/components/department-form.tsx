@@ -7,7 +7,6 @@ import { CSSProperties, useState } from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
 import axios from 'axios';
 
-import getFormTitle from '@/utils/getFormTitle';
 import capitalizeFirstLetter from '@/utils/capitalizeFirstLetter';
 
 import { Button } from '@/components/ui/button';
@@ -23,13 +22,9 @@ import {
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 
-interface ManageFormProps {
-  title: string;
-}
-
 const formSchema = z.object({
-  name: z.string().trim().min(2, {
-    message: 'Word must be at least 2 characters.',
+  department: z.string().trim().min(2, {
+    message: 'Department must be at least 2 characters.',
   }),
 });
 
@@ -37,20 +32,20 @@ const override: CSSProperties = {
   borderColor: 'var(--background) var(--background) transparent',
 };
 
-const ManageForm: React.FC<ManageFormProps> = ({ title }) => {
+const DepartmentForm = () => {
   const { toast } = useToast();
   const [loading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: '',
+      department: '',
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     const formData = {
       //   ...values,
-      data: capitalizeFirstLetter(values.name),
+      department: capitalizeFirstLetter(values.department),
     };
 
     console.log(formData);
@@ -81,15 +76,12 @@ const ManageForm: React.FC<ManageFormProps> = ({ title }) => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="name"
+          name="department"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{capitalizeFirstLetter(getFormTitle(title)!)}</FormLabel>
+              <FormLabel>Department</FormLabel>
               <FormControl>
-                <Input
-                  placeholder={capitalizeFirstLetter(getFormTitle(title)!)}
-                  {...field}
-                />
+                <Input placeholder="Department" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -103,4 +95,4 @@ const ManageForm: React.FC<ManageFormProps> = ({ title }) => {
   );
 };
 
-export default ManageForm;
+export default DepartmentForm;
