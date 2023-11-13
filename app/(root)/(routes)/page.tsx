@@ -22,7 +22,7 @@ import { useEffect } from 'react';
 // }
 
 const Home = async () => {
-  // const currentUser = await getCurrentUser();
+  const user = await getCurrentUser();
 
   // useEffect(() => {
   //   console.log('lol');
@@ -31,7 +31,11 @@ const Home = async () => {
 
   // console.log('lol');
 
-  return <div>Hello from Dashboard</div>;
+  return (
+    <div>
+      <p>{user?.companyName}</p>
+    </div>
+  );
 };
 
 export default Home;
