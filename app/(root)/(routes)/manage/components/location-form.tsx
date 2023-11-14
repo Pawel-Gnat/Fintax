@@ -58,7 +58,7 @@ const LocationForm: React.FC<LocationFormProps> = ({ setIsOpen }) => {
     setIsLoading(true);
 
     axios
-      .post('/api/locations', formData)
+      .post(`/api/locations/${formData.location}`, formData)
       .then(() => {
         toast({
           description: 'New location has been added.',

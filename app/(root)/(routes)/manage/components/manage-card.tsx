@@ -4,10 +4,11 @@ import ModalSheet from '@/components/modal/modal-sheet';
 
 interface ManageCardProps {
   title: string;
+  apiRoute: string;
   data: string[];
 }
 
-const ManageCard: React.FC<ManageCardProps> = ({ title, data }) => {
+const ManageCard: React.FC<ManageCardProps> = ({ title, data, apiRoute }) => {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
@@ -15,7 +16,7 @@ const ManageCard: React.FC<ManageCardProps> = ({ title, data }) => {
         <ModalSheet title={title} />
       </CardHeader>
       <CardContent>
-        <ManageTable title={title} data={data} />
+        <ManageTable title={title} data={data} apiRoute={apiRoute} />
       </CardContent>
     </Card>
   );

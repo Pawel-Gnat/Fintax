@@ -14,7 +14,6 @@ import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -59,7 +58,7 @@ const DepartmentForm: React.FC<DepartmentFormProps> = ({ setIsOpen }) => {
     setIsLoading(true);
 
     axios
-      .post('/api/departments', formData)
+      .post(`/api/departments/${formData.department}`, formData)
       .then(() => {
         toast({
           description: 'New department has been added.',
