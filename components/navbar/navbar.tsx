@@ -8,12 +8,7 @@ import { User } from '@prisma/client';
 
 import Logo from '@/public/logo.svg';
 import NavLink from './nav-link';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import DropdownMenu from '@/components/dropdown-menu/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 interface NavbarProps {
@@ -46,6 +41,25 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
     return `${name.charAt(0).toUpperCase()}${surname.charAt(0).toUpperCase()}`;
   };
 
+  const avatar = (
+    <Avatar>
+      {image && <AvatarImage src={image} alt="" aria-hidden="true" />}
+      <AvatarFallback>{transformUserDetails()}</AvatarFallback>
+    </Avatar>
+  );
+
+  const settings = (
+    <Link href="/settings" className="w-full">
+      Settings
+    </Link>
+  );
+
+  const logOut = (
+    <button onClick={() => signOut()} className="w-full text-left">
+      Log out
+    </button>
+  );
+
   return (
     <nav className="container flex items-center gap-4 p-5">
       <Image src={Logo} alt="" aria-hidden="true" width={30} height={30} />
@@ -59,25 +73,11 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
       </ul>
 
       <div className="ml-auto flex items-center gap-4">
-        <DropdownMenu>
-          <Avatar>
-            {image && <AvatarImage src={image} alt="" aria-hidden="true" />}
-            <AvatarFallback>{transformUserDetails()}</AvatarFallback>
-          </Avatar>
-          <DropdownMenuTrigger className="p-2 text-background opacity-70 transition-opacity hover:opacity-100">
-            {`${name} ${surname}`}
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem>
-              <Link href="/settings" className="w-full">
-                Settings
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <button onClick={() => signOut()}>Log out</button>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <DropdownMenu
+          avatar={avatar}
+          trigger={`${name} ${surname}`}
+          actions={[settings, logOut]}
+        />
       </div>
     </nav>
   );

@@ -30,7 +30,7 @@ const getModalForm = (
   }
 
   if (title === 'Departments') {
-    return <DepartmentForm />;
+    return <DepartmentForm setIsOpen={setIsOpen} />;
   }
 
   if (title === 'Employees') {

@@ -1,18 +1,19 @@
 import PageContainer from '@/components/page-container/page-container';
 import ManageCard from './components/manage-card';
+import getCurrentCompany from '@/actions/getCurrentCompany';
 
-const info = [
-  { title: 'Locations', data: ['Warszawa', 'Poznań', 'Katowice'] },
-  { title: 'Departments', data: ['Kadry i płace', 'Księgowość', 'Marketing'] },
-];
+const ManagePage = async () => {
+  const currentCompanyData = await getCurrentCompany();
 
-const ManagePage = () => {
   return (
     <PageContainer heading="Manage">
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-        {info.map((item) => (
-          <ManageCard key={item.title} title={item.title} data={item.data} />
-        ))}
+        {currentCompanyData && (
+          <>
+            <ManageCard title="Locations" data={currentCompanyData.locations} />
+            <ManageCard title="Departments" data={currentCompanyData.departments} />
+          </>
+        )}
       </div>
     </PageContainer>
   );

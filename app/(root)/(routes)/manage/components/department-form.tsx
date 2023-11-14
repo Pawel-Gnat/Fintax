@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { CSSProperties, useState } from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
+import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
 import capitalizeFirstLetter from '@/utils/capitalizeFirstLetter';
@@ -22,6 +23,10 @@ import {
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 
+interface DepartmentFormProps {
+  setIsOpen: (value: boolean) => void;
+}
+
 const formSchema = z.object({
   department: z.string().trim().min(2, {
     message: 'Department must be at least 2 characters.',
@@ -32,9 +37,10 @@ const override: CSSProperties = {
   borderColor: 'var(--background) var(--background) transparent',
 };
 
-const DepartmentForm = () => {
+const DepartmentForm: React.FC<DepartmentFormProps> = ({ setIsOpen }) => {
   const { toast } = useToast();
   const [loading, setIsLoading] = useState(false);
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -44,33 +50,32 @@ const DepartmentForm = () => {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     const formData = {
-      //   ...values,
+      ...values,
       department: capitalizeFirstLetter(values.department),
     };
 
-    console.log(formData);
-
     if (loading) return;
 
-    // setIsLoading(true);
+    setIsLoading(true);
 
-    // axios
-    //   .post('/api/register', formData)
-    //   .then(() => {
-    //     toast({
-    //       description: 'New employee has been created.',
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     toast({
-    //       variant: 'destructive',
-    //       // description: 'Something went wrong.',
-    //       description: error.message,
-    //     });
-    //   })
-    //   .finally(() => {
-    //     setIsLoading(false);
-    //   });
+    axios
+      .post('/api/departments', formData)
+      .then(() => {
+        toast({
+          description: 'New department has been added.',
+        });
+        setIsOpen(false);
+        router.refresh();
+      })
+      .catch((error) => {
+        toast({
+          variant: 'destructive',
+          description: error.message,
+        });
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }
 
   return (

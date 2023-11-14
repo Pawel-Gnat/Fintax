@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { CSSProperties, useState } from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
+import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
 import capitalizeFirstLetter from '@/utils/capitalizeFirstLetter';
@@ -38,6 +39,7 @@ const override: CSSProperties = {
 const LocationForm: React.FC<LocationFormProps> = ({ setIsOpen }) => {
   const { toast } = useToast();
   const [loading, setIsLoading] = useState(false);
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -62,6 +64,7 @@ const LocationForm: React.FC<LocationFormProps> = ({ setIsOpen }) => {
           description: 'New location has been added.',
         });
         setIsOpen(false);
+        router.refresh();
       })
       .catch((error) => {
         toast({
