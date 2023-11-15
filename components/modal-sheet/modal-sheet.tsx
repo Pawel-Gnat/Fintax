@@ -1,6 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useContext } from 'react';
+
+import { ModalSheetContext } from '@/context/modal-sheet-context';
 
 import getTitle from '@/utils/getFormTitle';
 import getDescription from '@/utils/getFormDescription';
@@ -14,17 +16,9 @@ import {
   SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from '@/components/ui/sheet';
 
-interface ModalSheetProps {
-  title: string;
-}
-
-const getModalForm = (
-  title: string,
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>,
-) => {
+const getModalForm = (title: string, setIsOpen: (value: boolean) => void) => {
   if (title === 'Locations') {
     return <LocationForm setIsOpen={setIsOpen} />;
   }
@@ -38,12 +32,11 @@ const getModalForm = (
   }
 };
 
-const ModalSheet: React.FC<ModalSheetProps> = ({ title }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const ModalSheet = () => {
+  const { isOpen, setIsOpen, title } = useContext(ModalSheetContext);
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <SheetTrigger>Add new {getTitle(title)}</SheetTrigger>
       <SheetContent>
         <SheetHeader className="mb-5">
           <SheetTitle>Add new {getTitle(title)}</SheetTitle>

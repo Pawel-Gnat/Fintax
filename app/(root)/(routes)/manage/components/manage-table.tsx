@@ -5,9 +5,10 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { LuCircleEllipsis, LuFileEdit, LuFileMinus2 } from 'react-icons/lu';
 
+import { useToast } from '@/components/ui/use-toast';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 import DropdownMenu from '@/components/dropdown-menu/dropdown-menu';
-import { useToast } from '@/components/ui/use-toast';
+import AlertDialog from '@/components/alert-dialog/alert-dialog';
 
 interface ManageTableProps {
   title: string;
@@ -18,6 +19,9 @@ interface ManageTableProps {
 const ManageTable: React.FC<ManageTableProps> = ({ title, data, apiRoute }) => {
   const { toast } = useToast();
   const [loading, setIsLoading] = useState(false);
+  const [elementName, setElementName] = useState('');
+  const [urlRoute, setUrlRoute] = useState('');
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const router = useRouter();
 
   if (data.length === 0) {
@@ -28,30 +32,30 @@ const ManageTable: React.FC<ManageTableProps> = ({ title, data, apiRoute }) => {
     );
   }
 
-  const getApiRoute = (element: string, apiRoute: string) => {
+  const getUrlRoute = () => {
     let route = '';
 
-    if (apiRoute === 'Departments') {
-      route = `/api/departments/${element}`;
+    if (urlRoute === 'departments') {
+      route = `/api/departments/${elementName}`;
     }
 
-    if (apiRoute === 'Locations') {
-      route = `/api/locations/${element}`;
+    if (urlRoute === 'locations') {
+      route = `/api/locations/${elementName}`;
     }
 
     return route;
   };
 
-  const handleDelete = (element: string, apiRoute: string) => {
+  const handleDelete = () => {
     if (loading) return;
 
     setIsLoading(true);
 
     axios
-      .patch(getApiRoute(element, apiRoute))
+      .patch(getUrlRoute())
       .then(() => {
         toast({
-          description: `${element} has been deleted.`,
+          description: `${elementName} has been deleted.`,
         });
         router.refresh();
       })
@@ -63,8 +67,12 @@ const ManageTable: React.FC<ManageTableProps> = ({ title, data, apiRoute }) => {
       })
       .finally(() => {
         setIsLoading(false);
+        setElementName('');
+        setUrlRoute('');
       });
   };
+
+  const handleEdit = () => {};
 
   const editButton = (
     <button className="flex w-full items-center justify-center gap-2">
@@ -75,7 +83,11 @@ const ManageTable: React.FC<ManageTableProps> = ({ title, data, apiRoute }) => {
 
   const deleteButton = (element: string, apiRoute: string) => (
     <button
-      onClick={() => handleDelete(element, apiRoute)}
+      onClick={() => {
+        setIsDialogOpen(true);
+        setElementName(element);
+        setUrlRoute(apiRoute);
+      }}
       className="flex w-full items-center justify-center gap-2"
     >
       <LuFileMinus2 />
@@ -84,21 +96,30 @@ const ManageTable: React.FC<ManageTableProps> = ({ title, data, apiRoute }) => {
   );
 
   return (
-    <Table>
-      <TableBody>
-        {data.map((element) => (
-          <TableRow key={element}>
-            <TableCell>{element}</TableCell>
-            <TableCell className="text-right">
-              <DropdownMenu
-                icon={<LuCircleEllipsis size={20} />}
-                actions={[editButton, deleteButton(element, apiRoute)]}
-              />
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+    <>
+      <Table>
+        <TableBody>
+          {data.map((element) => (
+            <TableRow key={element}>
+              <TableCell>{element}</TableCell>
+              <TableCell className="text-right">
+                <DropdownMenu
+                  icon={<LuCircleEllipsis size={20} />}
+                  actions={[editButton, deleteButton(element, apiRoute)]}
+                />
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      <AlertDialog
+        isOpen={isDialogOpen}
+        setIsOpen={setIsDialogOpen}
+        onContinue={handleDelete}
+        title="Are you absolutely sure?"
+        description="This action cannot be undone. This will permanently delete your data from our servers."
+      />
+    </>
   );
 };
 

@@ -1,7 +1,7 @@
 import PageContainer from '@/components/page-container/page-container';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import EmployeesTable from './components/employees-table';
-import ModalSheet from '@/components/modal/modal-sheet';
+import ModalSheet from '@/components/modal-sheet/modal-sheet';
 
 const allEmployees = [
   {
