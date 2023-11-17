@@ -47,7 +47,7 @@ const AlertDialog = () => {
     setIsLoading(true);
 
     axios
-      .patch(getDatabaseRoute(alertDatabaseName, alertElementName))
+      .delete(getDatabaseRoute(alertDatabaseName, alertElementName))
       .then(() => {
         toast({
           description: `${alertElementName} has been deleted.`,

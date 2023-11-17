@@ -43,11 +43,15 @@ const DepartmentForm = () => {
 
     setIsLoading(true);
 
-    axios
-      .post(`/api/departments/${formData.department}`, formData)
+    const requestMethod = isEditing ? axios.patch : axios.post;
+    const requestData = isEditing ? '' : formData;
+
+    requestMethod(`/api/departments/${formData.department}`, formData)
       .then(() => {
         toast({
-          description: 'New department has been added.',
+          description: isEditing
+            ? 'Department has been updated.'
+            : 'New department has been added.',
         });
         setIsOpen(false);
         router.refresh();

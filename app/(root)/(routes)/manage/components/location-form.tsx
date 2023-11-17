@@ -43,11 +43,15 @@ const LocationForm = () => {
 
     setIsLoading(true);
 
-    axios
-      .post(`/api/locations/${formData.location}`, formData)
+    const requestMethod = isEditing ? axios.patch : axios.post;
+    const requestData = isEditing ? '' : formData;
+
+    requestMethod(`/api/locations/${formData.location}`, formData)
       .then(() => {
         toast({
-          description: 'New location has been added.',
+          description: isEditing
+            ? 'Location has been updated.'
+            : 'New location has been added.',
         });
         setIsOpen(false);
         router.refresh();
