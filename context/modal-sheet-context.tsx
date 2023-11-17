@@ -5,6 +5,8 @@ import { createContext, useState } from 'react';
 interface ModalSheetContextProps {
   title: string;
   setTitle: (value: string) => void;
+  elementId: string;
+  setElementId: (value: string) => void;
   elementName: string;
   setElementName: (value: string) => void;
   isOpen: boolean;
@@ -20,6 +22,8 @@ interface ModalSheetContextProps {
 export const ModalSheetContext = createContext<ModalSheetContextProps>({
   title: '',
   setTitle: () => {},
+  elementId: '',
+  setElementId: () => {},
   elementName: '',
   setElementName: () => {},
   isOpen: false,
@@ -38,6 +42,7 @@ export const ModalSheetProvider: React.FC<{ children: React.ReactNode }> = ({
   const [isOpen, setIsOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState('');
+  const [elementId, setElementId] = useState('');
   const [elementName, setElementName] = useState('');
   const [databaseName, setDatabaseName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -51,6 +56,8 @@ export const ModalSheetProvider: React.FC<{ children: React.ReactNode }> = ({
         setTitle,
         databaseName,
         setDatabaseName,
+        elementId,
+        setElementId,
         elementName,
         setElementName,
         isEditing,

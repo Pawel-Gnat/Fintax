@@ -5,6 +5,8 @@ import { createContext, useState } from 'react';
 interface AlertDialogContextProps {
   isAlertOpen: boolean;
   setIsAlertOpen: (value: boolean) => void;
+  alertElementId: string;
+  setAlertElementId: (value: string) => void;
   alertElementName: string;
   setAlertElementName: (value: string) => void;
   alertDatabaseName: string;
@@ -14,6 +16,8 @@ interface AlertDialogContextProps {
 export const AlertDialogContext = createContext<AlertDialogContextProps>({
   isAlertOpen: false,
   setIsAlertOpen: () => {},
+  alertElementId: '',
+  setAlertElementId: () => {},
   alertElementName: '',
   setAlertElementName: () => {},
   alertDatabaseName: '',
@@ -24,6 +28,7 @@ export const AlertDialogProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [alertElementId, setAlertElementId] = useState('');
   const [alertElementName, setAlertElementName] = useState('');
   const [alertDatabaseName, setAlertDatabaseName] = useState('');
 
@@ -34,6 +39,8 @@ export const AlertDialogProvider: React.FC<{ children: React.ReactNode }> = ({
         setIsAlertOpen,
         alertDatabaseName,
         setAlertDatabaseName,
+        alertElementId,
+        setAlertElementId,
         alertElementName,
         setAlertElementName,
       }}

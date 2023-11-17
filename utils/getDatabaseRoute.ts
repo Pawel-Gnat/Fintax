@@ -1,10 +1,10 @@
-const getDatabaseRoute = (databaseName: string, elementName: string) => {
+const getDatabaseRoute = (databaseName: string, elementId: string) => {
   if (databaseName === 'departments') {
-    return `/api/departments/${elementName}`;
+    return `/api/departments/${elementId}`;
   }
 
   if (databaseName === 'locations') {
-    return `/api/locations/${elementName}`;
+    return `/api/locations/${elementId}`;
   }
 
   return '';

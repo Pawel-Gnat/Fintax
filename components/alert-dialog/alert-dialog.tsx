@@ -30,10 +30,12 @@ const AlertDialog = () => {
   const {
     isAlertOpen,
     setIsAlertOpen,
-    alertElementName,
-    setAlertElementName,
+    alertElementId,
+    setAlertElementId,
     alertDatabaseName,
     setAlertDatabaseName,
+    setAlertElementName,
+    alertElementName,
   } = useContext(AlertDialogContext);
   const [loading, setIsLoading] = useState(false);
 
@@ -47,7 +49,7 @@ const AlertDialog = () => {
     setIsLoading(true);
 
     axios
-      .delete(getDatabaseRoute(alertDatabaseName, alertElementName))
+      .delete(getDatabaseRoute(alertDatabaseName, alertElementId))
       .then(() => {
         toast({
           description: `${alertElementName} has been deleted.`,
@@ -62,6 +64,7 @@ const AlertDialog = () => {
       })
       .finally(() => {
         setIsLoading(false);
+        setAlertElementId('');
         setAlertElementName('');
         setAlertDatabaseName('');
       });

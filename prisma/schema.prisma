@@ -59,8 +59,8 @@ model Location {
   name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  companyId String   @db.ObjectId
   company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String   @db.ObjectId
 }
 
 model Department {
@@ -68,8 +68,8 @@ model Department {
   name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  companyId String   @db.ObjectId
   company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String   @db.ObjectId
 }
 
 model Employee {

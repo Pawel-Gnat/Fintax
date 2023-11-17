@@ -21,10 +21,19 @@ const formSchema = z.object({
 });
 
 const LocationForm = () => {
+  const {
+    setIsOpen,
+    elementId,
+    setElementId,
+    elementName,
+    setElementName,
+    isEditing,
+    isLoading,
+    setIsLoading,
+    setIsEditing,
+  } = useContext(ModalSheetContext);
   const { toast } = useToast();
   const router = useRouter();
-  const { setIsOpen, elementName, isEditing, isLoading, setIsLoading } =
-    useContext(ModalSheetContext);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -44,9 +53,9 @@ const LocationForm = () => {
     setIsLoading(true);
 
     const requestMethod = isEditing ? axios.patch : axios.post;
-    const requestData = isEditing ? '' : formData;
+    const requestParams = isEditing ? elementId : formData.location;
 
-    requestMethod(`/api/locations/${formData.location}`, formData)
+    requestMethod(`/api/locations/${requestParams}`, formData)
       .then(() => {
         toast({
           description: isEditing
@@ -64,6 +73,9 @@ const LocationForm = () => {
       })
       .finally(() => {
         setIsLoading(false);
+        setIsEditing(false);
+        setElementId('');
+        setElementName('');
       });
   }
 

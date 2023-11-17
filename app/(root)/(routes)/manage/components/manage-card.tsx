@@ -8,10 +8,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import ManageTable from './manage-table';
 import { Button } from '@/components/ui/button';
 
+import { Department, Location } from '@prisma/client';
+
 interface ManageCardProps {
   title: string;
   databaseName: string;
-  data: string[];
+  data: Location[] | Department[];
 }
 
 const ManageCard: React.FC<ManageCardProps> = ({ title, data, databaseName }) => {
