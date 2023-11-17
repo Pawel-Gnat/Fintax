@@ -1,7 +1,14 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useContext, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
+import { AlertDialogContext } from '@/context/alert-dialog-context';
+
+import getDatabaseRoute from '@/utils/getDatabaseRoute';
+
+import { toast } from '../ui/use-toast';
 import {
   AlertDialog as AlertDialogUI,
   AlertDialogAction,
@@ -13,37 +20,61 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 
-interface AlertDialogProps {
-  isOpen: boolean;
-  setIsOpen: (value: boolean) => void;
-  onContinue: () => void;
-  title: string;
-  description: string;
-}
-
-const AlertDialog: React.FC<AlertDialogProps> = ({
-  isOpen,
-  setIsOpen,
-  onContinue,
-  title,
-  description,
-}) => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+const AlertDialog = () => {
+  const router = useRouter();
+  const {
+    isAlertOpen,
+    setIsAlertOpen,
+    elementName,
+    setElementName,
+    databaseName,
+    setDatabaseName,
+  } = useContext(AlertDialogContext);
+  const [loading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setIsDialogOpen(isOpen);
-  }, [isOpen]);
+    setIsAlertOpen(isAlertOpen);
+  }, [isAlertOpen, setIsAlertOpen]);
+
+  const handleDelete = () => {
+    if (loading) return;
+
+    setIsLoading(true);
+
+    axios
+      .patch(getDatabaseRoute(databaseName, elementName))
+      .then(() => {
+        toast({
+          description: `${elementName} has been deleted.`,
+        });
+        router.refresh();
+      })
+      .catch((error) => {
+        toast({
+          variant: 'destructive',
+          description: error.message,
+        });
+      })
+      .finally(() => {
+        setIsLoading(false);
+        setElementName('');
+        setDatabaseName('');
+      });
+  };
 
   return (
-    <AlertDialogUI open={isDialogOpen} onOpenChange={() => setIsOpen(false)}>
+    <AlertDialogUI open={isAlertOpen} onOpenChange={() => setIsAlertOpen(false)}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>{title}</AlertDialogTitle>
-          <AlertDialogDescription>{description}</AlertDialogDescription>
+          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone. This will permanently delete your data from our
+            servers.
+          </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={() => onContinue()}>Continue</AlertDialogAction>
+          <AlertDialogAction onClick={() => handleDelete()}>Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialogUI>
