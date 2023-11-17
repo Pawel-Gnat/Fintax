@@ -13,12 +13,12 @@ const ManagePage = async () => {
             <ManageCard
               title="Locations"
               data={currentCompanyData.locations}
-              apiRoute="locations"
+              databaseName="locations"
             />
             <ManageCard
               title="Departments"
               data={currentCompanyData.departments}
-              apiRoute="departments"
+              databaseName="departments"
             />
           </>
         )}

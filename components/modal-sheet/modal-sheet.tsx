@@ -18,22 +18,22 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet';
 
-const getModalForm = (title: string, setIsOpen: (value: boolean) => void) => {
-  if (title === 'Locations') {
+const getModalForm = (databaseName: string, setIsOpen: (value: boolean) => void) => {
+  if (databaseName === 'locations') {
     return <LocationForm setIsOpen={setIsOpen} />;
   }
 
-  if (title === 'Departments') {
+  if (databaseName === 'departments') {
     return <DepartmentForm setIsOpen={setIsOpen} />;
   }
 
-  if (title === 'Employees') {
+  if (databaseName === 'employees') {
     return <EmployeeForm />;
   }
 };
 
 const ModalSheet = () => {
-  const { isOpen, setIsOpen, title } = useContext(ModalSheetContext);
+  const { isOpen, setIsOpen, title, databaseName } = useContext(ModalSheetContext);
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -42,7 +42,7 @@ const ModalSheet = () => {
           <SheetTitle>Add new {getTitle(title)}</SheetTitle>
           <SheetDescription>{getDescription(title)}</SheetDescription>
         </SheetHeader>
-        {getModalForm(title, setIsOpen)}
+        {getModalForm(databaseName, setIsOpen)}
       </SheetContent>
     </Sheet>
   );

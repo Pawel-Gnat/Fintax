@@ -1,9 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { LuCircleEllipsis, LuFileEdit, LuFileMinus2 } from 'react-icons/lu';
+
+import { ModalSheetContext } from '@/context/modal-sheet-context';
 
 import { useToast } from '@/components/ui/use-toast';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
@@ -12,17 +14,18 @@ import AlertDialog from '@/components/alert-dialog/alert-dialog';
 
 interface ManageTableProps {
   title: string;
-  apiRoute: string;
+  databaseName: string;
   data: string[];
 }
 
-const ManageTable: React.FC<ManageTableProps> = ({ title, data, apiRoute }) => {
+const ManageTable: React.FC<ManageTableProps> = ({ title, data, databaseName }) => {
   const { toast } = useToast();
+  const router = useRouter();
+  const { setTitle, setIsOpen, setDatabaseName } = useContext(ModalSheetContext);
   const [loading, setIsLoading] = useState(false);
   const [elementName, setElementName] = useState('');
-  const [urlRoute, setUrlRoute] = useState('');
+  const [databaseRoute, setDatabaseRoute] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const router = useRouter();
 
   if (data.length === 0) {
     return (
@@ -32,14 +35,14 @@ const ManageTable: React.FC<ManageTableProps> = ({ title, data, apiRoute }) => {
     );
   }
 
-  const getUrlRoute = () => {
+  const getDatabaseRoute = () => {
     let route = '';
 
-    if (urlRoute === 'departments') {
+    if (databaseRoute === 'departments') {
       route = `/api/departments/${elementName}`;
     }
 
-    if (urlRoute === 'locations') {
+    if (databaseRoute === 'locations') {
       route = `/api/locations/${elementName}`;
     }
 
@@ -52,7 +55,7 @@ const ManageTable: React.FC<ManageTableProps> = ({ title, data, apiRoute }) => {
     setIsLoading(true);
 
     axios
-      .patch(getUrlRoute())
+      .patch(getDatabaseRoute())
       .then(() => {
         toast({
           description: `${elementName} has been deleted.`,
@@ -68,25 +71,32 @@ const ManageTable: React.FC<ManageTableProps> = ({ title, data, apiRoute }) => {
       .finally(() => {
         setIsLoading(false);
         setElementName('');
-        setUrlRoute('');
+        setDatabaseRoute('');
       });
   };
 
   const handleEdit = () => {};
 
   const editButton = (
-    <button className="flex w-full items-center justify-center gap-2">
+    <button
+      onClick={() => {
+        setIsOpen(true);
+        setTitle(title);
+        setDatabaseName(databaseName);
+      }}
+      className="flex w-full items-center justify-center gap-2"
+    >
       <LuFileEdit />
       Edit
     </button>
   );
 
-  const deleteButton = (element: string, apiRoute: string) => (
+  const deleteButton = (element: string, databaseName: string) => (
     <button
       onClick={() => {
         setIsDialogOpen(true);
         setElementName(element);
-        setUrlRoute(apiRoute);
+        setDatabaseRoute(databaseName);
       }}
       className="flex w-full items-center justify-center gap-2"
     >
@@ -105,7 +115,7 @@ const ManageTable: React.FC<ManageTableProps> = ({ title, data, apiRoute }) => {
               <TableCell className="text-right">
                 <DropdownMenu
                   icon={<LuCircleEllipsis size={20} />}
-                  actions={[editButton, deleteButton(element, apiRoute)]}
+                  actions={[editButton, deleteButton(element, databaseName)]}
                 />
               </TableCell>
             </TableRow>

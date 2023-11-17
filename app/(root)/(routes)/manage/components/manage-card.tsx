@@ -10,12 +10,12 @@ import { Button } from '@/components/ui/button';
 
 interface ManageCardProps {
   title: string;
-  apiRoute: string;
+  databaseName: string;
   data: string[];
 }
 
-const ManageCard: React.FC<ManageCardProps> = ({ title, data, apiRoute }) => {
-  const { setIsTitle, setIsOpen } = useContext(ModalSheetContext);
+const ManageCard: React.FC<ManageCardProps> = ({ title, data, databaseName }) => {
+  const { setTitle, setIsOpen, setDatabaseName } = useContext(ModalSheetContext);
 
   return (
     <Card>
@@ -24,14 +24,15 @@ const ManageCard: React.FC<ManageCardProps> = ({ title, data, apiRoute }) => {
         <Button
           onClick={() => {
             setIsOpen(true);
-            setIsTitle(title);
+            setTitle(title);
+            setDatabaseName(databaseName);
           }}
         >
           Add new {title.toLowerCase()}
         </Button>
       </CardHeader>
       <CardContent>
-        <ManageTable title={title} data={data} apiRoute={apiRoute} />
+        <ManageTable title={title} data={data} databaseName={databaseName} />
       </CardContent>
     </Card>
   );
