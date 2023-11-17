@@ -5,37 +5,37 @@ import { createContext, useState } from 'react';
 interface AlertDialogContextProps {
   isAlertOpen: boolean;
   setIsAlertOpen: (value: boolean) => void;
-  elementName: string;
-  setElementName: (value: string) => void;
-  databaseName: string;
-  setDatabaseName: (value: string) => void;
+  alertElementName: string;
+  setAlertElementName: (value: string) => void;
+  alertDatabaseName: string;
+  setAlertDatabaseName: (value: string) => void;
 }
 
 export const AlertDialogContext = createContext<AlertDialogContextProps>({
   isAlertOpen: false,
   setIsAlertOpen: () => {},
-  elementName: '',
-  setElementName: () => {},
-  databaseName: '',
-  setDatabaseName: () => {},
+  alertElementName: '',
+  setAlertElementName: () => {},
+  alertDatabaseName: '',
+  setAlertDatabaseName: () => {},
 });
 
 export const AlertDialogProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [isAlertOpen, setIsAlertOpen] = useState(false);
-  const [elementName, setElementName] = useState('');
-  const [databaseName, setDatabaseName] = useState('');
+  const [alertElementName, setAlertElementName] = useState('');
+  const [alertDatabaseName, setAlertDatabaseName] = useState('');
 
   return (
     <AlertDialogContext.Provider
       value={{
         isAlertOpen,
         setIsAlertOpen,
-        databaseName,
-        setDatabaseName,
-        elementName,
-        setElementName,
+        alertDatabaseName,
+        setAlertDatabaseName,
+        alertElementName,
+        setAlertElementName,
       }}
     >
       {children}

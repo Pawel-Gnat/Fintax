@@ -18,7 +18,7 @@ const ManageCard: React.FC<ManageCardProps> = ({ title, data, databaseName }) =>
   const { setTitle, setIsOpen, setDatabaseName } = useContext(ModalSheetContext);
 
   return (
-    <Card>
+    <Card className="h-max">
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>{title}</CardTitle>
         <Button

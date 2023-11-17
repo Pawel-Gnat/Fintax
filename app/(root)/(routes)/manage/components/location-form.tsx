@@ -3,13 +3,16 @@
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { CSSProperties, useState } from 'react';
+import { CSSProperties, useContext } from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
+import { ModalSheetContext } from '@/context/modal-sheet-context';
+
 import capitalizeFirstLetter from '@/utils/capitalizeFirstLetter';
 
+import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -20,11 +23,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useToast } from '@/components/ui/use-toast';
-
-interface LocationFormProps {
-  setIsOpen: (value: boolean) => void;
-}
 
 const formSchema = z.object({
   location: z.string().trim().min(2, {
@@ -36,16 +34,22 @@ const override: CSSProperties = {
   borderColor: 'var(--background) var(--background) transparent',
 };
 
-const LocationForm: React.FC<LocationFormProps> = ({ setIsOpen }) => {
+const LocationForm = () => {
   const { toast } = useToast();
-  const [loading, setIsLoading] = useState(false);
   const router = useRouter();
+  const { setIsOpen, elementName, isEditing, isLoading, setIsLoading } =
+    useContext(ModalSheetContext);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      location: '',
+      location: isEditing ? elementName : '',
     },
   });
+
+  const buttonText = () => {
+    return isEditing ? 'Edit' : 'Add';
+  };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     const formData = {
@@ -53,7 +57,7 @@ const LocationForm: React.FC<LocationFormProps> = ({ setIsOpen }) => {
       location: capitalizeFirstLetter(values.location),
     };
 
-    if (loading) return;
+    if (isLoading) return;
 
     setIsLoading(true);
 
@@ -93,8 +97,8 @@ const LocationForm: React.FC<LocationFormProps> = ({ setIsOpen }) => {
             </FormItem>
           )}
         />
-        <Button type="submit" className={loading ? 'w-full opacity-60' : 'w-full'}>
-          {loading ? <ClipLoader size={25} cssOverride={override} /> : 'Add'}
+        <Button type="submit" className={isLoading ? 'w-full opacity-60' : 'w-full'}>
+          {isLoading ? <ClipLoader size={25} cssOverride={override} /> : buttonText()}
         </Button>
       </form>
     </Form>

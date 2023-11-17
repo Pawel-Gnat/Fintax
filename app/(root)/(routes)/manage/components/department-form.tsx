@@ -36,7 +36,8 @@ const override: CSSProperties = {
   borderColor: 'var(--background) var(--background) transparent',
 };
 
-const DepartmentForm: React.FC<DepartmentFormProps> = ({ setIsOpen }) => {
+// const DepartmentForm: React.FC<DepartmentFormProps> = ({ setIsOpen }) => {
+const DepartmentForm = () => {
   const { toast } = useToast();
   const [loading, setIsLoading] = useState(false);
   const router = useRouter();

@@ -6,10 +6,8 @@ import { ModalSheetContext } from '@/context/modal-sheet-context';
 
 import getTitle from '@/utils/getFormTitle';
 import getDescription from '@/utils/getFormDescription';
+import getModalForm from '@/utils/getModalForm';
 
-import EmployeeForm from '@/app/(root)/(routes)/employees/components/employee-form';
-import LocationForm from '@/app/(root)/(routes)/manage/components/location-form';
-import DepartmentForm from '@/app/(root)/(routes)/manage/components/department-form';
 import {
   Sheet,
   SheetContent,
@@ -18,31 +16,19 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet';
 
-const getModalForm = (databaseName: string, setIsOpen: (value: boolean) => void) => {
-  if (databaseName === 'locations') {
-    return <LocationForm setIsOpen={setIsOpen} />;
-  }
-
-  if (databaseName === 'departments') {
-    return <DepartmentForm setIsOpen={setIsOpen} />;
-  }
-
-  if (databaseName === 'employees') {
-    return <EmployeeForm />;
-  }
-};
-
 const ModalSheet = () => {
-  const { isOpen, setIsOpen, title, databaseName } = useContext(ModalSheetContext);
+  const { isOpen, setIsOpen, isEditing, databaseName } = useContext(ModalSheetContext);
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetContent>
         <SheetHeader className="mb-5">
-          <SheetTitle>Add new {getTitle(title)}</SheetTitle>
-          <SheetDescription>{getDescription(title)}</SheetDescription>
+          <SheetTitle>
+            {isEditing ? 'Edit current' : 'Add new'} {getTitle(databaseName)}
+          </SheetTitle>
+          <SheetDescription>{getDescription(databaseName)}</SheetDescription>
         </SheetHeader>
-        {getModalForm(databaseName, setIsOpen)}
+        {getModalForm(databaseName)}
       </SheetContent>
     </Sheet>
   );

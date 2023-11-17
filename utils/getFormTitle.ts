@@ -1,13 +1,13 @@
-const getTitle = (title: string) => {
-  if (title === 'Locations') {
+const getTitle = (databaseName: string) => {
+  if (databaseName === 'locations') {
     return 'location';
   }
 
-  if (title === 'Departments') {
+  if (databaseName === 'departments') {
     return 'department';
   }
 
-  if (title === 'Employees') {
+  if (databaseName === 'employees') {
     return 'employee';
   }
 };

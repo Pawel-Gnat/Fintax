@@ -1,8 +1,9 @@
 'use client';
 
 import axios from 'axios';
-import { useContext, useEffect, useState } from 'react';
+import { CSSProperties, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 import { AlertDialogContext } from '@/context/alert-dialog-context';
 
@@ -20,15 +21,19 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 
+const override: CSSProperties = {
+  borderColor: 'var(--background) var(--background) transparent',
+};
+
 const AlertDialog = () => {
   const router = useRouter();
   const {
     isAlertOpen,
     setIsAlertOpen,
-    elementName,
-    setElementName,
-    databaseName,
-    setDatabaseName,
+    alertElementName,
+    setAlertElementName,
+    alertDatabaseName,
+    setAlertDatabaseName,
   } = useContext(AlertDialogContext);
   const [loading, setIsLoading] = useState(false);
 
@@ -42,10 +47,10 @@ const AlertDialog = () => {
     setIsLoading(true);
 
     axios
-      .patch(getDatabaseRoute(databaseName, elementName))
+      .patch(getDatabaseRoute(alertDatabaseName, alertElementName))
       .then(() => {
         toast({
-          description: `${elementName} has been deleted.`,
+          description: `${alertElementName} has been deleted.`,
         });
         router.refresh();
       })
@@ -57,8 +62,8 @@ const AlertDialog = () => {
       })
       .finally(() => {
         setIsLoading(false);
-        setElementName('');
-        setDatabaseName('');
+        setAlertElementName('');
+        setAlertDatabaseName('');
       });
   };
 
@@ -74,7 +79,9 @@ const AlertDialog = () => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={() => handleDelete()}>Continue</AlertDialogAction>
+          <AlertDialogAction onClick={() => handleDelete()}>
+            {loading ? <ClipLoader size={25} cssOverride={override} /> : 'Continue'}
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialogUI>

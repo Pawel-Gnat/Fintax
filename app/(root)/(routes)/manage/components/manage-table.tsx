@@ -16,12 +16,10 @@ interface ManageTableProps {
 }
 
 const ManageTable: React.FC<ManageTableProps> = ({ title, data, databaseName }) => {
-  const { setTitle, setIsOpen, setDatabaseName } = useContext(ModalSheetContext);
-  const {
-    setIsAlertOpen,
-    setElementName: setAlertElementName,
-    setDatabaseName: setAlertDatabaseName,
-  } = useContext(AlertDialogContext);
+  const { setTitle, setIsOpen, setIsEditing, setElementName, setDatabaseName } =
+    useContext(ModalSheetContext);
+  const { setIsAlertOpen, setAlertElementName, setAlertDatabaseName } =
+    useContext(AlertDialogContext);
 
   if (data.length === 0) {
     return (
@@ -31,13 +29,13 @@ const ManageTable: React.FC<ManageTableProps> = ({ title, data, databaseName }) 
     );
   }
 
-  const handleEdit = () => {};
-
-  const editButton = (
+  const editButton = (element: string) => (
     <button
       onClick={() => {
         setIsOpen(true);
+        setIsEditing(true);
         setTitle(title);
+        setElementName(element);
         setDatabaseName(databaseName);
       }}
       className="flex w-full items-center justify-center gap-2"
@@ -47,7 +45,7 @@ const ManageTable: React.FC<ManageTableProps> = ({ title, data, databaseName }) 
     </button>
   );
 
-  const deleteButton = (element: string, databaseName: string) => (
+  const deleteButton = (element: string) => (
     <button
       onClick={() => {
         setIsAlertOpen(true);
@@ -70,7 +68,7 @@ const ManageTable: React.FC<ManageTableProps> = ({ title, data, databaseName }) 
             <TableCell className="text-right">
               <DropdownMenu
                 icon={<LuCircleEllipsis size={20} />}
-                actions={[editButton, deleteButton(element, databaseName)]}
+                actions={[editButton(element), deleteButton(element)]}
               />
             </TableCell>
           </TableRow>
