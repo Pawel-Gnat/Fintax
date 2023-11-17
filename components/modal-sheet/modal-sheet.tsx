@@ -17,10 +17,20 @@ import {
 } from '@/components/ui/sheet';
 
 const ModalSheet = () => {
-  const { isOpen, setIsOpen, isEditing, databaseName } = useContext(ModalSheetContext);
+  const { isOpen, setIsOpen, isEditing, databaseName, setIsEditing, setElementName } =
+    useContext(ModalSheetContext);
+
+  const handleOpen = () => {
+    if (isEditing) {
+      setIsEditing(false);
+      setElementName('');
+    }
+
+    setIsOpen(false);
+  };
 
   return (
-    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+    <Sheet open={isOpen} onOpenChange={handleOpen}>
       <SheetContent>
         <SheetHeader className="mb-5">
           <SheetTitle>

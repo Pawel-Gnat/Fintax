@@ -3,28 +3,16 @@
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { CSSProperties, useState } from 'react';
-import ClipLoader from 'react-spinners/ClipLoader';
+import { useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
+import { ModalSheetContext } from '@/context/modal-sheet-context';
+
 import capitalizeFirstLetter from '@/utils/capitalizeFirstLetter';
 
-import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
-
-interface DepartmentFormProps {
-  setIsOpen: (value: boolean) => void;
-}
+import SheetForm from '@/components/sheet-form/sheet-form';
 
 const formSchema = z.object({
   department: z.string().trim().min(2, {
@@ -32,19 +20,16 @@ const formSchema = z.object({
   }),
 });
 
-const override: CSSProperties = {
-  borderColor: 'var(--background) var(--background) transparent',
-};
-
-// const DepartmentForm: React.FC<DepartmentFormProps> = ({ setIsOpen }) => {
 const DepartmentForm = () => {
   const { toast } = useToast();
-  const [loading, setIsLoading] = useState(false);
   const router = useRouter();
+  const { setIsOpen, elementName, isEditing, isLoading, setIsLoading } =
+    useContext(ModalSheetContext);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      department: '',
+      department: isEditing ? elementName : '',
     },
   });
 
@@ -54,7 +39,7 @@ const DepartmentForm = () => {
       department: capitalizeFirstLetter(values.department),
     };
 
-    if (loading) return;
+    if (isLoading) return;
 
     setIsLoading(true);
 
@@ -79,26 +64,13 @@ const DepartmentForm = () => {
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="department"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Department</FormLabel>
-              <FormControl>
-                <Input placeholder="Department" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit" className={loading ? 'w-full opacity-60' : 'w-full'}>
-          {loading ? <ClipLoader size={25} cssOverride={override} /> : 'Add'}
-        </Button>
-      </form>
-    </Form>
+    <SheetForm
+      form={form}
+      inputs={['department']}
+      onSubmit={onSubmit}
+      isLoading={isLoading}
+      isEditing={isEditing}
+    />
   );
 };
 

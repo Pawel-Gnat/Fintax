@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useState } from 'react';
 
 interface ModalSheetContextProps {
   title: string;
@@ -41,13 +41,6 @@ export const ModalSheetProvider: React.FC<{ children: React.ReactNode }> = ({
   const [elementName, setElementName] = useState('');
   const [databaseName, setDatabaseName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    if (isOpen && isEditing) {
-      setIsEditing(false);
-      setElementName('');
-    }
-  }, [isOpen, isEditing]);
 
   return (
     <ModalSheetContext.Provider
