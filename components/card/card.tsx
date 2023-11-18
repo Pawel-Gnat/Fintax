@@ -4,23 +4,23 @@ import { useContext } from 'react';
 
 import { ModalSheetContext } from '@/context/modal-sheet-context';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import ManageTable from './manage-table';
+import { Card as CardUI, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import Table from '@/components/table/table';
 import { Button } from '@/components/ui/button';
 
 import { Department, Location } from '@prisma/client';
 
-interface ManageCardProps {
+interface CardProps {
   title: string;
   databaseName: string;
   data: Location[] | Department[];
 }
 
-const ManageCard: React.FC<ManageCardProps> = ({ title, data, databaseName }) => {
+const Card: React.FC<CardProps> = ({ title, data, databaseName }) => {
   const { setTitle, setIsOpen, setDatabaseName } = useContext(ModalSheetContext);
 
   return (
-    <Card className="h-max">
+    <CardUI className="h-max">
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>{title}</CardTitle>
         <Button
@@ -34,10 +34,10 @@ const ManageCard: React.FC<ManageCardProps> = ({ title, data, databaseName }) =>
         </Button>
       </CardHeader>
       <CardContent>
-        <ManageTable title={title} data={data} databaseName={databaseName} />
+        <Table title={title} data={data} databaseName={databaseName} columns={[title]} />
       </CardContent>
-    </Card>
+    </CardUI>
   );
 };
 
-export default ManageCard;
+export default Card;

@@ -1,7 +1,5 @@
+import Card from '@/components/card/card';
 import PageContainer from '@/components/page-container/page-container';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import EmployeesTable from './components/employees-table';
-import ModalSheet from '@/components/modal-sheet/modal-sheet';
 
 const allEmployees = [
   {
@@ -57,15 +55,7 @@ const allEmployees = [
 const EmployeesPage = () => {
   return (
     <PageContainer heading="Employees">
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Overview</CardTitle>
-          <ModalSheet title="Employees" />
-        </CardHeader>
-        <CardContent>
-          <EmployeesTable employees={allEmployees} />
-        </CardContent>
-      </Card>
+      <Card title="Employees" data={allEmployees} databaseName="employees" />
     </PageContainer>
   );
 };
