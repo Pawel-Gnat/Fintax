@@ -4,25 +4,28 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import Avatar from '@/components/avatar/avatar';
 
 interface DropdownMenuProps {
-  avatar?: JSX.Element;
-  trigger?: string;
+  image?: string | null;
+  name?: string;
+  surname?: string;
   icon?: React.ReactNode;
   actions: JSX.Element[];
 }
 
 const DropdownMenu: React.FC<DropdownMenuProps> = ({
-  avatar,
-  trigger,
+  image,
+  name,
+  surname,
   icon,
   actions,
 }) => {
   return (
     <DropdownMenuUI>
-      {avatar}
+      {name && surname && image && <Avatar image={image} name={name} surname={surname} />}
       <DropdownMenuTrigger className="p-2 opacity-60 transition-opacity hover:opacity-100">
-        {trigger}
+        {name && surname && `${name} ${surname}`}
         {icon}
       </DropdownMenuTrigger>
       <DropdownMenuContent>

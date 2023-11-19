@@ -9,7 +9,6 @@ import { User } from '@prisma/client';
 import Logo from '@/public/logo.svg';
 import NavLink from './nav-link';
 import DropdownMenu from '@/components/dropdown-menu/dropdown-menu';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 interface NavbarProps {
   user: User;
@@ -37,17 +36,6 @@ const PAGES = [
 const Navbar: React.FC<NavbarProps> = ({ user }) => {
   const { name, surname, image } = user;
 
-  const transformUserDetails = () => {
-    return `${name.charAt(0).toUpperCase()}${surname.charAt(0).toUpperCase()}`;
-  };
-
-  const avatar = (
-    <Avatar>
-      {image && <AvatarImage src={image} alt="" aria-hidden="true" />}
-      <AvatarFallback>{transformUserDetails()}</AvatarFallback>
-    </Avatar>
-  );
-
   const settings = (
     <Link href="/settings" className="w-full">
       Settings
@@ -74,8 +62,9 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
 
       <div className="ml-auto flex items-center gap-4">
         <DropdownMenu
-          avatar={avatar}
-          trigger={`${name} ${surname}`}
+          image={image}
+          name={name}
+          surname={surname}
           actions={[settings, logOut]}
         />
       </div>

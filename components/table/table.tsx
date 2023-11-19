@@ -6,6 +6,8 @@ import { LuCircleEllipsis, LuFileEdit, LuFileMinus2 } from 'react-icons/lu';
 import { ModalSheetContext } from '@/context/modal-sheet-context';
 import { AlertDialogContext } from '@/context/alert-dialog-context';
 
+import getTableHeadersDescription from '@/utils/getTableHeadersDescription';
+
 import {
   Table as TableUI,
   TableBody,
@@ -15,14 +17,14 @@ import {
   TableHead,
 } from '@/components/ui/table';
 import DropdownMenu from '@/components/dropdown-menu/dropdown-menu';
+import Avatar from '@/components/avatar/avatar';
 
 import { Department, Employee, Location } from '@prisma/client';
-import getTableHeadersDescription from '@/utils/getTableHeadersDescription';
 
 interface ManageTableProps {
   title: string;
   databaseName: string;
-  data: Location[] | Department[] | Employee[];
+  data: Employee[] & Location[] & Department[];
 }
 
 const Table: React.FC<ManageTableProps> = ({ title, data, databaseName }) => {
@@ -90,7 +92,23 @@ const Table: React.FC<ManageTableProps> = ({ title, data, databaseName }) => {
       <TableBody>
         {data.map((element) => (
           <TableRow key={element.id}>
-            <TableCell>{element.name}</TableCell>
+            <TableCell className="">
+              {databaseName === 'employees' ? (
+                <div className="flex items-center gap-2">
+                  <Avatar
+                    image={element.image}
+                    name={element.name}
+                    surname={element.surname}
+                  />
+                  <p>{`${element.name} ${element.surname}`}</p>
+                </div>
+              ) : (
+                element.name
+              )}
+            </TableCell>
+            {databaseName === 'employees' && <TableCell>{element.role}</TableCell>}
+            {databaseName === 'employees' && <TableCell>{element.location}</TableCell>}
+            {databaseName === 'employees' && <TableCell>{element.companies}</TableCell>}
             <TableCell className="text-right">
               <DropdownMenu
                 icon={<LuCircleEllipsis size={20} />}
@@ -108,28 +126,3 @@ const Table: React.FC<ManageTableProps> = ({ title, data, databaseName }) => {
 };
 
 export default Table;
-
-{
-  /* <Table>
-<TableHeader>
-  <TableRow>
-    <TableHead>Employee</TableHead>
-    <TableHead>Role</TableHead>
-    <TableHead>Location</TableHead>
-    <TableHead className="text-right">Managed companies</TableHead>
-  </TableRow>
-</TableHeader>
-<TableBody>
-  {employees.map((employee) => (
-    <TableRow key={employee.id}>
-      <TableCell>
-        {employee.name} {employee.surname}
-      </TableCell>
-      <TableCell>{employee.role}</TableCell>
-      <TableCell>{employee.location}</TableCell>
-      <TableCell className="text-right">{employee.companies}</TableCell>
-    </TableRow>
-  ))}
-</TableBody>
-</Table> */
-}

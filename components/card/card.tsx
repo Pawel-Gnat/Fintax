@@ -8,12 +8,12 @@ import { Card as CardUI, CardContent, CardHeader, CardTitle } from '@/components
 import Table from '@/components/table/table';
 import { Button } from '@/components/ui/button';
 
-import { Department, Location } from '@prisma/client';
+import { Department, Employee, Location } from '@prisma/client';
 
 interface CardProps {
   title: string;
   databaseName: string;
-  data: Location[] | Department[];
+  data: Employee[] | Location[] | Department[];
 }
 
 const Card: React.FC<CardProps> = ({ title, data, databaseName }) => {
@@ -34,7 +34,7 @@ const Card: React.FC<CardProps> = ({ title, data, databaseName }) => {
         </Button>
       </CardHeader>
       <CardContent>
-        <Table title={title} data={data} databaseName={databaseName} columns={[title]} />
+        <Table title={title} data={data} databaseName={databaseName} />
       </CardContent>
     </CardUI>
   );
