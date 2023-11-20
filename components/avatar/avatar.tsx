@@ -1,7 +1,7 @@
 import { Avatar as AvatarUI, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 interface AvatarProps {
-  image: string | null;
+  image: string | null | undefined;
   name: string;
   surname: string;
 }

@@ -48,6 +48,8 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
     </button>
   );
 
+  console.log(user);
+
   return (
     <nav className="container flex items-center gap-4 p-5">
       <Image src={Logo} alt="" aria-hidden="true" width={30} height={30} />
