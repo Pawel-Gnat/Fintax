@@ -2,8 +2,8 @@
 
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { CSSProperties, useState } from 'react';
+import { useForm, Controller } from 'react-hook-form';
+import { CSSProperties, useEffect, useState } from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
 import axios from 'axios';
 
@@ -22,45 +22,58 @@ import {
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 
-interface EmployeeFormProps {}
+import { Check, ChevronsUpDown } from 'lucide-react';
+
+import { cn } from '@/lib/utils';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from '@/components/ui/command';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+
+interface SettlementFormProps {}
 
 const formSchema = z.object({
   name: z.string().trim().min(2, {
     message: 'Name must be at least 2 characters.',
   }),
-  surname: z.string().trim().min(2, {
-    message: 'Surname must be at least 2 characters.',
-  }),
-  email: z.string().trim().email(),
   location: z.string(),
-  password: z.string().trim().min(2, {
-    message: 'Password must be at least 4 characters.',
-  }),
+  employeeId: z.string(),
 });
 
 const override: CSSProperties = {
   borderColor: 'var(--background) var(--background) transparent',
 };
 
-const EmployeeForm: React.FC<EmployeeFormProps> = () => {
+const SettlementForm: React.FC<SettlementFormProps> = () => {
+  const employees = [
+    { id: 1, name: 'Pawel' },
+    { id: 2, name: 'Gaweł' },
+    { id: 3, name: 'Asia' },
+    { id: 4, name: 'Stasia' },
+  ];
+
   const { toast } = useToast();
   const [loading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
-      surname: '',
       location: '',
-      email: '',
-      password: '',
+      employeeId: '',
     },
   });
+
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState('');
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     const formData = {
       ...values,
       name: capitalizeFirstLetter(values.name),
-      surname: capitalizeFirstLetter(values.surname),
       location: capitalizeFirstLetter(values.location),
     };
 
@@ -107,19 +120,6 @@ const EmployeeForm: React.FC<EmployeeFormProps> = () => {
         />
         <FormField
           control={form.control}
-          name="surname"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Surname</FormLabel>
-              <FormControl>
-                <Input placeholder="Surname" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
           name="location"
           render={({ field }) => (
             <FormItem>
@@ -131,32 +131,57 @@ const EmployeeForm: React.FC<EmployeeFormProps> = () => {
             </FormItem>
           )}
         />
-        <FormField
+
+        <Controller
           control={form.control}
-          name="email"
+          name="employeeId"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input type="email" placeholder="Email" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+            <Popover open={open} onOpenChange={setOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  role="combobox"
+                  aria-expanded={open}
+                  className="w-[200px] justify-between"
+                >
+                  {value
+                    ? employees.find((employee) => String(employee.id) === value)?.name
+                    : 'Assign employee...'}
+                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-[200px] p-0">
+                <Command>
+                  <CommandInput placeholder="Assign employee..." />
+                  <CommandEmpty>No employee found.</CommandEmpty>
+                  <CommandGroup>
+                    {employees.map((employee) => (
+                      <CommandItem
+                        key={employee.id}
+                        value={String(employee.id)}
+                        onSelect={(currentValue) => {
+                          console.log(value, currentValue);
+                          field.onChange(currentValue);
+                          setValue(currentValue === value ? '' : currentValue);
+                          setOpen(false);
+                        }}
+                      >
+                        <Check
+                          className={cn(
+                            'mr-2 h-4 w-4',
+                            value === String(employee.id) ? 'opacity-100' : 'opacity-0',
+                          )}
+                        />
+                        {employee.name}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </Command>
+              </PopoverContent>
+            </Popover>
           )}
         />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input type="password" placeholder="Password" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+
         <Button type="submit" className={loading ? 'w-full opacity-60' : 'w-full'}>
           {loading ? <ClipLoader size={25} cssOverride={override} /> : 'Add'}
         </Button>
@@ -165,4 +190,4 @@ const EmployeeForm: React.FC<EmployeeFormProps> = () => {
   );
 };
 
-export default EmployeeForm;
+export default SettlementForm;

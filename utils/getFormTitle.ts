@@ -10,6 +10,10 @@ const getTitle = (databaseName: string) => {
   if (databaseName === 'employees') {
     return 'employee';
   }
+
+  if (databaseName === 'settlements') {
+    return 'settlement';
+  }
 };
 
 export default getTitle;
