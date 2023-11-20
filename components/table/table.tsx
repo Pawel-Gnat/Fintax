@@ -108,12 +108,14 @@ const Table: React.FC<ManageTableProps> = ({ title, databaseName, data }) => {
               )}
             </TableCell>
             {databaseName === 'employees' && (
+              <TableCell>{element.department?.name}</TableCell>
+            )}
+            {databaseName === 'employees' && (
               <TableCell>{element.location?.name}</TableCell>
             )}
             {databaseName === 'employees' && (
-              <TableCell>{element.department?.name}</TableCell>
+              <TableCell>{element.settlements?.length}</TableCell>
             )}
-            {databaseName === 'employees' && <TableCell>0</TableCell>}
             <TableCell className="text-right">
               <DropdownMenu
                 icon={<LuCircleEllipsis size={20} />}

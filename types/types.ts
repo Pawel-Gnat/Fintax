@@ -15,4 +15,5 @@ export type SafeEmployee = Employee & {
     updatedAt: Date;
     companyId: string;
   } | null;
+  settlements: [];
 };

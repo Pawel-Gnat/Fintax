@@ -17,7 +17,6 @@ const EmployeesPage = async () => {
           title="Employees"
           databaseName="employees"
           data={allCompanyEmployees}
-          // employees={employees}
           departments={allCompanyDepartments}
           locations={allCompanyLocations}
         />
