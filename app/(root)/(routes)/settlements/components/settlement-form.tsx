@@ -41,7 +41,7 @@ const formSchema = z.object({
     message: 'Name must be at least 2 characters.',
   }),
   location: z.string(),
-  employeeId: z.string(),
+  employeeName: z.string(),
 });
 
 const override: CSSProperties = {
@@ -49,26 +49,26 @@ const override: CSSProperties = {
 };
 
 const SettlementForm: React.FC<SettlementFormProps> = () => {
-  const employees = [
-    { id: 1, name: 'Pawel' },
-    { id: 2, name: 'Gaweł' },
-    { id: 3, name: 'Asia' },
-    { id: 4, name: 'Stasia' },
+  const employees: { id: number; name: string }[] = [
+    // { id: 1, name: 'Pawel' },
+    // { id: 2, name: 'Gaweł' },
+    // { id: 3, name: 'Asia' },
+    // { id: 4, name: 'Stasia' },
   ];
 
   const { toast } = useToast();
+
   const [loading, setIsLoading] = useState(false);
+  const [openEmployeeController, setOpenEmployeeController] = useState(false);
+  const [valueEmployeeController, setValueEmployeeController] = useState('');
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
       location: '',
-      employeeId: '',
+      employeeName: '',
     },
   });
-
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState('');
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     const formData = {
@@ -134,18 +134,25 @@ const SettlementForm: React.FC<SettlementFormProps> = () => {
 
         <Controller
           control={form.control}
-          name="employeeId"
+          name="employeeName"
           render={({ field }) => (
-            <Popover open={open} onOpenChange={setOpen}>
+            <Popover
+              open={openEmployeeController}
+              onOpenChange={setOpenEmployeeController}
+            >
               <PopoverTrigger asChild>
                 <Button
                   variant="outline"
                   role="combobox"
-                  aria-expanded={open}
+                  aria-expanded={openEmployeeController}
                   className="w-[200px] justify-between"
                 >
-                  {value
-                    ? employees.find((employee) => String(employee.id) === value)?.name
+                  {valueEmployeeController
+                    ? employees.find(
+                        (employee) =>
+                          employee.name.toUpperCase() ===
+                          valueEmployeeController.toUpperCase(),
+                      )?.name
                     : 'Assign employee...'}
                   <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
@@ -155,26 +162,32 @@ const SettlementForm: React.FC<SettlementFormProps> = () => {
                   <CommandInput placeholder="Assign employee..." />
                   <CommandEmpty>No employee found.</CommandEmpty>
                   <CommandGroup>
-                    {employees.map((employee) => (
-                      <CommandItem
-                        key={employee.id}
-                        value={String(employee.id)}
-                        onSelect={(currentValue) => {
-                          console.log(value, currentValue);
-                          field.onChange(currentValue);
-                          setValue(currentValue === value ? '' : currentValue);
-                          setOpen(false);
-                        }}
-                      >
-                        <Check
-                          className={cn(
-                            'mr-2 h-4 w-4',
-                            value === String(employee.id) ? 'opacity-100' : 'opacity-0',
-                          )}
-                        />
-                        {employee.name}
-                      </CommandItem>
-                    ))}
+                    {employees.length > 1 &&
+                      employees.map((employee) => (
+                        <CommandItem
+                          key={employee.id}
+                          value={String(employee.name)}
+                          onSelect={(currentValue) => {
+                            field.onChange(currentValue);
+                            setValueEmployeeController(
+                              currentValue === valueEmployeeController.toUpperCase()
+                                ? ''
+                                : currentValue.toUpperCase(),
+                            );
+                            setOpenEmployeeController(false);
+                          }}
+                        >
+                          <Check
+                            className={cn(
+                              'mr-2 h-4 w-4',
+                              valueEmployeeController === employee.name
+                                ? 'opacity-100'
+                                : 'opacity-0',
+                            )}
+                          />
+                          {employee.name}
+                        </CommandItem>
+                      ))}
                   </CommandGroup>
                 </Command>
               </PopoverContent>

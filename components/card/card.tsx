@@ -1,6 +1,6 @@
 'use client';
 
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 
 import { ModalSheetContext } from '@/context/modal-sheet-context';
 
@@ -13,11 +13,30 @@ import { Department, Employee, Location } from '@prisma/client';
 interface CardProps {
   title: string;
   databaseName: string;
-  data: Employee[] | Location[] | Department[];
+  employees?: Employee[];
+  departments?: Department[];
+  locations?: Location[];
+  data: Employee[] & Department[] & Location[];
 }
 
-const Card: React.FC<CardProps> = ({ title, data, databaseName }) => {
-  const { setTitle, setIsOpen, setDatabaseName } = useContext(ModalSheetContext);
+const Card: React.FC<CardProps> = ({
+  title,
+  databaseName,
+  employees,
+  departments,
+  locations,
+  data,
+}) => {
+  const { setTitle, setIsOpen, setDatabaseName, setLocations, setDepartments } =
+    useContext(ModalSheetContext);
+
+  useEffect(() => {
+    if (locations) setLocations(locations);
+  }, [locations, setLocations]);
+
+  useEffect(() => {
+    if (departments) setDepartments(departments);
+  }, [departments, setDepartments]);
 
   return (
     <CardUI className="h-max">
@@ -34,7 +53,7 @@ const Card: React.FC<CardProps> = ({ title, data, databaseName }) => {
         </Button>
       </CardHeader>
       <CardContent>
-        <Table title={title} data={data} databaseName={databaseName} />
+        <Table title={title} databaseName={databaseName} data={data} />
       </CardContent>
     </CardUI>
   );

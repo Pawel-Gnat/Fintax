@@ -1,6 +1,7 @@
 'use client';
 
-import { createContext, useState } from 'react';
+import { Department, Location } from '@prisma/client';
+import { Dispatch, SetStateAction, createContext, useState } from 'react';
 
 interface ModalSheetContextProps {
   title: string;
@@ -17,6 +18,10 @@ interface ModalSheetContextProps {
   setIsEditing: (value: boolean) => void;
   databaseName: string;
   setDatabaseName: (value: string) => void;
+  locations: Location[];
+  setLocations: Dispatch<SetStateAction<Location[]>>;
+  departments: Department[];
+  setDepartments: Dispatch<SetStateAction<Department[]>>;
 }
 
 export const ModalSheetContext = createContext<ModalSheetContextProps>({
@@ -34,6 +39,10 @@ export const ModalSheetContext = createContext<ModalSheetContextProps>({
   setIsEditing: () => {},
   databaseName: '',
   setDatabaseName: () => {},
+  locations: [],
+  setLocations: () => {},
+  departments: [],
+  setDepartments: () => {},
 });
 
 export const ModalSheetProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -46,6 +55,8 @@ export const ModalSheetProvider: React.FC<{ children: React.ReactNode }> = ({
   const [elementName, setElementName] = useState('');
   const [databaseName, setDatabaseName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [locations, setLocations] = useState<Location[]>([]);
+  const [departments, setDepartments] = useState<Department[]>([]);
 
   return (
     <ModalSheetContext.Provider
@@ -64,6 +75,10 @@ export const ModalSheetProvider: React.FC<{ children: React.ReactNode }> = ({
         setIsEditing,
         isLoading,
         setIsLoading,
+        locations,
+        setLocations,
+        departments,
+        setDepartments,
       }}
     >
       {children}

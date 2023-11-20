@@ -24,10 +24,10 @@ import { Department, Employee, Location } from '@prisma/client';
 interface ManageTableProps {
   title: string;
   databaseName: string;
-  data: Employee[] & Location[] & Department[];
+  data: Employee[] & Department[] & Location[];
 }
 
-const Table: React.FC<ManageTableProps> = ({ title, data, databaseName }) => {
+const Table: React.FC<ManageTableProps> = ({ title, databaseName, data }) => {
   const {
     setTitle,
     setIsOpen,
@@ -106,9 +106,12 @@ const Table: React.FC<ManageTableProps> = ({ title, data, databaseName }) => {
                 element.name
               )}
             </TableCell>
-            {databaseName === 'employees' && <TableCell>{element.role}</TableCell>}
-            {databaseName === 'employees' && <TableCell>{element.location}</TableCell>}
-            {databaseName === 'employees' && <TableCell>{element.companies}</TableCell>}
+            {/* {databaseName === 'employees' && <TableCell>{element.role}</TableCell>} */}
+            {databaseName === 'employees' && <TableCell>Fin</TableCell>}
+            {/* {databaseName === 'employees' && <TableCell>{element.location}</TableCell>} */}
+            {databaseName === 'employees' && <TableCell>Olsz</TableCell>}
+            {/* {databaseName === 'employees' && <TableCell>{element.companies}</TableCell>} */}
+            {databaseName === 'employees' && <TableCell>0</TableCell>}
             <TableCell className="text-right">
               <DropdownMenu
                 icon={<LuCircleEllipsis size={20} />}

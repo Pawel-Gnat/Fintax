@@ -55,21 +55,25 @@ model Company {
 }
 
 model Location {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  companyId String   @db.ObjectId
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  company     Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId   String     @db.ObjectId
+  employees   Employee[]
+  @@unique([companyId, name])
 }
 
 model Department {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  companyId String   @db.ObjectId
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  company     Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId   String     @db.ObjectId
+  employees   Employee[]  
+  @@unique([companyId, name])
 }
 
 model Employee {
@@ -79,12 +83,14 @@ model Employee {
   email           String        @unique
   emailVerified   DateTime?
   hashedPassword  String
-  role            String     
   image           String?
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
-  accounts        Account[]   
-  location        String    
+  accounts        Account[]     
+  location        Location?      @relation(fields: [locationId], references: [id], onDelete: SetNull)
+  locationId      String?       @db.ObjectId
+  department      Department?    @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+  departmentId    String?       @db.ObjectId
   settlements     Settlement[] 
   company         Company       @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId       String        @db.ObjectId

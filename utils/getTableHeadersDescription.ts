@@ -8,7 +8,7 @@ const getTableHeadersDescription = (databaseName: string) => {
   }
 
   if (databaseName === 'employees') {
-    return ['Employee', 'Role', 'Location', 'Managed companies'];
+    return ['Employee', 'Department', 'Location', 'Managed companies'];
   }
 
   return [];
