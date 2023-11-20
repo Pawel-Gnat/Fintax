@@ -14,8 +14,6 @@ export async function POST(request: Request, { params }: { params: ParamsProps }
   const body = await request.json();
   const { name, surname, email, password, department, location } = body;
 
-  console.log(body);
-
   const currentCompany = await getCurrentCompany();
 
   if (!currentCompany) {

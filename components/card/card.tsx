@@ -8,15 +8,16 @@ import { Card as CardUI, CardContent, CardHeader, CardTitle } from '@/components
 import Table from '@/components/table/table';
 import { Button } from '@/components/ui/button';
 
-import { Department, Employee, Location } from '@prisma/client';
+import { Department, Location } from '@prisma/client';
+import { SafeEmployee } from '@/types/types';
 
 interface CardProps {
   title: string;
   databaseName: string;
-  employees?: Employee[];
+  employees?: SafeEmployee[];
   departments?: Department[];
   locations?: Location[];
-  data: Employee[] & Department[] & Location[];
+  data: SafeEmployee[] & Department[] & Location[];
 }
 
 const Card: React.FC<CardProps> = ({

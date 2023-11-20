@@ -87,9 +87,9 @@ model Employee {
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
   accounts        Account[]     
-  location        Location?      @relation(fields: [locationId], references: [id], onDelete: SetNull)
+  location        Location?     @relation(fields: [locationId], references: [id], onDelete: SetNull)
   locationId      String?       @db.ObjectId
-  department      Department?    @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+  department      Department?   @relation(fields: [departmentId], references: [id], onDelete: SetNull)
   departmentId    String?       @db.ObjectId
   settlements     Settlement[] 
   company         Company       @relation(fields: [companyId], references: [id], onDelete: Cascade)

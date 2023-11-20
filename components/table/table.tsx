@@ -19,12 +19,13 @@ import {
 import DropdownMenu from '@/components/dropdown-menu/dropdown-menu';
 import Avatar from '@/components/avatar/avatar';
 
-import { Department, Employee, Location } from '@prisma/client';
+import { Department, Location } from '@prisma/client';
+import { SafeEmployee } from '@/types/types';
 
 interface ManageTableProps {
   title: string;
   databaseName: string;
-  data: Employee[] & Department[] & Location[];
+  data: SafeEmployee[] & Department[] & Location[];
 }
 
 const Table: React.FC<ManageTableProps> = ({ title, databaseName, data }) => {
@@ -106,11 +107,12 @@ const Table: React.FC<ManageTableProps> = ({ title, databaseName, data }) => {
                 element.name
               )}
             </TableCell>
-            {/* {databaseName === 'employees' && <TableCell>{element.role}</TableCell>} */}
-            {databaseName === 'employees' && <TableCell>Fin</TableCell>}
-            {/* {databaseName === 'employees' && <TableCell>{element.location}</TableCell>} */}
-            {databaseName === 'employees' && <TableCell>Olsz</TableCell>}
-            {/* {databaseName === 'employees' && <TableCell>{element.companies}</TableCell>} */}
+            {databaseName === 'employees' && (
+              <TableCell>{element.location?.name}</TableCell>
+            )}
+            {databaseName === 'employees' && (
+              <TableCell>{element.department?.name}</TableCell>
+            )}
             {databaseName === 'employees' && <TableCell>0</TableCell>}
             <TableCell className="text-right">
               <DropdownMenu
