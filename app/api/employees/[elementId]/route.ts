@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 import prisma from '@/lib/prisma';
 
 import getCurrentCompany from '@/actions/getCurrentCompany';
-import getCurrentLocation from '@/actions/getCurrentLocation';
+import getCurrentEmployee from '@/actions/getCurrentEmployee';
 
 interface ParamsProps {
   elementId: string;
@@ -94,18 +94,18 @@ export async function POST(request: Request, { params }: { params: ParamsProps }
 //   return NextResponse.json(newLocation);
 // }
 
-// export async function DELETE(request: Request, { params }: { params: ParamsProps }) {
-//   const { elementId } = params;
+export async function DELETE(request: Request, { params }: { params: ParamsProps }) {
+  const { elementId } = params;
 
-//   const currentLocation = await getCurrentLocation(elementId);
+  const currentEmployee = await getCurrentEmployee(elementId);
 
-//   if (!currentLocation) {
-//     return null;
-//   }
+  if (!currentEmployee) {
+    return null;
+  }
 
-//   const location = await prisma.location.delete({
-//     where: { id: currentLocation.id },
-//   });
+  const employee = await prisma.employee.delete({
+    where: { id: currentEmployee.id },
+  });
 
-//   return NextResponse.json(location);
-// }
+  return NextResponse.json(employee);
+}
