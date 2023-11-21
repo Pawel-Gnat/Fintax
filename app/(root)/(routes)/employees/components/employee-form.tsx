@@ -22,7 +22,7 @@ const formSchema = z.object({
     message: 'Surname must be at least 2 characters.',
   }),
   email: z.string().trim().email(),
-  password: z.string().trim().min(2, {
+  password: z.string().trim().min(4, {
     message: 'Password must be at least 4 characters.',
   }),
   department: z.string(),
@@ -35,26 +35,30 @@ const EmployeeForm = () => {
   const {
     setIsOpen,
     elementId,
-    elementName,
     isEditing,
     isLoading,
     setIsLoading,
     setElementName,
     setElementId,
     setIsEditing,
+    employees,
   } = useContext(ModalSheetContext);
+
+  const currentEmployee = employees.find((employee) => employee.id === elementId);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: '',
-      surname: '',
-      email: '',
-      password: '',
-      department: '',
-      location: '',
+      name: isEditing && currentEmployee ? currentEmployee.name : '',
+      surname: isEditing && currentEmployee ? currentEmployee.surname : '',
+      email: isEditing && currentEmployee ? currentEmployee.email : '',
+      password: isEditing ? 'placeholder' : '',
+      department: isEditing && currentEmployee ? currentEmployee.department?.name : '',
+      location: isEditing && currentEmployee ? currentEmployee.location?.name : '',
     },
   });
+
+  // placeholder is added to password while isEditing to pass the formSchema requirements //
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     const formData = {
@@ -99,7 +103,11 @@ const EmployeeForm = () => {
   return (
     <SheetForm
       form={form}
-      inputs={['name', 'surname', 'email', 'password']}
+      inputs={
+        !isEditing
+          ? ['name', 'surname', 'email', 'password']
+          : ['name', 'surname', 'email']
+      }
       onSubmit={onSubmit}
       isLoading={isLoading}
       isEditing={isEditing}

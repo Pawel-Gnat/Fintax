@@ -28,8 +28,14 @@ const Card: React.FC<CardProps> = ({
   locations,
   data,
 }) => {
-  const { setTitle, setIsOpen, setDatabaseName, setLocations, setDepartments } =
-    useContext(ModalSheetContext);
+  const {
+    setTitle,
+    setIsOpen,
+    setDatabaseName,
+    setLocations,
+    setDepartments,
+    setEmployees,
+  } = useContext(ModalSheetContext);
 
   useEffect(() => {
     if (locations) setLocations(locations);
@@ -38,6 +44,10 @@ const Card: React.FC<CardProps> = ({
   useEffect(() => {
     if (departments) setDepartments(departments);
   }, [departments, setDepartments]);
+
+  useEffect(() => {
+    if (employees) setEmployees(employees);
+  }, [employees, setEmployees]);
 
   return (
     <CardUI className="h-max">

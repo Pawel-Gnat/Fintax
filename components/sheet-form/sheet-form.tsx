@@ -1,7 +1,7 @@
 'use client';
 
 import { Controller, UseFormReturn } from 'react-hook-form';
-import { CSSProperties, useContext, useState } from 'react';
+import { CSSProperties, useContext, useEffect, useState } from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
 import { Check, ChevronsUpDown } from 'lucide-react';
 
@@ -54,13 +54,22 @@ const SheetForm: React.FC<SheetFormProps> = ({
   isLoading,
   onSubmit,
 }) => {
+  const { locations, departments, employees, elementId } = useContext(ModalSheetContext);
+  const currentEmployee = employees.find((employee) => employee.id === elementId);
+
   const [openDepartmentController, setOpenDepartmentController] = useState(false);
   const [valueDepartmentController, setValueDepartmentController] = useState('');
   const [openLocationController, setOpenLocationController] = useState(false);
   const [valueLocationController, setValueLocationController] = useState('');
   const [openEmployeeController, setOpenEmployeeController] = useState(false);
   const [valueEmployeeController, setValueEmployeeController] = useState('');
-  const { locations, departments, employees } = useContext(ModalSheetContext);
+
+  useEffect(() => {
+    if (isEditing && currentEmployee) {
+      setValueDepartmentController(currentEmployee.department?.name || '');
+      setValueLocationController(currentEmployee.location?.name || '');
+    }
+  }, [isEditing, currentEmployee]);
 
   const buttonText = () => {
     return isEditing ? 'Edit' : 'Add';
@@ -240,75 +249,73 @@ const SheetForm: React.FC<SheetFormProps> = ({
           />
         )}
 
-        {employee &&
-          employees.length >
-            0(
-              <Controller
-                control={form.control}
-                name="employeeName"
-                render={({ field }) => (
-                  <Popover
-                    open={openEmployeeController}
-                    onOpenChange={setOpenEmployeeController}
+        {employee && employees.length > 0 && (
+          <Controller
+            control={form.control}
+            name="employeeName"
+            render={({ field }) => (
+              <Popover
+                open={openEmployeeController}
+                onOpenChange={setOpenEmployeeController}
+              >
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={openEmployeeController}
+                    className="w-[200px] justify-between"
                   >
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        role="combobox"
-                        aria-expanded={openEmployeeController}
-                        className="w-[200px] justify-between"
-                      >
-                        {valueEmployeeController
-                          ? employees.find(
-                              (employee) =>
-                                employee.name.toUpperCase() ===
-                                valueEmployeeController.toUpperCase(),
-                            )?.name
-                          : 'Assign employee...'}
-                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-[200px] p-0">
-                      <Command>
-                        <CommandInput placeholder="Assign employee..." />
-                        <CommandEmpty>No employee found.</CommandEmpty>
-                        <CommandGroup>
-                          {employees.map((employee) => (
-                            <CommandItem
-                              key={employee.id}
-                              value={String(employee.name)}
-                              onSelect={(currentValue) => {
-                                field.onChange(
-                                  currentValue === valueEmployeeController
-                                    ? ''
-                                    : currentValue,
-                                );
-                                setValueEmployeeController(
-                                  currentValue === valueEmployeeController
-                                    ? ''
-                                    : currentValue,
-                                );
-                                setOpenEmployeeController(false);
-                              }}
-                            >
-                              <Check
-                                className={cn(
-                                  'mr-2 h-4 w-4',
-                                  valueEmployeeController === employee.name
-                                    ? 'opacity-100'
-                                    : 'opacity-0',
-                                )}
-                              />
-                              {employee.name}
-                            </CommandItem>
-                          ))}
-                        </CommandGroup>
-                      </Command>
-                    </PopoverContent>
-                  </Popover>
-                )}
-              />,
+                    {valueEmployeeController
+                      ? employees.find(
+                          (employee) =>
+                            employee.name.toUpperCase() ===
+                            valueEmployeeController.toUpperCase(),
+                        )?.name
+                      : 'Assign employee...'}
+                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[200px] p-0">
+                  <Command>
+                    <CommandInput placeholder="Assign employee..." />
+                    <CommandEmpty>No employee found.</CommandEmpty>
+                    <CommandGroup>
+                      {employees.map((employee) => (
+                        <CommandItem
+                          key={employee.id}
+                          value={String(employee.name)}
+                          onSelect={(currentValue) => {
+                            field.onChange(
+                              currentValue === valueEmployeeController
+                                ? ''
+                                : currentValue,
+                            );
+                            setValueEmployeeController(
+                              currentValue === valueEmployeeController
+                                ? ''
+                                : currentValue,
+                            );
+                            setOpenEmployeeController(false);
+                          }}
+                        >
+                          <Check
+                            className={cn(
+                              'mr-2 h-4 w-4',
+                              valueEmployeeController === employee.name
+                                ? 'opacity-100'
+                                : 'opacity-0',
+                            )}
+                          />
+                          {employee.name}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
             )}
+          />
+        )}
 
         <Button type="submit" className={isLoading ? 'w-full opacity-60' : 'w-full'}>
           {isLoading ? <ClipLoader size={25} cssOverride={override} /> : buttonText()}

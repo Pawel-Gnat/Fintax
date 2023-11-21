@@ -17,6 +17,7 @@ const EmployeesPage = async () => {
           title="Employees"
           databaseName="employees"
           data={allCompanyEmployees}
+          employees={allCompanyEmployees}
           departments={allCompanyDepartments}
           locations={allCompanyLocations}
         />

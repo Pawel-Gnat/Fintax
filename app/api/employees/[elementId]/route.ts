@@ -64,35 +64,49 @@ export async function POST(request: Request, { params }: { params: ParamsProps }
   return NextResponse.json(employee);
 }
 
-// export async function PATCH(request: Request, { params }: { params: ParamsProps }) {
-//   const { elementId } = params;
-//   const body = await request.json();
-//   const { location } = body;
+export async function PATCH(request: Request, { params }: { params: ParamsProps }) {
+  const { elementId } = params;
+  const body = await request.json();
+  const { name, surname, email, department, location } = body;
 
-//   const currentLocation = await getCurrentLocation(elementId);
-//   const currentCompany = await getCurrentCompany();
+  const currentEmployee = await getCurrentEmployee(elementId);
+  const currentCompany = await getCurrentCompany();
 
-//   if (!currentLocation || !currentCompany) {
-//     return null;
-//   }
+  if (!currentCompany || !currentEmployee) {
+    return NextResponse.error();
+  }
 
-//   const removedLocation = await prisma.location.delete({
-//     where: { id: currentLocation.id },
-//   });
+  const existingLocation = await prisma.location.findUnique({
+    where: {
+      companyId_name: {
+        companyId: currentCompany.id,
+        name: location,
+      },
+    },
+  });
 
-//   const newLocation = await prisma.location.create({
-//     data: {
-//       name: location,
-//       company: {
-//         connect: {
-//           id: currentCompany.id,
-//         },
-//       },
-//     },
-//   });
+  const existingDepartment = await prisma.department.findUnique({
+    where: {
+      companyId_name: {
+        companyId: currentCompany.id,
+        name: department,
+      },
+    },
+  });
 
-//   return NextResponse.json(newLocation);
-// }
+  const employee = await prisma.employee.update({
+    where: { id: currentEmployee.id },
+    data: {
+      name,
+      surname,
+      email,
+      departmentId: existingDepartment?.id,
+      locationId: existingLocation?.id,
+    },
+  });
+
+  return NextResponse.json(employee);
+}
 
 export async function DELETE(request: Request, { params }: { params: ParamsProps }) {
   const { elementId } = params;
