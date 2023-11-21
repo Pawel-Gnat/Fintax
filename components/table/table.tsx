@@ -85,10 +85,12 @@ const Table: React.FC<ManageTableProps> = ({ title, databaseName, data }) => {
   return (
     <TableUI>
       <TableHeader>
-        {tableHeaders.map((column) => (
-          <TableHead key={column}>{column}</TableHead>
-        ))}
-        <TableHead className="text-right">Options</TableHead>
+        <TableRow>
+          {tableHeaders.map((column) => (
+            <TableHead key={column}>{column}</TableHead>
+          ))}
+          <TableHead className="text-right">Options</TableHead>
+        </TableRow>
       </TableHeader>
       <TableBody>
         {data.map((element) => (
