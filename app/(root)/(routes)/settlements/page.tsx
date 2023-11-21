@@ -1,14 +1,23 @@
+import getAllEmployees from '@/actions/getAllEmployees';
 import getAllSettlements from '@/actions/getAllSettlements';
 
 import Card from '@/components/card/card';
 import PageContainer from '@/components/page-container/page-container';
 
 const SettlementsPage = async () => {
-  const allSettlements = await getAllSettlements();
+  const allCompanySettlements = await getAllSettlements();
+  const allCompanyEmployees = await getAllEmployees();
 
   return (
     <PageContainer heading="Settlements">
-      <Card title="Settlements" data={allSettlements} databaseName="settlements" />
+      {allCompanySettlements && allCompanyEmployees && (
+        <Card
+          title="Settlements"
+          data={allCompanySettlements}
+          employees={allCompanyEmployees}
+          databaseName="settlements"
+        />
+      )}
     </PageContainer>
   );
 };

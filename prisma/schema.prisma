@@ -94,6 +94,7 @@ model Employee {
   settlements     Settlement[] 
   company         Company       @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId       String        @db.ObjectId
+  @@unique([companyId, name, surname])
 }
 
 model Settlement {

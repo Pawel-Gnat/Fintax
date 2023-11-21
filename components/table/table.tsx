@@ -19,13 +19,13 @@ import {
 import DropdownMenu from '@/components/dropdown-menu/dropdown-menu';
 import Avatar from '@/components/avatar/avatar';
 
-import { Department, Location } from '@prisma/client';
-import { SafeEmployee } from '@/types/types';
+import { Department, Location, Settlement } from '@prisma/client';
+import { SafeEmployee, SafeSettlement } from '@/types/types';
 
 interface ManageTableProps {
   title: string;
   databaseName: string;
-  data: SafeEmployee[] & Department[] & Location[];
+  data: SafeEmployee[] | Department[] | Location[] | SafeSettlement[];
 }
 
 const Table: React.FC<ManageTableProps> = ({ title, databaseName, data }) => {
@@ -99,24 +99,35 @@ const Table: React.FC<ManageTableProps> = ({ title, databaseName, data }) => {
               {databaseName === 'employees' ? (
                 <div className="flex items-center gap-2">
                   <Avatar
-                    image={element.image}
-                    name={element.name}
-                    surname={element.surname}
+                    image={(element as SafeEmployee).image}
+                    name={(element as SafeEmployee).name}
+                    surname={(element as SafeEmployee).surname}
                   />
-                  <p>{`${element.name} ${element.surname}`}</p>
+                  <p>{`${(element as SafeEmployee).name} ${
+                    (element as SafeEmployee).surname
+                  }`}</p>
                 </div>
               ) : (
                 element.name
               )}
             </TableCell>
             {databaseName === 'employees' && (
-              <TableCell>{element.department?.name}</TableCell>
+              <TableCell>{(element as SafeEmployee).department?.name}</TableCell>
             )}
             {databaseName === 'employees' && (
-              <TableCell>{element.location?.name}</TableCell>
+              <TableCell>{(element as SafeEmployee).location?.name}</TableCell>
             )}
             {databaseName === 'employees' && (
-              <TableCell>{element.settlements?.length}</TableCell>
+              <TableCell>{(element as SafeEmployee).settlements?.length}</TableCell>
+            )}
+            {databaseName === 'settlements' && (
+              <TableCell>{(element as SafeSettlement).location}</TableCell>
+            )}
+            {databaseName === 'settlements' && (
+              <TableCell>
+                {(element as SafeSettlement).employee?.name}{' '}
+                {(element as SafeSettlement).employee?.surname}
+              </TableCell>
             )}
             <TableCell className="text-right">
               <DropdownMenu

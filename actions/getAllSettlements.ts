@@ -14,6 +14,9 @@ const getAllSettlements = async () => {
       where: {
         companyId: currentCompany.id,
       },
+      include: {
+        employee: true,
+      },
     });
 
     if (!settlements) {

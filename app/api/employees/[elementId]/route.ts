@@ -38,10 +38,6 @@ export async function POST(request: Request, { params }: { params: ParamsProps }
     },
   });
 
-  if (!existingDepartment || !existingLocation) {
-    return NextResponse.error();
-  }
-
   const hashedPassword = await bcrypt.hash(password, 12);
   const employee = await prisma.employee.create({
     data: {
@@ -51,12 +47,6 @@ export async function POST(request: Request, { params }: { params: ParamsProps }
       hashedPassword,
       company: {
         connect: { id: currentCompany.id },
-      },
-      department: {
-        connect: { id: existingDepartment.id },
-      },
-      location: {
-        connect: { id: existingLocation.id },
       },
     },
   });
@@ -100,8 +90,8 @@ export async function PATCH(request: Request, { params }: { params: ParamsProps 
       name,
       surname,
       email,
-      departmentId: existingDepartment?.id,
-      locationId: existingLocation?.id,
+      departmentId: existingDepartment?.id || null,
+      locationId: existingLocation?.id || null,
     },
   });
 

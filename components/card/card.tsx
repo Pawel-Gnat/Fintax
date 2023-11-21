@@ -9,7 +9,7 @@ import Table from '@/components/table/table';
 import { Button } from '@/components/ui/button';
 
 import { Department, Location } from '@prisma/client';
-import { SafeEmployee } from '@/types/types';
+import { SafeEmployee, SafeSettlement } from '@/types/types';
 
 interface CardProps {
   title: string;
@@ -17,7 +17,7 @@ interface CardProps {
   employees?: SafeEmployee[];
   departments?: Department[];
   locations?: Location[];
-  data: SafeEmployee[] & Department[] & Location[];
+  data: SafeEmployee[] | Department[] | Location[] | SafeSettlement[];
 }
 
 const Card: React.FC<CardProps> = ({

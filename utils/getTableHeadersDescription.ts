@@ -11,6 +11,10 @@ const getTableHeadersDescription = (databaseName: string) => {
     return ['Employee', 'Department', 'Location', 'Managed companies'];
   }
 
+  if (databaseName === 'settlements') {
+    return ['Settlement', 'Location', 'Employee'];
+  }
+
   return [];
 };
 

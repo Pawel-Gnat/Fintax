@@ -252,67 +252,76 @@ const SheetForm: React.FC<SheetFormProps> = ({
         {employee && employees.length > 0 && (
           <Controller
             control={form.control}
-            name="employeeName"
+            name="employee"
             render={({ field }) => (
-              <Popover
-                open={openEmployeeController}
-                onOpenChange={setOpenEmployeeController}
-              >
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    role="combobox"
-                    aria-expanded={openEmployeeController}
-                    className="w-[200px] justify-between"
-                  >
-                    {valueEmployeeController
-                      ? employees.find(
-                          (employee) =>
-                            employee.name.toUpperCase() ===
-                            valueEmployeeController.toUpperCase(),
-                        )?.name
-                      : 'Assign employee...'}
-                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-[200px] p-0">
-                  <Command>
-                    <CommandInput placeholder="Assign employee..." />
-                    <CommandEmpty>No employee found.</CommandEmpty>
-                    <CommandGroup>
-                      {employees.map((employee) => (
-                        <CommandItem
-                          key={employee.id}
-                          value={String(employee.name)}
-                          onSelect={(currentValue) => {
-                            field.onChange(
-                              currentValue === valueEmployeeController
-                                ? ''
-                                : currentValue,
-                            );
-                            setValueEmployeeController(
-                              currentValue === valueEmployeeController
-                                ? ''
-                                : currentValue,
-                            );
-                            setOpenEmployeeController(false);
-                          }}
-                        >
-                          <Check
-                            className={cn(
-                              'mr-2 h-4 w-4',
-                              valueEmployeeController === employee.name
-                                ? 'opacity-100'
-                                : 'opacity-0',
-                            )}
-                          />
-                          {employee.name}
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  </Command>
-                </PopoverContent>
-              </Popover>
+              <div>
+                <p className="mb-2 text-sm font-medium">Employee</p>
+                <Popover
+                  open={openEmployeeController}
+                  onOpenChange={setOpenEmployeeController}
+                >
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      aria-expanded={openEmployeeController}
+                      className="w-[200px] justify-between"
+                    >
+                      {valueEmployeeController
+                        ? `${employees.find(
+                            (employee) =>
+                              `${employee.name} ${employee.surname}`.toUpperCase() ===
+                              valueEmployeeController.toUpperCase(),
+                          )?.name} 
+                          ${employees.find(
+                            (employee) =>
+                              `${employee.name} ${employee.surname}`.toUpperCase() ===
+                              valueEmployeeController.toUpperCase(),
+                          )?.surname}`
+                        : 'Assign employee...'}
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[200px] p-0">
+                    <Command>
+                      <CommandInput placeholder="Assign employee..." />
+                      <CommandEmpty>No employee found.</CommandEmpty>
+                      <CommandGroup>
+                        {employees.map((employee) => (
+                          <CommandItem
+                            key={employee.id}
+                            value={`${employee.name} ${employee.surname}`}
+                            onSelect={(currentValue) => {
+                              field.onChange(
+                                currentValue === valueEmployeeController
+                                  ? ''
+                                  : currentValue,
+                              );
+                              setValueEmployeeController(
+                                currentValue === valueEmployeeController
+                                  ? ''
+                                  : currentValue,
+                              );
+                              setOpenEmployeeController(false);
+                            }}
+                          >
+                            <Check
+                              className={cn(
+                                'mr-2 h-4 w-4',
+                                valueEmployeeController.toUpperCase() ===
+                                  `${employee.name} ${employee.surname}`.toUpperCase()
+                                  ? 'opacity-100'
+                                  : 'opacity-0',
+                              )}
+                            />
+                            {`${employee.name} ${employee.surname}`}
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
+              </div>
             )}
           />
         )}

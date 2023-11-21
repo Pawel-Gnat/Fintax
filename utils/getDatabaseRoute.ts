@@ -11,6 +11,10 @@ const getDatabaseRoute = (databaseName: string, elementId: string) => {
     return `/api/employees/${elementId}`;
   }
 
+  if (databaseName === 'settlements') {
+    return `/api/settlements/${elementId}`;
+  }
+
   return '';
 };
 

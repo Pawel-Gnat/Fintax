@@ -1,19 +1,11 @@
-import { Employee } from '@prisma/client';
+import { Department, Employee, Location, Settlement } from '@prisma/client';
 
 export type SafeEmployee = Employee & {
-  department: {
-    id: string;
-    name: string;
-    createdAt: Date;
-    updatedAt: Date;
-    companyId: string;
-  } | null;
-  location: {
-    id: string;
-    name: string;
-    createdAt: Date;
-    updatedAt: Date;
-    companyId: string;
-  } | null;
+  department: Department | null;
+  location: Location | null;
   settlements: [];
+};
+
+export type SafeSettlement = Settlement & {
+  employee: Employee | null;
 };
