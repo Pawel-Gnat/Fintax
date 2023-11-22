@@ -4,6 +4,7 @@ import prisma from '@/lib/prisma';
 
 import getCurrentCompany from '@/actions/getCurrentCompany';
 import getCurrentEmployee from '@/actions/getCurrentEmployee';
+import getCurrentSettlement from '@/actions/getCurrentSettlement';
 
 interface ParamsProps {
   elementId: string;
@@ -41,62 +42,52 @@ export async function POST(request: Request, { params }: { params: ParamsProps }
   return NextResponse.json(settlement);
 }
 
-// export async function PATCH(request: Request, { params }: { params: ParamsProps }) {
-//   const { elementId } = params;
-//   const body = await request.json();
-//   const { name, surname, email, department, location } = body;
+export async function PATCH(request: Request, { params }: { params: ParamsProps }) {
+  const { elementId } = params;
+  const body = await request.json();
+  const { name, location, employee } = body;
 
-//   const currentEmployee = await getCurrentEmployee(elementId);
-//   const currentCompany = await getCurrentCompany();
+  const currentSettlement = await getCurrentSettlement(elementId);
+  const currentCompany = await getCurrentCompany();
 
-//   if (!currentCompany || !currentEmployee) {
-//     return NextResponse.error();
-//   }
+  if (!currentSettlement || !currentCompany) {
+    return NextResponse.error();
+  }
 
-//   const existingLocation = await prisma.location.findUnique({
-//     where: {
-//       companyId_name: {
-//         companyId: currentCompany.id,
-//         name: location,
-//       },
-//     },
-//   });
+  const existingEmployee = await prisma.employee.findUnique({
+    where: {
+      companyId_name_surname: {
+        companyId: currentCompany.id,
+        name: employee.name,
+        surname: employee.surname,
+      },
+    },
+  });
 
-//   const existingDepartment = await prisma.department.findUnique({
-//     where: {
-//       companyId_name: {
-//         companyId: currentCompany.id,
-//         name: department,
-//       },
-//     },
-//   });
+  const settlement = await prisma.settlement.update({
+    where: { id: currentSettlement.id },
+    data: {
+      name,
+      location,
+      employeeId: existingEmployee?.id || null,
+    },
+  });
 
-//   const employee = await prisma.employee.update({
-//     where: { id: currentEmployee.id },
-//     data: {
-//       name,
-//       surname,
-//       email,
-//       departmentId: existingDepartment?.id,
-//       locationId: existingLocation?.id,
-//     },
-//   });
+  return NextResponse.json(settlement);
+}
 
-//   return NextResponse.json(employee);
-// }
+export async function DELETE(request: Request, { params }: { params: ParamsProps }) {
+  const { elementId } = params;
 
-// export async function DELETE(request: Request, { params }: { params: ParamsProps }) {
-//   const { elementId } = params;
+  const currentSettlement = await getCurrentSettlement(elementId);
 
-//   const currentEmployee = await getCurrentEmployee(elementId);
+  if (!currentSettlement) {
+    return null;
+  }
 
-//   if (!currentEmployee) {
-//     return null;
-//   }
+  const settlement = await prisma.settlement.delete({
+    where: { id: currentSettlement.id },
+  });
 
-//   const employee = await prisma.employee.delete({
-//     where: { id: currentEmployee.id },
-//   });
-
-//   return NextResponse.json(employee);
-// }
+  return NextResponse.json(settlement);
+}

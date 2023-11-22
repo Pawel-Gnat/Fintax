@@ -15,6 +15,7 @@ const SettlementsPage = async () => {
           title="Settlements"
           data={allCompanySettlements}
           employees={allCompanyEmployees}
+          settlements={allCompanySettlements}
           databaseName="settlements"
         />
       )}

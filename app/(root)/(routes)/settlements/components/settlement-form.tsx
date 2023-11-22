@@ -36,15 +36,20 @@ const SettlementForm = () => {
     setElementName,
     setElementId,
     setIsEditing,
-    employees,
+    settlements,
   } = useContext(ModalSheetContext);
+
+  const currentSettlement = settlements.find((settlement) => settlement.id === elementId);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: '',
-      location: '',
-      employee: '',
+      name: isEditing && currentSettlement ? currentSettlement.name : '',
+      location: isEditing && currentSettlement ? currentSettlement.location : '',
+      employee:
+        isEditing && currentSettlement
+          ? `${currentSettlement.employee?.name} ${currentSettlement.employee?.surname}`
+          : '',
     },
   });
 

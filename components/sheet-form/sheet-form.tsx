@@ -54,8 +54,14 @@ const SheetForm: React.FC<SheetFormProps> = ({
   isLoading,
   onSubmit,
 }) => {
-  const { locations, departments, employees, elementId } = useContext(ModalSheetContext);
-  const currentEmployee = employees.find((employee) => employee.id === elementId);
+  const { locations, departments, employees, settlements, elementId } =
+    useContext(ModalSheetContext);
+
+  const currentSettlement = settlements.find((settlement) => settlement.id === elementId);
+
+  const currentEmployee =
+    employees.find((employee) => employee.id === elementId) ||
+    employees.find((employee) => employee.id === currentSettlement?.employeeId);
 
   const [openDepartmentController, setOpenDepartmentController] = useState(false);
   const [valueDepartmentController, setValueDepartmentController] = useState('');
@@ -68,6 +74,9 @@ const SheetForm: React.FC<SheetFormProps> = ({
     if (isEditing && currentEmployee) {
       setValueDepartmentController(currentEmployee.department?.name || '');
       setValueLocationController(currentEmployee.location?.name || '');
+      setValueEmployeeController(
+        `${currentEmployee.name} ${currentEmployee.surname}` || '',
+      );
     }
   }, [isEditing, currentEmployee]);
 

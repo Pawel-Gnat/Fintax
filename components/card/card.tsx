@@ -17,6 +17,7 @@ interface CardProps {
   employees?: SafeEmployee[];
   departments?: Department[];
   locations?: Location[];
+  settlements?: SafeSettlement[];
   data: SafeEmployee[] | Department[] | Location[] | SafeSettlement[];
 }
 
@@ -26,6 +27,7 @@ const Card: React.FC<CardProps> = ({
   employees,
   departments,
   locations,
+  settlements,
   data,
 }) => {
   const {
@@ -35,6 +37,7 @@ const Card: React.FC<CardProps> = ({
     setLocations,
     setDepartments,
     setEmployees,
+    setSettlements,
   } = useContext(ModalSheetContext);
 
   useEffect(() => {
@@ -48,6 +51,10 @@ const Card: React.FC<CardProps> = ({
   useEffect(() => {
     if (employees) setEmployees(employees);
   }, [employees, setEmployees]);
+
+  useEffect(() => {
+    if (settlements) setSettlements(settlements);
+  }, [settlements, setSettlements]);
 
   return (
     <CardUI className="h-max">
