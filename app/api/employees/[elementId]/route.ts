@@ -43,6 +43,7 @@ export async function POST(request: Request, { params }: { params: ParamsProps }
     data: {
       name,
       surname,
+      image: '',
       email,
       hashedPassword,
       company: {

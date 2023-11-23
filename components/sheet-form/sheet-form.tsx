@@ -28,6 +28,7 @@ import {
   CommandInput,
   CommandItem,
 } from '@/components/ui/command';
+import ControllerLabel from '@/components/controller-label/controller-label';
 
 interface SheetFormProps {
   form: UseFormReturn<any>;
@@ -83,10 +84,6 @@ const SheetForm: React.FC<SheetFormProps> = ({
 
   const ButtonText = () => {
     return isEditing ? 'Edit' : 'Add';
-  };
-
-  const ControllerLabel = (label: string) => {
-    return <p className="mb-2 text-sm font-medium">{label}</p>;
   };
 
   return (

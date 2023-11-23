@@ -13,7 +13,9 @@ const Avatar: React.FC<AvatarProps> = ({ image, name, surname }) => {
 
   return (
     <AvatarUI>
-      {image && <AvatarImage src={image} alt="" aria-hidden="true" />}
+      {image && (
+        <AvatarImage src={image} alt="" aria-hidden="true" className="object-cover" />
+      )}
       <AvatarFallback>{transformUserDetails(name, surname)}</AvatarFallback>
     </AvatarUI>
   );

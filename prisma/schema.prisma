@@ -35,7 +35,7 @@ model User {
   email             String      @unique
   emailVerified     DateTime?
   hashedPassword    String
-  image             String?
+  image             String
   createdAt         DateTime    @default(now())
   updatedAt         DateTime    @updatedAt
   accounts          Account[]
@@ -83,7 +83,7 @@ model Employee {
   email           String        @unique
   emailVerified   DateTime?
   hashedPassword  String
-  image           String?
+  image           String
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
   accounts        Account[]     

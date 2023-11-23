@@ -12,6 +12,7 @@ export async function POST(request: Request) {
     data: {
       name,
       surname,
+      image: '',
       email,
       hashedPassword,
     },
