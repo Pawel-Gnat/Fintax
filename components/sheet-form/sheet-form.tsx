@@ -32,6 +32,7 @@ import {
 interface SheetFormProps {
   form: UseFormReturn<any>;
   inputs: string[];
+  image?: boolean;
   department?: boolean;
   location?: boolean;
   employee?: boolean;
@@ -80,8 +81,12 @@ const SheetForm: React.FC<SheetFormProps> = ({
     }
   }, [isEditing, currentEmployee]);
 
-  const buttonText = () => {
+  const ButtonText = () => {
     return isEditing ? 'Edit' : 'Add';
+  };
+
+  const ControllerLabel = (label: string) => {
+    return <p className="mb-2 text-sm font-medium">{label}</p>;
   };
 
   return (
@@ -120,7 +125,7 @@ const SheetForm: React.FC<SheetFormProps> = ({
             name="department"
             render={({ field }) => (
               <div>
-                <p className="mb-2 text-sm font-medium">Department</p>
+                {ControllerLabel('Department')}
                 <Popover
                   open={openDepartmentController}
                   onOpenChange={setOpenDepartmentController}
@@ -180,7 +185,7 @@ const SheetForm: React.FC<SheetFormProps> = ({
                       </CommandGroup>
                     </Command>
                   </PopoverContent>
-                </Popover>{' '}
+                </Popover>
               </div>
             )}
           />
@@ -192,7 +197,7 @@ const SheetForm: React.FC<SheetFormProps> = ({
             name="location"
             render={({ field }) => (
               <div>
-                <p className="mb-2 text-sm font-medium">Location</p>
+                {ControllerLabel('Location')}
                 <Popover
                   open={openLocationController}
                   onOpenChange={setOpenLocationController}
@@ -264,7 +269,7 @@ const SheetForm: React.FC<SheetFormProps> = ({
             name="employee"
             render={({ field }) => (
               <div>
-                <p className="mb-2 text-sm font-medium">Employee</p>
+                {ControllerLabel('Employee')}
                 <Popover
                   open={openEmployeeController}
                   onOpenChange={setOpenEmployeeController}
@@ -336,7 +341,7 @@ const SheetForm: React.FC<SheetFormProps> = ({
         )}
 
         <Button type="submit" className={isLoading ? 'w-full opacity-60' : 'w-full'}>
-          {isLoading ? <ClipLoader size={25} cssOverride={override} /> : buttonText()}
+          {isLoading ? <ClipLoader size={25} cssOverride={override} /> : ButtonText()}
         </Button>
       </form>
     </Form>
