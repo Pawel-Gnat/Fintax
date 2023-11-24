@@ -52,17 +52,25 @@ const Form: React.FC<FormProps> = ({
             name={input}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{capitalizeFirstLetter(input)}</FormLabel>
+                <FormLabel>
+                  {input === 'newPassword'
+                    ? 'New password'
+                    : capitalizeFirstLetter(input)}
+                </FormLabel>
                 <FormControl>
                   <Input
                     type={
                       input === 'email'
                         ? 'email'
-                        : input === 'password'
+                        : input === 'password' || input === 'newPassword'
                         ? 'password'
                         : 'text'
                     }
-                    placeholder={capitalizeFirstLetter(input)}
+                    placeholder={
+                      input === 'newPassword'
+                        ? 'New password'
+                        : capitalizeFirstLetter(input)
+                    }
                     {...field}
                   />
                 </FormControl>
