@@ -1,44 +1,58 @@
 'use client';
 
-import { useContext } from 'react';
-import { LuCircleEllipsis, LuFileEdit, LuFileMinus2 } from 'react-icons/lu';
+import { useContext, useEffect } from 'react';
 
 import { ModalSheetContext } from '@/context/modal-sheet-context';
-import { AlertDialogContext } from '@/context/alert-dialog-context';
-
-import getTableHeadersDescription from '@/utils/getTableHeadersDescription';
 
 import {
   Table as TableUI,
   TableBody,
-  TableCell,
   TableRow,
   TableHeader,
   TableHead,
 } from '@/components/ui/table';
-import DropdownMenu from '@/components/dropdown-menu/dropdown-menu';
-import Avatar from '@/components/avatar/avatar';
 
-import { Department, Location, Settlement } from '@prisma/client';
+import { Department, Location } from '@prisma/client';
 import { SafeEmployee, SafeSettlement } from '@/types/types';
-
 interface ManageTableProps {
   title: string;
-  databaseName: string;
   data: SafeEmployee[] | Department[] | Location[] | SafeSettlement[];
+  headers: string[];
+  rows: any;
+  employees?: SafeEmployee[];
+  settlements?: SafeSettlement[];
+  locations?: Location[];
+  departments?: Department[];
 }
 
-const Table: React.FC<ManageTableProps> = ({ title, databaseName, data }) => {
-  const {
-    setTitle,
-    setIsOpen,
-    setIsEditing,
-    setElementId,
-    setDatabaseName,
-    setElementName,
-  } = useContext(ModalSheetContext);
-  const { setIsAlertOpen, setAlertElementId, setAlertDatabaseName, setAlertElementName } =
-    useContext(AlertDialogContext);
+const Table: React.FC<ManageTableProps> = ({
+  title,
+  data,
+  headers,
+  rows,
+  employees,
+  settlements,
+  locations,
+  departments,
+}) => {
+  const { setLocations, setDepartments, setEmployees, setSettlements } =
+    useContext(ModalSheetContext);
+
+  useEffect(() => {
+    if (locations) setLocations(locations);
+  }, [locations, setLocations]);
+
+  useEffect(() => {
+    if (departments) setDepartments(departments);
+  }, [departments, setDepartments]);
+
+  useEffect(() => {
+    if (employees) setEmployees(employees);
+  }, [employees, setEmployees]);
+
+  useEffect(() => {
+    if (settlements) setSettlements(settlements);
+  }, [settlements, setSettlements]);
 
   if (data.length === 0) {
     return (
@@ -48,99 +62,17 @@ const Table: React.FC<ManageTableProps> = ({ title, databaseName, data }) => {
     );
   }
 
-  const editButton = (elementId: string, elementName: string) => (
-    <button
-      onClick={() => {
-        setIsOpen(true);
-        setIsEditing(true);
-        setTitle(title);
-        setElementId(elementId);
-        setElementName(elementName);
-        setDatabaseName(databaseName);
-      }}
-      className="flex w-full items-center justify-center gap-2"
-    >
-      <LuFileEdit />
-      Edit
-    </button>
-  );
-
-  const deleteButton = (elementId: string, elementName: string) => (
-    <button
-      onClick={() => {
-        setIsAlertOpen(true);
-        setAlertElementId(elementId);
-        setAlertElementName(elementName);
-        setAlertDatabaseName(databaseName);
-      }}
-      className="flex w-full items-center justify-center gap-2"
-    >
-      <LuFileMinus2 />
-      Delete
-    </button>
-  );
-
-  const tableHeaders = getTableHeadersDescription(databaseName);
-
   return (
     <TableUI>
       <TableHeader>
         <TableRow>
-          {tableHeaders.map((column) => (
+          {headers.map((column) => (
             <TableHead key={column}>{column}</TableHead>
           ))}
           <TableHead className="text-right">Options</TableHead>
         </TableRow>
       </TableHeader>
-      <TableBody>
-        {data.map((element) => (
-          <TableRow key={element.id}>
-            <TableCell className="">
-              {databaseName === 'employees' ? (
-                <div className="flex items-center gap-2">
-                  <Avatar
-                    image={(element as SafeEmployee).image}
-                    name={(element as SafeEmployee).name}
-                    surname={(element as SafeEmployee).surname}
-                  />
-                  <p>{`${(element as SafeEmployee).name} ${
-                    (element as SafeEmployee).surname
-                  }`}</p>
-                </div>
-              ) : (
-                element.name
-              )}
-            </TableCell>
-            {databaseName === 'employees' && (
-              <TableCell>{(element as SafeEmployee).department?.name}</TableCell>
-            )}
-            {databaseName === 'employees' && (
-              <TableCell>{(element as SafeEmployee).location?.name}</TableCell>
-            )}
-            {databaseName === 'employees' && (
-              <TableCell>{(element as SafeEmployee).settlements?.length}</TableCell>
-            )}
-            {databaseName === 'settlements' && (
-              <TableCell>{(element as SafeSettlement).location}</TableCell>
-            )}
-            {databaseName === 'settlements' && (
-              <TableCell>
-                {(element as SafeSettlement).employee?.name}{' '}
-                {(element as SafeSettlement).employee?.surname}
-              </TableCell>
-            )}
-            <TableCell className="text-right">
-              <DropdownMenu
-                icon={<LuCircleEllipsis size={20} />}
-                actions={[
-                  editButton(element.id, element.name),
-                  deleteButton(element.id, element.name),
-                ]}
-              />
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
+      <TableBody>{rows}</TableBody>
     </TableUI>
   );
 };

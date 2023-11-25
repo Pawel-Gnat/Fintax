@@ -3,6 +3,8 @@ import getAllSettlements from '@/actions/getAllSettlements';
 
 import Card from '@/components/card/card';
 import PageContainer from '@/components/page-container/page-container';
+import Table from '@/components/table/table';
+import SettlementRows from './components/settlement-rows';
 
 const SettlementsPage = async () => {
   const allCompanySettlements = await getAllSettlements();
@@ -11,13 +13,22 @@ const SettlementsPage = async () => {
   return (
     <PageContainer heading="Settlements">
       {allCompanySettlements && allCompanyEmployees && (
-        <Card
-          title="Settlements"
-          data={allCompanySettlements}
-          employees={allCompanyEmployees}
-          settlements={allCompanySettlements}
-          databaseName="settlements"
-        />
+        <Card title="Settlements" databaseName="settlements">
+          <Table
+            title="Settlements"
+            data={allCompanySettlements}
+            headers={['Settlement', 'Location', 'Employee']}
+            rows={
+              <SettlementRows
+                data={allCompanySettlements}
+                databaseName="settlements"
+                title="Settlements"
+              />
+            }
+            employees={allCompanyEmployees}
+            settlements={allCompanySettlements}
+          />
+        </Card>
       )}
     </PageContainer>
   );

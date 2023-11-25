@@ -1,4 +1,3 @@
-import getAllEmployees from '@/actions/getAllEmployees';
 import getCurrentCompany from '@/actions/getCurrentCompany';
 import getCurrentUser from '@/actions/getCurrentUser';
 
@@ -8,7 +7,6 @@ import SettingsCard from '@/components/settings-card/settings-card';
 const SettingsPage = async () => {
   const currentCompany = await getCurrentCompany();
   const currentUser = await getCurrentUser();
-  const allCompanyEmployees = await getAllEmployees();
 
   return (
     <PageContainer heading="Settings">
@@ -36,14 +34,6 @@ const SettingsPage = async () => {
           />
         )}
       </div>
-      {allCompanyEmployees && (
-        <SettingsCard
-          title="Employee settings"
-          data={allCompanyEmployees}
-          databaseName="employees"
-          password
-        />
-      )}
     </PageContainer>
   );
 };

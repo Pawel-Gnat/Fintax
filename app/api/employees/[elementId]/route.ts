@@ -45,10 +45,10 @@ export async function POST(request: Request, { params }: { params: ParamsProps }
       surname,
       image: '',
       email,
+      departmentId: existingDepartment?.id || null,
+      locationId: existingLocation?.id || null,
+      companyId: currentCompany.id,
       hashedPassword,
-      company: {
-        connect: { id: currentCompany.id },
-      },
     },
   });
 

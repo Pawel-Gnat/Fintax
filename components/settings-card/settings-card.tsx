@@ -3,13 +3,12 @@ import PasswordForm from '@/app/(root)/(routes)/settings/components/password-for
 import ProfileForm from '@/app/(root)/(routes)/settings/components/profile-form';
 import { Card as CardUI, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-import { SafeEmployee } from '@/types/types';
 import { Company, User } from '@prisma/client';
 
 interface SettingsCardProps {
   title: string;
   databaseName: string;
-  data: Company | User | SafeEmployee[];
+  data: Company | User;
   password?: boolean;
 }
 
@@ -30,10 +29,6 @@ const SettingsCard: React.FC<SettingsCardProps> = ({
 
     if (databaseName === 'user' && password) {
       return <PasswordForm data={data as User} />;
-    }
-
-    if (databaseName === 'employees') {
-      return <div>employees</div>;
     }
   };
 
