@@ -27,8 +27,15 @@ const formSchema = z.object({
 const SettlementForm = () => {
   const { toast } = useToast();
   const router = useRouter();
-  const { setIsOpen, elementId, isEditing, isLoading, setIsLoading, settlements } =
-    useContext(ModalSheetContext);
+  const {
+    setIsOpen,
+    elementId,
+    isEditing,
+    isLoading,
+    setIsLoading,
+    settlements,
+    setIsEditing,
+  } = useContext(ModalSheetContext);
 
   const currentSettlement = settlements.find((settlement) => settlement.id === elementId);
 
@@ -69,6 +76,7 @@ const SettlementForm = () => {
             : 'New settlement has been added.',
         });
         setIsOpen(false);
+        setIsEditing(false);
         router.refresh();
       })
       .catch((error) => {

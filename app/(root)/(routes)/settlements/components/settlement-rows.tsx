@@ -14,24 +14,21 @@ import { SafeSettlement } from '@/types/types';
 
 interface SettlementRowsProps {
   title: string;
-  databaseName: string;
   data: SafeSettlement[];
 }
 
-const SettlementRows: React.FC<SettlementRowsProps> = ({ data, title, databaseName }) => {
+const SettlementRows: React.FC<SettlementRowsProps> = ({ data, title }) => {
+  const { setTitle, setIsOpen, setIsEditing, setElementId, setAction, setElementName } =
+    useContext(ModalSheetContext);
+
   const {
-    setTitle,
-    setIsOpen,
-    setIsEditing,
-    setElementId,
-    setDatabaseName,
-    setElementName,
-  } = useContext(ModalSheetContext);
+    setIsAlertOpen,
+    setAlertElementId,
+    setAlertDatabaseRoute,
+    setAlertElementName,
+  } = useContext(AlertDialogContext);
 
-  const { setIsAlertOpen, setAlertElementId, setAlertDatabaseName, setAlertElementName } =
-    useContext(AlertDialogContext);
-
-  const buttons = (elementId: string, elementName: string, databaseName: string) => [
+  const buttons = (elementId: string, elementName: string) => [
     <Button
       key="edit"
       onClick={() => {
@@ -40,7 +37,7 @@ const SettlementRows: React.FC<SettlementRowsProps> = ({ data, title, databaseNa
         setTitle(title);
         setElementId(elementId);
         setElementName(elementName);
-        setDatabaseName(databaseName);
+        setAction('setSettlement');
       }}
       text="Edit settlement"
       icon={<LuFileEdit />}
@@ -51,7 +48,7 @@ const SettlementRows: React.FC<SettlementRowsProps> = ({ data, title, databaseNa
         setIsAlertOpen(true);
         setAlertElementId(elementId);
         setAlertElementName(elementName);
-        setAlertDatabaseName(databaseName);
+        setAlertDatabaseRoute('settlements');
       }}
       text="Delete settlement"
       icon={<LuFileMinus2 />}
@@ -70,7 +67,7 @@ const SettlementRows: React.FC<SettlementRowsProps> = ({ data, title, databaseNa
           <TableCell className="text-right">
             <DropdownMenu
               icon={<LuCircleEllipsis size={20} />}
-              actions={buttons(element.id, element.name, databaseName)}
+              actions={buttons(element.id, element.name)}
             />
           </TableCell>
         </TableRow>

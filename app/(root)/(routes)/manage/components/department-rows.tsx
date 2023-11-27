@@ -14,24 +14,21 @@ import { Department } from '@prisma/client';
 
 interface DepartmentRowsProps {
   title: string;
-  databaseName: string;
   data: Department[];
 }
 
-const DepartmentRows: React.FC<DepartmentRowsProps> = ({ data, title, databaseName }) => {
+const DepartmentRows: React.FC<DepartmentRowsProps> = ({ data, title }) => {
+  const { setTitle, setIsOpen, setIsEditing, setElementId, setAction, setElementName } =
+    useContext(ModalSheetContext);
+
   const {
-    setTitle,
-    setIsOpen,
-    setIsEditing,
-    setElementId,
-    setDatabaseName,
-    setElementName,
-  } = useContext(ModalSheetContext);
+    setIsAlertOpen,
+    setAlertElementId,
+    setAlertDatabaseRoute,
+    setAlertElementName,
+  } = useContext(AlertDialogContext);
 
-  const { setIsAlertOpen, setAlertElementId, setAlertDatabaseName, setAlertElementName } =
-    useContext(AlertDialogContext);
-
-  const buttons = (elementId: string, elementName: string, databaseName: string) => [
+  const buttons = (elementId: string, elementName: string) => [
     <Button
       key="edit"
       onClick={() => {
@@ -40,7 +37,7 @@ const DepartmentRows: React.FC<DepartmentRowsProps> = ({ data, title, databaseNa
         setTitle(title);
         setElementId(elementId);
         setElementName(elementName);
-        setDatabaseName(databaseName);
+        setAction('setDepartment');
       }}
       text="Edit department"
       icon={<LuFileEdit />}
@@ -51,7 +48,7 @@ const DepartmentRows: React.FC<DepartmentRowsProps> = ({ data, title, databaseNa
         setIsAlertOpen(true);
         setAlertElementId(elementId);
         setAlertElementName(elementName);
-        setAlertDatabaseName(databaseName);
+        setAlertDatabaseRoute('departments');
       }}
       text="Delete department"
       icon={<LuFileMinus2 />}
@@ -66,7 +63,7 @@ const DepartmentRows: React.FC<DepartmentRowsProps> = ({ data, title, databaseNa
           <TableCell className="text-right">
             <DropdownMenu
               icon={<LuCircleEllipsis size={20} />}
-              actions={buttons(element.id, element.name, databaseName)}
+              actions={buttons(element.id, element.name)}
             />
           </TableCell>
         </TableRow>

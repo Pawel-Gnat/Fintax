@@ -15,34 +15,22 @@ const ManagePage = async () => {
     <PageContainer heading="Manage">
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
         {allCompanyLocations && (
-          <Card title="Locations" databaseName="locations">
+          <Card title="Locations" action="setLocation">
             <Table
               title="Locations"
               data={allCompanyLocations}
               headers={['Location']}
-              rows={
-                <LocationRows
-                  data={allCompanyLocations}
-                  databaseName="locations"
-                  title="Locations"
-                />
-              }
+              rows={<LocationRows data={allCompanyLocations} title="Locations" />}
             />
           </Card>
         )}
         {allCompanyDepartments && (
-          <Card title="Departments" databaseName="departments">
+          <Card title="Departments" action="setDepartment">
             <Table
               title="Departments"
               data={allCompanyDepartments}
               headers={['Department']}
-              rows={
-                <DepartmentRows
-                  data={allCompanyDepartments}
-                  databaseName="departments"
-                  title="Departments"
-                />
-              }
+              rows={<DepartmentRows data={allCompanyDepartments} title="Departments" />}
             />
           </Card>
         )}

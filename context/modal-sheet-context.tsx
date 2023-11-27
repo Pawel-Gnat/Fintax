@@ -17,8 +17,8 @@ interface ModalSheetContextProps {
   setIsLoading: (value: boolean) => void;
   isEditing: boolean;
   setIsEditing: (value: boolean) => void;
-  databaseName: string;
-  setDatabaseName: (value: string) => void;
+  action: string;
+  setAction: (value: string) => void;
   locations: Location[];
   setLocations: Dispatch<SetStateAction<Location[]>>;
   departments: Department[];
@@ -42,8 +42,8 @@ export const ModalSheetContext = createContext<ModalSheetContextProps>({
   setIsLoading: () => {},
   isEditing: false,
   setIsEditing: () => {},
-  databaseName: '',
-  setDatabaseName: () => {},
+  action: '',
+  setAction: () => {},
   locations: [],
   setLocations: () => {},
   departments: [],
@@ -62,7 +62,7 @@ export const ModalSheetProvider: React.FC<{ children: React.ReactNode }> = ({
   const [title, setTitle] = useState('');
   const [elementId, setElementId] = useState('');
   const [elementName, setElementName] = useState('');
-  const [databaseName, setDatabaseName] = useState('');
+  const [action, setAction] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [locations, setLocations] = useState<Location[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
@@ -76,8 +76,8 @@ export const ModalSheetProvider: React.FC<{ children: React.ReactNode }> = ({
         setIsOpen,
         title,
         setTitle,
-        databaseName,
-        setDatabaseName,
+        action,
+        setAction,
         elementId,
         setElementId,
         elementName,

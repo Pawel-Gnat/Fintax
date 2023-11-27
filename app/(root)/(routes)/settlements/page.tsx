@@ -13,18 +13,12 @@ const SettlementsPage = async () => {
   return (
     <PageContainer heading="Settlements">
       {allCompanySettlements && allCompanyEmployees && (
-        <Card title="Settlements" databaseName="settlements">
+        <Card title="Settlements" action="setSettlement">
           <Table
             title="Settlements"
             data={allCompanySettlements}
             headers={['Settlement', 'Location', 'Employee']}
-            rows={
-              <SettlementRows
-                data={allCompanySettlements}
-                databaseName="settlements"
-                title="Settlements"
-              />
-            }
+            rows={<SettlementRows data={allCompanySettlements} title="Settlements" />}
             employees={allCompanyEmployees}
             settlements={allCompanySettlements}
           />

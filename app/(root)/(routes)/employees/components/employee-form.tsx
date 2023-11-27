@@ -32,8 +32,15 @@ const formSchema = z.object({
 const EmployeeForm = () => {
   const { toast } = useToast();
   const router = useRouter();
-  const { setIsOpen, elementId, isEditing, isLoading, setIsLoading, employees } =
-    useContext(ModalSheetContext);
+  const {
+    setIsOpen,
+    elementId,
+    isEditing,
+    isLoading,
+    setIsLoading,
+    employees,
+    setIsEditing,
+  } = useContext(ModalSheetContext);
 
   const currentEmployee = employees.find((employee) => employee.id === elementId);
 
@@ -75,6 +82,7 @@ const EmployeeForm = () => {
             : 'New employee has been added.',
         });
         setIsOpen(false);
+        setIsEditing(false);
         router.refresh();
       })
       .catch((error) => {

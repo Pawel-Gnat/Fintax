@@ -17,27 +17,18 @@ import {
 } from '@/components/ui/sheet';
 
 const ModalSheet = () => {
-  const { isOpen, setIsOpen, isEditing, databaseName, setIsEditing } =
-    useContext(ModalSheetContext);
-
-  const handleOpen = () => {
-    if (isEditing) {
-      setIsEditing(false);
-    }
-
-    setIsOpen(false);
-  };
+  const { isOpen, setIsOpen, isEditing, action } = useContext(ModalSheetContext);
 
   return (
-    <Sheet open={isOpen} onOpenChange={handleOpen}>
+    <Sheet open={isOpen} onOpenChange={() => setIsOpen(false)}>
       <SheetContent>
         <SheetHeader className="mb-5">
           <SheetTitle>
-            {isEditing ? 'Edit current' : 'Add new'} {getTitle(databaseName)}
+            {isEditing ? 'Edit current' : 'Add new'} {getTitle(action)}
           </SheetTitle>
-          <SheetDescription>{getDescription(databaseName)}</SheetDescription>
+          <SheetDescription>{getDescription(action)}</SheetDescription>
         </SheetHeader>
-        {getModalForm(databaseName)}
+        {getModalForm(action)}
       </SheetContent>
     </Sheet>
   );

@@ -1,17 +1,17 @@
-const getTitle = (databaseName: string) => {
-  if (databaseName === 'locations') {
+const getTitle = (action: string) => {
+  if (action === 'setLocation') {
     return 'location';
   }
 
-  if (databaseName === 'departments') {
+  if (action === 'setDepartment') {
     return 'department';
   }
 
-  if (databaseName === 'employees') {
+  if (action === 'setEmployee') {
     return 'employee';
   }
 
-  if (databaseName === 'settlements') {
+  if (action === 'setSettlement') {
     return 'settlement';
   }
 };

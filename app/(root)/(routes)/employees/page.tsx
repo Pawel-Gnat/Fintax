@@ -15,18 +15,12 @@ const EmployeesPage = async () => {
   return (
     <PageContainer heading="Employees">
       {allCompanyLocations && allCompanyDepartments && allCompanyEmployees && (
-        <Card title="Employees" databaseName="employees">
+        <Card title="Employees" action="setEmployee">
           <Table
             title="Employees"
             data={allCompanyEmployees}
             headers={['Employee', 'Department', 'Location', 'Managed companies']}
-            rows={
-              <EmployeeRows
-                data={allCompanyEmployees}
-                databaseName="employees"
-                title="Employees"
-              />
-            }
+            rows={<EmployeeRows data={allCompanyEmployees} title="Employees" />}
             employees={allCompanyEmployees}
             locations={allCompanyLocations}
             departments={allCompanyDepartments}

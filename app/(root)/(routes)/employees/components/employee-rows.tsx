@@ -1,7 +1,14 @@
 'use client';
 
 import { useContext } from 'react';
-import { LuCircleEllipsis, LuFileEdit, LuFileMinus2 } from 'react-icons/lu';
+import {
+  LuCircleEllipsis,
+  LuFileEdit,
+  LuFileMinus2,
+  LuImage,
+  LuFileKey2,
+  LuFileCog,
+} from 'react-icons/lu';
 
 import { ModalSheetContext } from '@/context/modal-sheet-context';
 import { AlertDialogContext } from '@/context/alert-dialog-context';
@@ -15,24 +22,34 @@ import { SafeEmployee } from '@/types/types';
 
 interface EmployeeRowsProps {
   title: string;
-  databaseName: string;
   data: SafeEmployee[];
 }
 
-const EmployeeRows: React.FC<EmployeeRowsProps> = ({ data, title, databaseName }) => {
+const EmployeeRows: React.FC<EmployeeRowsProps> = ({ data, title }) => {
+  const { setTitle, setIsOpen, setIsEditing, setElementId, setAction, setElementName } =
+    useContext(ModalSheetContext);
+
   const {
-    setTitle,
-    setIsOpen,
-    setIsEditing,
-    setElementId,
-    setDatabaseName,
-    setElementName,
-  } = useContext(ModalSheetContext);
+    setIsAlertOpen,
+    setAlertElementId,
+    setAlertDatabaseRoute,
+    setAlertElementName,
+  } = useContext(AlertDialogContext);
 
-  const { setIsAlertOpen, setAlertElementId, setAlertDatabaseName, setAlertElementName } =
-    useContext(AlertDialogContext);
-
-  const buttons = (elementId: string, elementName: string, databaseName: string) => [
+  const buttons = (elementId: string, elementName: string) => [
+    <Button
+      key="assign"
+      onClick={() => {
+        setIsOpen(true);
+        setIsEditing(true);
+        setTitle(title);
+        setElementId(elementId);
+        setElementName(elementName);
+        setAction('assignEmployee');
+      }}
+      text="Assign employee"
+      icon={<LuFileCog />}
+    />,
     <Button
       key="edit"
       onClick={() => {
@@ -41,10 +58,36 @@ const EmployeeRows: React.FC<EmployeeRowsProps> = ({ data, title, databaseName }
         setTitle(title);
         setElementId(elementId);
         setElementName(elementName);
-        setDatabaseName(databaseName);
+        setAction('editEmployee');
       }}
       text="Edit employee"
       icon={<LuFileEdit />}
+    />,
+    <Button
+      key="changePassword"
+      onClick={() => {
+        setIsOpen(true);
+        setIsEditing(true);
+        setTitle(title);
+        setElementId(elementId);
+        setElementName(elementName);
+        setAction('changeEmployeePassword');
+      }}
+      text="Change password"
+      icon={<LuFileKey2 />}
+    />,
+    <Button
+      key="changeImage"
+      onClick={() => {
+        setIsOpen(true);
+        setIsEditing(true);
+        setTitle(title);
+        setElementId(elementId);
+        setElementName(elementName);
+        setAction('changeEmployeeImage');
+      }}
+      text="Change image"
+      icon={<LuImage />}
     />,
     <Button
       key="delete"
@@ -52,7 +95,7 @@ const EmployeeRows: React.FC<EmployeeRowsProps> = ({ data, title, databaseName }
         setIsAlertOpen(true);
         setAlertElementId(elementId);
         setAlertElementName(elementName);
-        setAlertDatabaseName(databaseName);
+        setAlertDatabaseRoute('employees');
       }}
       text="Delete employee"
       icon={<LuFileMinus2 />}
@@ -73,7 +116,7 @@ const EmployeeRows: React.FC<EmployeeRowsProps> = ({ data, title, databaseName }
           <TableCell className="text-right">
             <DropdownMenu
               icon={<LuCircleEllipsis size={20} />}
-              actions={buttons(element.id, element.name, databaseName)}
+              actions={buttons(element.id, element.name)}
             />
           </TableCell>
         </TableRow>

@@ -9,26 +9,30 @@ import { Button } from '@/components/ui/button';
 
 interface CardProps {
   title: string;
-  databaseName: string;
-  children: any;
+  action?: string;
+  children: React.ReactNode;
 }
 
-const Card: React.FC<CardProps> = ({ title, databaseName, children }) => {
-  const { setTitle, setIsOpen, setDatabaseName } = useContext(ModalSheetContext);
+const Card: React.FC<CardProps> = ({ title, children, action }) => {
+  const { setTitle, setIsOpen, setAction, setIsEditing } = useContext(ModalSheetContext);
 
   return (
     <CardUI className="h-max">
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>{title}</CardTitle>
-        <Button
-          onClick={() => {
-            setIsOpen(true);
-            setTitle(title);
-            setDatabaseName(databaseName);
-          }}
-        >
-          Add new {title.toLowerCase()}
-        </Button>
+
+        {action && (
+          <Button
+            onClick={() => {
+              setIsOpen(true);
+              setTitle(title);
+              setAction(action);
+              setIsEditing(false);
+            }}
+          >
+            Add new {title.toLowerCase()}
+          </Button>
+        )}
       </CardHeader>
       <CardContent>{children}</CardContent>
     </CardUI>

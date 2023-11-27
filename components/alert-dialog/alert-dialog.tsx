@@ -1,13 +1,11 @@
 'use client';
 
 import axios from 'axios';
-import { CSSProperties, useContext, useEffect, useState } from 'react';
+import { CSSProperties, useContext, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import ClipLoader from 'react-spinners/ClipLoader';
 
 import { AlertDialogContext } from '@/context/alert-dialog-context';
-
-import getDatabaseRoute from '@/utils/getDatabaseRoute';
 
 import { toast } from '../ui/use-toast';
 import {
@@ -31,25 +29,23 @@ const AlertDialog = () => {
     isAlertOpen,
     setIsAlertOpen,
     alertElementId,
-    setAlertElementId,
-    alertDatabaseName,
-    setAlertDatabaseName,
-    setAlertElementName,
+    alertDatabaseRoute,
     alertElementName,
+    isLoading,
+    setIsLoading,
   } = useContext(AlertDialogContext);
-  const [loading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setIsAlertOpen(isAlertOpen);
   }, [isAlertOpen, setIsAlertOpen]);
 
   const handleDelete = () => {
-    if (loading) return;
+    if (isLoading) return;
 
     setIsLoading(true);
 
     axios
-      .delete(getDatabaseRoute(alertDatabaseName, alertElementId))
+      .delete(`/api/${alertDatabaseRoute}/${alertElementId}`)
       .then(() => {
         toast({
           description: `${alertElementName} has been deleted.`,
@@ -64,9 +60,6 @@ const AlertDialog = () => {
       })
       .finally(() => {
         setIsLoading(false);
-        setAlertElementId('');
-        setAlertElementName('');
-        setAlertDatabaseName('');
       });
   };
 
@@ -83,7 +76,7 @@ const AlertDialog = () => {
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction onClick={() => handleDelete()}>
-            {loading ? <ClipLoader size={25} cssOverride={override} /> : 'Continue'}
+            {isLoading ? <ClipLoader size={25} cssOverride={override} /> : 'Continue'}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

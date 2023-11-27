@@ -23,8 +23,15 @@ const formSchema = z.object({
 const DepartmentForm = () => {
   const { toast } = useToast();
   const router = useRouter();
-  const { setIsOpen, elementId, elementName, isEditing, isLoading, setIsLoading } =
-    useContext(ModalSheetContext);
+  const {
+    setIsOpen,
+    elementId,
+    elementName,
+    isEditing,
+    isLoading,
+    setIsLoading,
+    setIsEditing,
+  } = useContext(ModalSheetContext);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -54,6 +61,7 @@ const DepartmentForm = () => {
             : 'New department has been added.',
         });
         setIsOpen(false);
+        setIsEditing(false);
         router.refresh();
       })
       .catch((error) => {

@@ -1,8 +1,11 @@
 import getCurrentCompany from '@/actions/getCurrentCompany';
 import getCurrentUser from '@/actions/getCurrentUser';
+import Card from '@/components/card/card';
 
 import PageContainer from '@/components/page-container/page-container';
-import SettingsCard from '@/components/settings-card/settings-card';
+import CompanyForm from './components/company-form';
+import PasswordForm from './components/password-form';
+import ProfileForm from './components/profile-form';
 
 const SettingsPage = async () => {
   const currentCompany = await getCurrentCompany();
@@ -13,25 +16,19 @@ const SettingsPage = async () => {
       <div className="mb-5 grid grid-cols-1 gap-5 md:grid-cols-2">
         {currentCompany && currentUser && (
           <div className="flex flex-col gap-5">
-            <SettingsCard
-              title="Company informations"
-              data={currentCompany}
-              databaseName="company"
-            />
-            <SettingsCard
-              title="User password"
-              data={currentUser}
-              databaseName="user"
-              password
-            />
+            <Card title="Company informations">
+              <CompanyForm data={currentCompany} />
+            </Card>
+
+            <Card title="User password">
+              <PasswordForm data={currentUser} />
+            </Card>
           </div>
         )}
         {currentUser && (
-          <SettingsCard
-            title="Profile informations"
-            data={currentUser}
-            databaseName="user"
-          />
+          <Card title="Profile informations">
+            <ProfileForm data={currentUser} />
+          </Card>
         )}
       </div>
     </PageContainer>

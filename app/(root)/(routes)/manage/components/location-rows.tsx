@@ -14,24 +14,21 @@ import { Location } from '@prisma/client';
 
 interface LocationRowsProps {
   title: string;
-  databaseName: string;
   data: Location[];
 }
 
-const LocationRows: React.FC<LocationRowsProps> = ({ data, title, databaseName }) => {
+const LocationRows: React.FC<LocationRowsProps> = ({ data, title }) => {
+  const { setTitle, setIsOpen, setIsEditing, setElementId, setAction, setElementName } =
+    useContext(ModalSheetContext);
+
   const {
-    setTitle,
-    setIsOpen,
-    setIsEditing,
-    setElementId,
-    setDatabaseName,
-    setElementName,
-  } = useContext(ModalSheetContext);
+    setIsAlertOpen,
+    setAlertElementId,
+    setAlertDatabaseRoute,
+    setAlertElementName,
+  } = useContext(AlertDialogContext);
 
-  const { setIsAlertOpen, setAlertElementId, setAlertDatabaseName, setAlertElementName } =
-    useContext(AlertDialogContext);
-
-  const buttons = (elementId: string, elementName: string, databaseName: string) => [
+  const buttons = (elementId: string, elementName: string) => [
     <Button
       key="edit"
       onClick={() => {
@@ -40,7 +37,7 @@ const LocationRows: React.FC<LocationRowsProps> = ({ data, title, databaseName }
         setTitle(title);
         setElementId(elementId);
         setElementName(elementName);
-        setDatabaseName(databaseName);
+        setAction('setLocation');
       }}
       text="Edit location"
       icon={<LuFileEdit />}
@@ -51,7 +48,7 @@ const LocationRows: React.FC<LocationRowsProps> = ({ data, title, databaseName }
         setIsAlertOpen(true);
         setAlertElementId(elementId);
         setAlertElementName(elementName);
-        setAlertDatabaseName(databaseName);
+        setAlertDatabaseRoute('locations');
       }}
       text="Delete location"
       icon={<LuFileMinus2 />}
@@ -66,7 +63,7 @@ const LocationRows: React.FC<LocationRowsProps> = ({ data, title, databaseName }
           <TableCell className="text-right">
             <DropdownMenu
               icon={<LuCircleEllipsis size={20} />}
-              actions={buttons(element.id, element.name, databaseName)}
+              actions={buttons(element.id, element.name)}
             />
           </TableCell>
         </TableRow>

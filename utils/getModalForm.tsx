@@ -3,20 +3,20 @@ import LocationForm from '@/app/(root)/(routes)/manage/components/location-form'
 import DepartmentForm from '@/app/(root)/(routes)/manage/components/department-form';
 import SettlementForm from '@/app/(root)/(routes)/settlements/components/settlement-form';
 
-const getModalForm = (databaseName: string) => {
-  if (databaseName === 'locations') {
+const getModalForm = (action: string) => {
+  if (action === 'setLocation') {
     return <LocationForm />;
   }
 
-  if (databaseName === 'departments') {
+  if (action === 'setDepartment') {
     return <DepartmentForm />;
   }
 
-  if (databaseName === 'employees') {
+  if (action === 'setEmployee') {
     return <EmployeeForm />;
   }
 
-  if (databaseName === 'settlements') {
+  if (action === 'setSettlement') {
     return <SettlementForm />;
   }
 };
