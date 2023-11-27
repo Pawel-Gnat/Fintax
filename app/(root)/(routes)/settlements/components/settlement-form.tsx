@@ -27,17 +27,8 @@ const formSchema = z.object({
 const SettlementForm = () => {
   const { toast } = useToast();
   const router = useRouter();
-  const {
-    setIsOpen,
-    elementId,
-    isEditing,
-    isLoading,
-    setIsLoading,
-    setElementName,
-    setElementId,
-    setIsEditing,
-    settlements,
-  } = useContext(ModalSheetContext);
+  const { setIsOpen, elementId, isEditing, isLoading, setIsLoading, settlements } =
+    useContext(ModalSheetContext);
 
   const currentSettlement = settlements.find((settlement) => settlement.id === elementId);
 

@@ -32,17 +32,8 @@ const formSchema = z.object({
 const EmployeeForm = () => {
   const { toast } = useToast();
   const router = useRouter();
-  const {
-    setIsOpen,
-    elementId,
-    isEditing,
-    isLoading,
-    setIsLoading,
-    setElementName,
-    setElementId,
-    setIsEditing,
-    employees,
-  } = useContext(ModalSheetContext);
+  const { setIsOpen, elementId, isEditing, isLoading, setIsLoading, employees } =
+    useContext(ModalSheetContext);
 
   const currentEmployee = employees.find((employee) => employee.id === elementId);
 

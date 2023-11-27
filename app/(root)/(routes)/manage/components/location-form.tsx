@@ -21,17 +21,8 @@ const formSchema = z.object({
 });
 
 const LocationForm = () => {
-  const {
-    setIsOpen,
-    elementId,
-    setElementId,
-    elementName,
-    setElementName,
-    isEditing,
-    isLoading,
-    setIsLoading,
-    setIsEditing,
-  } = useContext(ModalSheetContext);
+  const { setIsOpen, elementId, elementName, isEditing, isLoading, setIsLoading } =
+    useContext(ModalSheetContext);
   const { toast } = useToast();
   const router = useRouter();
 
@@ -73,9 +64,6 @@ const LocationForm = () => {
       })
       .finally(() => {
         setIsLoading(false);
-        setIsEditing(false);
-        setElementId('');
-        setElementName('');
       });
   }
 

@@ -23,17 +23,8 @@ const formSchema = z.object({
 const DepartmentForm = () => {
   const { toast } = useToast();
   const router = useRouter();
-  const {
-    setIsOpen,
-    elementId,
-    elementName,
-    isEditing,
-    isLoading,
-    setIsLoading,
-    setElementName,
-    setElementId,
-    setIsEditing,
-  } = useContext(ModalSheetContext);
+  const { setIsOpen, elementId, elementName, isEditing, isLoading, setIsLoading } =
+    useContext(ModalSheetContext);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
