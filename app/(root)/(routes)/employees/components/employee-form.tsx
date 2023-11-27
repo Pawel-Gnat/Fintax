@@ -94,9 +94,6 @@ const EmployeeForm = () => {
       })
       .finally(() => {
         setIsLoading(false);
-        setIsEditing(false);
-        setElementId('');
-        setElementName('');
       });
   }
 

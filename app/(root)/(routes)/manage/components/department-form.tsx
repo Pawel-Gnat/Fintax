@@ -73,9 +73,6 @@ const DepartmentForm = () => {
       })
       .finally(() => {
         setIsLoading(false);
-        setIsEditing(false);
-        setElementId('');
-        setElementName('');
       });
   }
 

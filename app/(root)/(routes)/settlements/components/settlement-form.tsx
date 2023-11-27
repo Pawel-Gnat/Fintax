@@ -88,9 +88,6 @@ const SettlementForm = () => {
       })
       .finally(() => {
         setIsLoading(false);
-        setIsEditing(false);
-        setElementId('');
-        setElementName('');
       });
   }
 
