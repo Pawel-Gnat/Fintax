@@ -1,14 +1,8 @@
 'use client';
 
 import { useContext } from 'react';
-import {
-  LuCircleEllipsis,
-  LuFileEdit,
-  LuFileMinus2,
-  LuImage,
-  LuFileKey2,
-  LuFileCog,
-} from 'react-icons/lu';
+import { useRouter } from 'next/navigation';
+import { LuCircleEllipsis, LuFileEdit, LuFileMinus2, LuFileCog } from 'react-icons/lu';
 
 import { ModalSheetContext } from '@/context/modal-sheet-context';
 import { AlertDialogContext } from '@/context/alert-dialog-context';
@@ -36,6 +30,8 @@ const EmployeeRows: React.FC<EmployeeRowsProps> = ({ data, title }) => {
     setAlertElementName,
   } = useContext(AlertDialogContext);
 
+  const router = useRouter();
+
   const buttons = (elementId: string, elementName: string) => [
     <Button
       key="assign"
@@ -48,46 +44,13 @@ const EmployeeRows: React.FC<EmployeeRowsProps> = ({ data, title }) => {
         setAction('assignEmployee');
       }}
       text="Assign employee"
-      icon={<LuFileCog />}
-    />,
-    <Button
-      key="edit"
-      onClick={() => {
-        setIsOpen(true);
-        setIsEditing(true);
-        setTitle(title);
-        setElementId(elementId);
-        setElementName(elementName);
-        setAction('editEmployee');
-      }}
-      text="Edit employee"
       icon={<LuFileEdit />}
     />,
     <Button
-      key="changePassword"
-      onClick={() => {
-        setIsOpen(true);
-        setIsEditing(true);
-        setTitle(title);
-        setElementId(elementId);
-        setElementName(elementName);
-        setAction('changeEmployeePassword');
-      }}
-      text="Change password"
-      icon={<LuFileKey2 />}
-    />,
-    <Button
-      key="changeImage"
-      onClick={() => {
-        setIsOpen(true);
-        setIsEditing(true);
-        setTitle(title);
-        setElementId(elementId);
-        setElementName(elementName);
-        setAction('changeEmployeeImage');
-      }}
-      text="Change image"
-      icon={<LuImage />}
+      key="settings"
+      onClick={() => router.push(`/employees/${elementId}/settings`)}
+      text="Employee settings"
+      icon={<LuFileCog />}
     />,
     <Button
       key="delete"

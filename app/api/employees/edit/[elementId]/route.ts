@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 
 import prisma from '@/lib/prisma';
 
-import getCurrentCompany from '@/actions/getCurrentCompany';
 import getCurrentEmployee from '@/actions/getCurrentEmployee';
 
 interface ParamsProps {
@@ -12,12 +11,11 @@ interface ParamsProps {
 export async function PATCH(request: Request, { params }: { params: ParamsProps }) {
   const { elementId } = params;
   const body = await request.json();
-  const { name, surname, email } = body;
+  const { name, surname, email, image } = body;
 
   const currentEmployee = await getCurrentEmployee(elementId);
-  const currentCompany = await getCurrentCompany();
 
-  if (!currentCompany || !currentEmployee) {
+  if (!currentEmployee) {
     return NextResponse.error();
   }
 
@@ -27,6 +25,7 @@ export async function PATCH(request: Request, { params }: { params: ParamsProps 
       name,
       surname,
       email,
+      image,
     },
   });
 

@@ -111,7 +111,11 @@ const SheetForm: React.FC<SheetFormProps> = ({
                           ? 'password'
                           : 'text'
                       }
-                      placeholder={capitalizeFirstLetter(input)}
+                      placeholder={
+                        input === 'newPassword'
+                          ? 'New password'
+                          : capitalizeFirstLetter(input)
+                      }
                       {...field}
                     />
                   </FormControl>
