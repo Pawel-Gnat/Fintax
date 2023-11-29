@@ -32,7 +32,7 @@ import ControllerLabel from '@/components/controller-label/controller-label';
 
 interface SheetFormProps {
   form: UseFormReturn<any>;
-  inputs: string[];
+  inputs?: string[];
   image?: boolean;
   department?: boolean;
   location?: boolean;
@@ -89,32 +89,37 @@ const SheetForm: React.FC<SheetFormProps> = ({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        {inputs.map((input) => (
-          <FormField
-            key={input}
-            control={form.control}
-            name={input}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{capitalizeFirstLetter(input)}</FormLabel>
-                <FormControl>
-                  <Input
-                    type={
-                      input === 'email'
-                        ? 'email'
-                        : input === 'password'
-                        ? 'password'
-                        : 'text'
-                    }
-                    placeholder={capitalizeFirstLetter(input)}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        ))}
+        {inputs &&
+          inputs.map((input) => (
+            <FormField
+              key={input}
+              control={form.control}
+              name={input}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    {input === 'newPassword'
+                      ? 'New password'
+                      : capitalizeFirstLetter(input)}
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      type={
+                        input === 'email'
+                          ? 'email'
+                          : input === 'password' || input === 'newPassword'
+                          ? 'password'
+                          : 'text'
+                      }
+                      placeholder={capitalizeFirstLetter(input)}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          ))}
 
         {department && departments.length > 0 && (
           <Controller
