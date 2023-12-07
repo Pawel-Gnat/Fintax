@@ -13,11 +13,10 @@ import { TableCell, TableRow } from '@/components/ui/table';
 import { SafeSettlement } from '@/types/types';
 
 interface SettlementRowsProps {
-  title: string;
   data: SafeSettlement[];
 }
 
-const SettlementRows: React.FC<SettlementRowsProps> = ({ data, title }) => {
+const SettlementRows: React.FC<SettlementRowsProps> = ({ data }) => {
   const { setTitle, setIsOpen, setIsEditing, setElementId, setAction, setElementName } =
     useContext(ModalSheetContext);
 
@@ -34,7 +33,7 @@ const SettlementRows: React.FC<SettlementRowsProps> = ({ data, title }) => {
       onClick={() => {
         setIsOpen(true);
         setIsEditing(true);
-        setTitle(title);
+        setTitle('Settlements');
         setElementId(elementId);
         setElementName(elementName);
         setAction('setSettlement');
