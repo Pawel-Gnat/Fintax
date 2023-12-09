@@ -20,7 +20,7 @@ const EmployeesPage = async () => {
             title="Employees"
             data={allCompanyEmployees}
             headers={['Employee', 'Department', 'Location', 'Managed companies']}
-            rows={<EmployeeRows data={allCompanyEmployees} title="Employees" />}
+            rows={<EmployeeRows data={allCompanyEmployees} />}
             employees={allCompanyEmployees}
             locations={allCompanyLocations}
             departments={allCompanyDepartments}

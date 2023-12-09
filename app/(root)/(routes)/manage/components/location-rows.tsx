@@ -13,11 +13,10 @@ import { TableCell, TableRow } from '@/components/ui/table';
 import { Location } from '@prisma/client';
 
 interface LocationRowsProps {
-  title: string;
   data: Location[];
 }
 
-const LocationRows: React.FC<LocationRowsProps> = ({ data, title }) => {
+const LocationRows: React.FC<LocationRowsProps> = ({ data }) => {
   const { setTitle, setIsOpen, setIsEditing, setElementId, setAction, setElementName } =
     useContext(ModalSheetContext);
 
@@ -34,7 +33,7 @@ const LocationRows: React.FC<LocationRowsProps> = ({ data, title }) => {
       onClick={() => {
         setIsOpen(true);
         setIsEditing(true);
-        setTitle(title);
+        setTitle('Locations');
         setElementId(elementId);
         setElementName(elementName);
         setAction('setLocation');

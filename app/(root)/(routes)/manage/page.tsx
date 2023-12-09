@@ -20,7 +20,7 @@ const ManagePage = async () => {
               title="Locations"
               data={allCompanyLocations}
               headers={['Location']}
-              rows={<LocationRows data={allCompanyLocations} title="Locations" />}
+              rows={<LocationRows data={allCompanyLocations} />}
             />
           </Card>
         )}
@@ -30,7 +30,7 @@ const ManagePage = async () => {
               title="Departments"
               data={allCompanyDepartments}
               headers={['Department']}
-              rows={<DepartmentRows data={allCompanyDepartments} title="Departments" />}
+              rows={<DepartmentRows data={allCompanyDepartments} />}
             />
           </Card>
         )}

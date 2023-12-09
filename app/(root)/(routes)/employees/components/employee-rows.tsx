@@ -15,11 +15,10 @@ import Avatar from '@/components/avatar/avatar';
 import { SafeEmployee } from '@/types/types';
 
 interface EmployeeRowsProps {
-  title: string;
   data: SafeEmployee[];
 }
 
-const EmployeeRows: React.FC<EmployeeRowsProps> = ({ data, title }) => {
+const EmployeeRows: React.FC<EmployeeRowsProps> = ({ data }) => {
   const { setTitle, setIsOpen, setIsEditing, setElementId, setAction, setElementName } =
     useContext(ModalSheetContext);
 
@@ -38,7 +37,7 @@ const EmployeeRows: React.FC<EmployeeRowsProps> = ({ data, title }) => {
       onClick={() => {
         setIsOpen(true);
         setIsEditing(true);
-        setTitle(title);
+        setTitle('Employees');
         setElementId(elementId);
         setElementName(elementName);
         setAction('assignEmployee');

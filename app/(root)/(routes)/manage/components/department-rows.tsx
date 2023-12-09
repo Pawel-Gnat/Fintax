@@ -13,11 +13,10 @@ import { TableCell, TableRow } from '@/components/ui/table';
 import { Department } from '@prisma/client';
 
 interface DepartmentRowsProps {
-  title: string;
   data: Department[];
 }
 
-const DepartmentRows: React.FC<DepartmentRowsProps> = ({ data, title }) => {
+const DepartmentRows: React.FC<DepartmentRowsProps> = ({ data }) => {
   const { setTitle, setIsOpen, setIsEditing, setElementId, setAction, setElementName } =
     useContext(ModalSheetContext);
 
@@ -34,7 +33,7 @@ const DepartmentRows: React.FC<DepartmentRowsProps> = ({ data, title }) => {
       onClick={() => {
         setIsOpen(true);
         setIsEditing(true);
-        setTitle(title);
+        setTitle('Departments');
         setElementId(elementId);
         setElementName(elementName);
         setAction('setDepartment');
