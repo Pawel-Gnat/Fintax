@@ -15,7 +15,7 @@ export async function POST(request: Request, { params }: { params: ParamsProps }
   const currentCompany = await getCurrentCompany();
 
   if (!currentCompany) {
-    return null;
+    return NextResponse.error();
   }
 
   const newDepartment = await prisma.department.create({
@@ -41,7 +41,7 @@ export async function PATCH(request: Request, { params }: { params: ParamsProps 
   const currentCompany = await getCurrentCompany();
 
   if (!currentDepartment || !currentCompany) {
-    return null;
+    return NextResponse.error();
   }
 
   const removedDepartment = await prisma.department.delete({
@@ -68,7 +68,7 @@ export async function DELETE(request: Request, { params }: { params: ParamsProps
   const currentDepartment = await getCurrentDepartment(elementId);
 
   if (!currentDepartment) {
-    return null;
+    return NextResponse.error();
   }
 
   const department = await prisma.department.delete({

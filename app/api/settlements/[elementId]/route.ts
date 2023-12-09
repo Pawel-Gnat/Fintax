@@ -82,7 +82,7 @@ export async function DELETE(request: Request, { params }: { params: ParamsProps
   const currentSettlement = await getCurrentSettlement(elementId);
 
   if (!currentSettlement) {
-    return null;
+    return NextResponse.error();
   }
 
   const settlement = await prisma.settlement.delete({

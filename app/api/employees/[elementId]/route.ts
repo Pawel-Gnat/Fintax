@@ -105,7 +105,7 @@ export async function DELETE(request: Request, { params }: { params: ParamsProps
   const currentEmployee = await getCurrentEmployee(elementId);
 
   if (!currentEmployee) {
-    return null;
+    return NextResponse.error();
   }
 
   const employee = await prisma.employee.delete({

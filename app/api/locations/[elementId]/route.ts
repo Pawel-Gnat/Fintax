@@ -15,7 +15,7 @@ export async function POST(request: Request, { params }: { params: ParamsProps }
   const currentCompany = await getCurrentCompany();
 
   if (!currentCompany) {
-    return null;
+    return NextResponse.error();
   }
 
   const newLocation = await prisma.location.create({
@@ -41,7 +41,7 @@ export async function PATCH(request: Request, { params }: { params: ParamsProps 
   const currentCompany = await getCurrentCompany();
 
   if (!currentLocation || !currentCompany) {
-    return null;
+    return NextResponse.error();
   }
 
   const removedLocation = await prisma.location.delete({
@@ -68,7 +68,7 @@ export async function DELETE(request: Request, { params }: { params: ParamsProps
   const currentLocation = await getCurrentLocation(elementId);
 
   if (!currentLocation) {
-    return null;
+    return NextResponse.error();
   }
 
   const location = await prisma.location.delete({
