@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -13,6 +13,8 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 
+import { ModalSheetContext } from '@/context/modal-sheet-context';
+
 import {
   Table,
   TableBody,
@@ -24,14 +26,49 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
+import { SafeEmployee, SafeSettlement } from '@/types/types';
+import { Department, Location } from '@prisma/client';
+
 interface DataTableProps<TData, TValue> {
+  title: string;
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  employees?: SafeEmployee[];
+  settlements?: SafeSettlement[];
+  locations?: Location[];
+  departments?: Department[];
 }
 
-const DataTable = <TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) => {
+const DataTable = <TData, TValue>({
+  title,
+  columns,
+  data,
+  employees,
+  settlements,
+  locations,
+  departments,
+}: DataTableProps<TData, TValue>) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+
+  const { setLocations, setDepartments, setEmployees, setSettlements } =
+    useContext(ModalSheetContext);
+
+  useEffect(() => {
+    if (locations) setLocations(locations);
+  }, [locations, setLocations]);
+
+  useEffect(() => {
+    if (departments) setDepartments(departments);
+  }, [departments, setDepartments]);
+
+  useEffect(() => {
+    if (employees) setEmployees(employees);
+  }, [employees, setEmployees]);
+
+  useEffect(() => {
+    if (settlements) setSettlements(settlements);
+  }, [settlements, setSettlements]);
 
   const table = useReactTable({
     data,
@@ -48,9 +85,30 @@ const DataTable = <TData, TValue>({ columns, data }: DataTableProps<TData, TValu
     },
   });
 
-  return (
-    <div>
-      <div className="flex items-center py-4">
+  if (data.length === 0) {
+    return (
+      <p className="text-center">
+        Your list is currently empty. Please add new {title.toLowerCase()}.
+      </p>
+    );
+  }
+
+  const getFilterInput = (title: string) => {
+    if (title === 'Employees') {
+      return (
+        <Input
+          placeholder="Filter employee..."
+          value={(table.getColumn('surname')?.getFilterValue() as string) ?? ''}
+          onChange={(event) =>
+            table.getColumn('surname')?.setFilterValue(event.target.value)
+          }
+          className="max-w-sm"
+        />
+      );
+    }
+
+    if (title === 'Settlements') {
+      return (
         <Input
           placeholder="Filter settlements..."
           value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
@@ -59,7 +117,13 @@ const DataTable = <TData, TValue>({ columns, data }: DataTableProps<TData, TValu
           }
           className="max-w-sm"
         />
-      </div>
+      );
+    }
+  };
+
+  return (
+    <div>
+      <div className="flex items-center py-4">{getFilterInput(title)}</div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -98,24 +162,27 @@ const DataTable = <TData, TValue>({ columns, data }: DataTableProps<TData, TValu
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Previous
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Next
-        </Button>
-      </div>
+
+      {data.length > 10 ? (
+        <div className="flex items-center justify-end space-x-2 py-4">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Previous
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            Next
+          </Button>
+        </div>
+      ) : null}
     </div>
   );
 };

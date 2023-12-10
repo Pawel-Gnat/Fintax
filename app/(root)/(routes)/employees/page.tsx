@@ -4,8 +4,8 @@ import getAllLocations from '@/actions/getAllLocations';
 
 import Card from '@/components/card/card';
 import PageContainer from '@/components/page-container/page-container';
-import Table from '@/components/table/table';
-import EmployeeRows from './components/employee-rows';
+import DataTable from '@/components/data-table/data-table';
+import { columns } from './components/employee-cols';
 
 const EmployeesPage = async () => {
   const allCompanyDepartments = await getAllDepartments();
@@ -16,11 +16,10 @@ const EmployeesPage = async () => {
     <PageContainer heading="Employees">
       {allCompanyLocations && allCompanyDepartments && allCompanyEmployees && (
         <Card title="Employees" action="setEmployee">
-          <Table
+          <DataTable
             title="Employees"
+            columns={columns}
             data={allCompanyEmployees}
-            headers={['Employee', 'Department', 'Location', 'Managed companies']}
-            rows={<EmployeeRows data={allCompanyEmployees} />}
             employees={allCompanyEmployees}
             locations={allCompanyLocations}
             departments={allCompanyDepartments}

@@ -14,7 +14,13 @@ const SettlementsPage = async () => {
     <PageContainer heading="Settlements">
       {allCompanySettlements && allCompanyEmployees && (
         <Card title="Settlements" action="setSettlement">
-          <DataTable columns={columns} data={allCompanySettlements} />
+          <DataTable
+            title="Settlements"
+            columns={columns}
+            data={allCompanySettlements}
+            employees={allCompanyEmployees}
+            settlements={allCompanySettlements}
+          />
         </Card>
       )}
     </PageContainer>

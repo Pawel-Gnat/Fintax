@@ -3,7 +3,8 @@
 import { useContext } from 'react';
 import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown } from 'lucide-react';
-import { LuCircleEllipsis, LuFileEdit, LuFileMinus2 } from 'react-icons/lu';
+import { LuCircleEllipsis, LuFileCog, LuFileEdit, LuFileMinus2 } from 'react-icons/lu';
+import { useRouter } from 'next/navigation';
 
 import { ModalSheetContext } from '@/context/modal-sheet-context';
 import { AlertDialogContext } from '@/context/alert-dialog-context';
@@ -15,33 +16,45 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import Avatar from '@/components/avatar/avatar';
 import Button from '@/components/button/button';
 
 import { SafeEmployee, SafeSettlement } from '@/types/types';
+import { Department, Location } from '@prisma/client';
 
 interface ButtonProps {
   id: string;
   name: string;
 }
 
-const EditButton: React.FC<ButtonProps> = ({ id, name }) => {
+const AssignButton: React.FC<ButtonProps> = ({ id, name }) => {
   const { setTitle, setIsOpen, setIsEditing, setElementId, setAction, setElementName } =
     useContext(ModalSheetContext);
-
-  console.log(id, name);
 
   return (
     <Button
       onClick={() => {
         setIsOpen(true);
         setIsEditing(true);
-        setTitle('Settlements');
+        setTitle('Employees');
         setElementId(id);
         setElementName(name);
-        setAction('setSettlement');
+        setAction('assignEmployee');
       }}
-      text="Edit settlement"
+      text="Assign employee"
       icon={<LuFileEdit />}
+    />
+  );
+};
+
+const EditButton: React.FC<ButtonProps> = ({ id, name }) => {
+  const router = useRouter();
+
+  return (
+    <Button
+      onClick={() => router.push(`/employees/${id}/settings`)}
+      text="Employee settings"
+      icon={<LuFileCog />}
     />
   );
 };
@@ -60,48 +73,64 @@ const DeleteButton: React.FC<ButtonProps> = ({ id, name }) => {
         setIsAlertOpen(true);
         setAlertElementId(id);
         setAlertElementName(name);
-        setAlertDatabaseRoute('settlements');
+        setAlertDatabaseRoute('employees');
       }}
-      text="Delete settlement"
+      text="Delete employee"
       icon={<LuFileMinus2 />}
     />
   );
 };
 
-export const columns: ColumnDef<SafeSettlement>[] = [
+export const columns: ColumnDef<SafeEmployee>[] = [
   {
-    accessorKey: 'name',
+    accessorKey: 'surname',
     header: ({ column }) => {
       return (
         <UIButton
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          Settlement
+          Employee
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </UIButton>
       );
     },
     cell: ({ row }) => {
-      return row.getValue('name');
+      const currentEmployee = row.original;
+      return (
+        <div className="flex items-center gap-2">
+          <Avatar
+            image={currentEmployee.image}
+            name={currentEmployee.name}
+            surname={currentEmployee.surname}
+          />
+          <p>{`${currentEmployee.name} ${currentEmployee.surname}`}</p>
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: 'department',
+    header: 'Department',
+    cell: ({ row }) => {
+      const currentDepartment: Department = row.getValue('department');
+      return currentDepartment ? `${currentDepartment?.name}` : null;
     },
   },
   {
     accessorKey: 'location',
     header: 'Location',
     cell: ({ row }) => {
-      return row.getValue('location');
+      const currentLocation: Location = row.getValue('location');
+      return currentLocation ? `${currentLocation?.name}` : null;
     },
   },
   {
-    accessorKey: 'employee',
-    header: 'Employee',
+    accessorKey: 'settlements',
+    header: 'Managed companies',
     cell: ({ row }) => {
-      const currentEmployee: SafeEmployee = row.getValue('employee');
-
-      return currentEmployee
-        ? `${currentEmployee?.name} ${currentEmployee?.surname}`
-        : null;
+      const currentSettlements: SafeSettlement[] = row.getValue('settlements');
+      return `${currentSettlements.length}`;
     },
   },
   {
@@ -119,6 +148,9 @@ export const columns: ColumnDef<SafeSettlement>[] = [
             </UIButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
+            <DropdownMenuItem>
+              <AssignButton id={element.id} name={element.name} />
+            </DropdownMenuItem>
             <DropdownMenuItem>
               <EditButton id={element.id} name={element.name} />
             </DropdownMenuItem>
