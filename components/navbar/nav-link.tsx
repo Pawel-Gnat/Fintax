@@ -19,7 +19,7 @@ const NavLink: React.FC<NavLinkProps> = ({ href, icon: Icon, label }) => {
       href={href}
       className={cn(
         currentRoute !== href && 'opacity-70 hover:opacity-100',
-        'text-x relative flex items-center gap-2 p-2 text-background transition-opacity',
+        'text-x relative flex items-center gap-2 p-2 text-primary transition-opacity',
       )}
     >
       {Icon && <Icon size={20} />}

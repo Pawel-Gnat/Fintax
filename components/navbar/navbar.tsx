@@ -4,11 +4,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { signOut } from 'next-auth/react';
 import { LuBarChartBig, LuAtom, LuFolderKanban, LuUsers2 } from 'react-icons/lu';
-import { User } from '@prisma/client';
 
 import Logo from '@/public/logo.svg';
 import NavLink from './nav-link';
 import DropdownMenu from '@/components/dropdown-menu/dropdown-menu';
+
+import { User } from '@prisma/client';
 
 interface NavbarProps {
   user: User;

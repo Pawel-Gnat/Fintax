@@ -13,7 +13,7 @@ const EmployeesPage = async () => {
   const allCompanyEmployees = await getAllEmployees();
 
   return (
-    <PageContainer heading="Employees">
+    <PageContainer>
       {allCompanyLocations && allCompanyDepartments && allCompanyEmployees && (
         <Card title="Employees" action="setEmployee">
           <DataTable

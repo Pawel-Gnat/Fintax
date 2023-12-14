@@ -11,7 +11,7 @@ const SettlementsPage = async () => {
   const allCompanyEmployees = await getAllEmployees();
 
   return (
-    <PageContainer heading="Settlements">
+    <PageContainer>
       {allCompanySettlements && allCompanyEmployees && (
         <Card title="Settlements" action="setSettlement">
           <DataTable

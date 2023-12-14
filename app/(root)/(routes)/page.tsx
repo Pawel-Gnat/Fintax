@@ -1,11 +1,13 @@
+import { LuUsers2, LuLandmark, LuMapPin, LuGlobe2 } from 'react-icons/lu';
+
 import getAllDepartments from '@/actions/getAllDepartments';
 import getAllEmployees from '@/actions/getAllEmployees';
 import getAllLocations from '@/actions/getAllLocations';
 import getAllSettlements from '@/actions/getAllSettlements';
 import getCurrentCompany from '@/actions/getCurrentCompany';
-import Card from '@/components/card/card';
 
 import PageContainer from '@/components/page-container/page-container';
+import Card from './components/card';
 
 const Home = async () => {
   const currentCompany = await getCurrentCompany();
@@ -17,36 +19,26 @@ const Home = async () => {
   if (!currentCompany) return null;
 
   return (
-    <PageContainer heading={currentCompany.name}>
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-        <Card title="Locations">
-          <p>
-            {allCompanyLocations?.length === 0
-              ? 'Please add new locations.'
-              : `You currently have ${allCompanyLocations?.length} locations.`}
-          </p>
-        </Card>
-        <Card title="Departments">
-          <p>
-            {allCompanyDepartments?.length === 0
-              ? 'Please add new departments.'
-              : `You currently have ${allCompanyDepartments?.length} departments.`}
-          </p>
-        </Card>
-        <Card title="Employees">
-          <p>
-            {allCompanyEmployees?.length === 0
-              ? 'Please add new employees.'
-              : `You currently have ${allCompanyEmployees?.length} employees.`}
-          </p>
-        </Card>
-        <Card title="Settlements">
-          <p>
-            {allCompanySettlements?.length === 0
-              ? 'Please add new settlements.'
-              : `You currently have ${allCompanySettlements?.length} settlements.`}
-          </p>
-        </Card>
+    <PageContainer>
+      <div className="flex flex-row justify-between rounded-lg bg-secondary p-10">
+        <div className="flex flex-col justify-between">
+          <h1 className="text-4xl">{currentCompany.name}</h1>
+          <p className="text-xl">General statistics</p>
+        </div>
+        <div className="flex flex-row gap-10">
+          <Card title="Locations" number={allCompanyLocations?.length} icon={LuGlobe2} />
+          <Card
+            title="Departments"
+            number={allCompanyDepartments?.length}
+            icon={LuLandmark}
+          />
+          <Card title="Employees" number={allCompanyEmployees?.length} icon={LuUsers2} />
+          <Card
+            title="Settlements"
+            number={allCompanySettlements?.length}
+            icon={LuMapPin}
+          />
+        </div>
       </div>
     </PageContainer>
   );

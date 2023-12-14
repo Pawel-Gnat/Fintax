@@ -12,7 +12,7 @@ const SettingsPage = async () => {
   const currentUser = await getCurrentUser();
 
   return (
-    <PageContainer heading="Settings">
+    <PageContainer>
       <div className="mb-5 grid grid-cols-1 gap-5 md:grid-cols-2">
         {currentCompany && currentUser && (
           <div className="flex flex-col gap-5">

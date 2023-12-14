@@ -12,7 +12,7 @@ const ManagePage = async () => {
   const allCompanyDepartments = await getAllDepartments();
 
   return (
-    <PageContainer heading="Manage">
+    <PageContainer>
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
         {allCompanyLocations && (
           <Card title="Locations" action="setLocation">

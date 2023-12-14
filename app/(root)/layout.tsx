@@ -23,7 +23,7 @@ export default async function DashboardLayout({
   return (
     <AlertDialogProvider>
       <ModalSheetProvider>
-        <header className="bg-primary">
+        <header>
           <Navbar user={user} />
         </header>
         <main className="container text-primary">
