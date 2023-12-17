@@ -17,7 +17,7 @@ const Card: React.FC<CardProps> = ({ title, children, action }) => {
   const { setTitle, setIsOpen, setAction, setIsEditing } = useContext(ModalSheetContext);
 
   return (
-    <CardUI className="h-max">
+    <CardUI className="h-max w-full border-none shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)]">
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>{title}</CardTitle>
 

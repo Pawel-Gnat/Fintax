@@ -31,9 +31,11 @@ const Table: React.FC<ManageTableProps> = ({ title, data, headers, rows }) => {
       <TableHeader>
         <TableRow>
           {headers.map((column) => (
-            <TableHead key={column}>{column}</TableHead>
+            <TableHead key={column} className="font-bold">
+              {column}
+            </TableHead>
           ))}
-          <TableHead className="text-right">Options</TableHead>
+          <TableHead className="text-right font-bold">Options</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>{rows}</TableBody>

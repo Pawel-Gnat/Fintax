@@ -1,3 +1,5 @@
+import { cn } from '@/lib/utils';
+
 import {
   DropdownMenu as DropdownMenuUI,
   DropdownMenuContent,
@@ -24,7 +26,12 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
   return (
     <DropdownMenuUI>
       {name && surname && <Avatar image={image} name={name} surname={surname} />}
-      <DropdownMenuTrigger className="p-2 opacity-60 transition-opacity hover:opacity-100">
+      <DropdownMenuTrigger
+        className={cn(
+          'p-2 text-tetriary transition-colors hover:text-secondary',
+          name && 'text-primary',
+        )}
+      >
         {name && surname && `${name} ${surname}`}
         {icon}
       </DropdownMenuTrigger>

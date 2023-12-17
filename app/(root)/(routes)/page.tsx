@@ -7,6 +7,7 @@ import getAllSettlements from '@/actions/getAllSettlements';
 import getCurrentCompany from '@/actions/getCurrentCompany';
 
 import PageContainer from '@/components/page-container/page-container';
+import ContentWrapper from '@/components/content-wrapper/content-wrapper';
 import Card from './components/card';
 
 const Home = async () => {
@@ -20,7 +21,7 @@ const Home = async () => {
 
   return (
     <PageContainer>
-      <div className="flex flex-row justify-between rounded-lg bg-secondary p-10">
+      <ContentWrapper>
         <div className="flex flex-col justify-between">
           <h1 className="text-4xl">{currentCompany.name}</h1>
           <p className="text-xl">General statistics</p>
@@ -39,7 +40,7 @@ const Home = async () => {
             icon={LuMapPin}
           />
         </div>
-      </div>
+      </ContentWrapper>
     </PageContainer>
   );
 };
