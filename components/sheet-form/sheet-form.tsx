@@ -138,7 +138,7 @@ const SheetForm: React.FC<SheetFormProps> = ({
                 >
                   <PopoverTrigger asChild>
                     <Button
-                      variant="outline"
+                      variant="secondary"
                       role="combobox"
                       aria-expanded={openDepartmentController}
                       className="w-[200px] justify-between"
@@ -181,7 +181,7 @@ const SheetForm: React.FC<SheetFormProps> = ({
                                 'mr-2 h-4 w-4',
                                 valueDepartmentController.toUpperCase() ===
                                   department.name.toUpperCase()
-                                  ? 'opacity-100'
+                                  ? 'text-tetriary opacity-100'
                                   : 'opacity-0',
                               )}
                             />
@@ -210,7 +210,7 @@ const SheetForm: React.FC<SheetFormProps> = ({
                 >
                   <PopoverTrigger asChild>
                     <Button
-                      variant="outline"
+                      variant="secondary"
                       role="combobox"
                       aria-expanded={openLocationController}
                       className="w-[200px] justify-between"
@@ -253,7 +253,7 @@ const SheetForm: React.FC<SheetFormProps> = ({
                                 'mr-2 h-4 w-4',
                                 valueLocationController.toUpperCase() ===
                                   location.name.toUpperCase()
-                                  ? 'opacity-100'
+                                  ? 'text-tetriary opacity-100'
                                   : 'opacity-0',
                               )}
                             />
@@ -282,7 +282,7 @@ const SheetForm: React.FC<SheetFormProps> = ({
                 >
                   <PopoverTrigger asChild>
                     <Button
-                      variant="outline"
+                      variant="secondary"
                       role="combobox"
                       aria-expanded={openEmployeeController}
                       className="w-[200px] justify-between"
@@ -330,7 +330,7 @@ const SheetForm: React.FC<SheetFormProps> = ({
                                 'mr-2 h-4 w-4',
                                 valueEmployeeController.toUpperCase() ===
                                   `${employee.name} ${employee.surname}`.toUpperCase()
-                                  ? 'opacity-100'
+                                  ? 'text-tetriary opacity-100'
                                   : 'opacity-0',
                               )}
                             />
