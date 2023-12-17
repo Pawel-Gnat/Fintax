@@ -24,9 +24,7 @@ const EmployeeSettingsPage = async ({
   }
 
   return (
-    <PageContainer
-      heading={`${currentEmployee.name} ${currentEmployee.surname} Settings`}
-    >
+    <PageContainer>
       <div className="mb-5 grid grid-cols-1 gap-5 md:grid-cols-2">
         {currentEmployee && (
           <div className="flex flex-col gap-5">
