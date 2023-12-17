@@ -51,7 +51,9 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
 
   return (
     <nav className="container flex items-center gap-4 p-5">
-      <Image src={Logo} alt="" aria-hidden="true" width={30} height={30} />
+      <Link href="/" className="p-2">
+        <Image src={Logo} alt="" aria-hidden="true" width={30} height={30} />
+      </Link>
 
       <ul className="ml-10 flex gap-4">
         {PAGES.map((page) => (
