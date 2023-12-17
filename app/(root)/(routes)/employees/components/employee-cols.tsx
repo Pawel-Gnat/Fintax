@@ -9,7 +9,6 @@ import { useRouter } from 'next/navigation';
 import { ModalSheetContext } from '@/context/modal-sheet-context';
 import { AlertDialogContext } from '@/context/alert-dialog-context';
 
-import { Button as UIButton } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -86,13 +85,11 @@ export const columns: ColumnDef<SafeEmployee>[] = [
     accessorKey: 'surname',
     header: ({ column }) => {
       return (
-        <UIButton
-          variant="ghost"
+        <Button
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          Employee
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </UIButton>
+          icon={<ArrowUpDown className="ml-2 h-4 w-4" />}
+          text="Employee"
+        />
       );
     },
     cell: ({ row }) => {
@@ -141,11 +138,9 @@ export const columns: ColumnDef<SafeEmployee>[] = [
 
       return (
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <UIButton variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <LuCircleEllipsis size={20} />
-            </UIButton>
+          <DropdownMenuTrigger className="p-2 text-tetriary transition-colors hover:text-secondary">
+            <span className="sr-only">Open menu</span>
+            <LuCircleEllipsis size={20} />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem>

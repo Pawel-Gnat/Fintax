@@ -8,7 +8,6 @@ import { LuCircleEllipsis, LuFileEdit, LuFileMinus2 } from 'react-icons/lu';
 import { ModalSheetContext } from '@/context/modal-sheet-context';
 import { AlertDialogContext } from '@/context/alert-dialog-context';
 
-import { Button as UIButton } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -73,13 +72,11 @@ export const columns: ColumnDef<SafeSettlement>[] = [
     accessorKey: 'name',
     header: ({ column }) => {
       return (
-        <UIButton
-          variant="ghost"
+        <Button
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          Settlement
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </UIButton>
+          icon={<ArrowUpDown className="ml-2 h-4 w-4" />}
+          text="Settlement"
+        />
       );
     },
     cell: ({ row }) => {
@@ -112,11 +109,9 @@ export const columns: ColumnDef<SafeSettlement>[] = [
 
       return (
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <UIButton variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <LuCircleEllipsis size={20} />
-            </UIButton>
+          <DropdownMenuTrigger className="p-2 text-tetriary transition-colors hover:text-secondary">
+            <span className="sr-only">Open menu</span>
+            <LuCircleEllipsis size={20} />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem>
