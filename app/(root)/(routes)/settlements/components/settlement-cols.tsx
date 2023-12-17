@@ -98,7 +98,7 @@ export const columns: ColumnDef<SafeSettlement>[] = [
 
       return currentEmployee
         ? `${currentEmployee?.name} ${currentEmployee?.surname}`
-        : null;
+        : '-';
     },
   },
   {

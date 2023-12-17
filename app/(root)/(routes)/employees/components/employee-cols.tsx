@@ -111,7 +111,7 @@ export const columns: ColumnDef<SafeEmployee>[] = [
     header: 'Department',
     cell: ({ row }) => {
       const currentDepartment: Department = row.getValue('department');
-      return currentDepartment ? `${currentDepartment?.name}` : null;
+      return currentDepartment ? `${currentDepartment?.name}` : '-';
     },
   },
   {
@@ -119,7 +119,7 @@ export const columns: ColumnDef<SafeEmployee>[] = [
     header: 'Location',
     cell: ({ row }) => {
       const currentLocation: Location = row.getValue('location');
-      return currentLocation ? `${currentLocation?.name}` : null;
+      return currentLocation ? `${currentLocation?.name}` : '-';
     },
   },
   {
