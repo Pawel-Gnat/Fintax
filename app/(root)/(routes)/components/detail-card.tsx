@@ -8,7 +8,7 @@ interface CardProps {
   icon: IconType;
 }
 
-const Card: React.FC<CardProps> = ({ title, number, icon: Icon }) => {
+const DetailCard: React.FC<CardProps> = ({ title, number, icon: Icon }) => {
   return (
     <CardUI className="relative h-max border-none text-center shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)]">
       <CardHeader className="flex flex-row items-center justify-between">
@@ -24,4 +24,4 @@ const Card: React.FC<CardProps> = ({ title, number, icon: Icon }) => {
   );
 };
 
-export default Card;
+export default DetailCard;

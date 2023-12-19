@@ -8,7 +8,8 @@ import getCurrentCompany from '@/actions/getCurrentCompany';
 
 import PageContainer from '@/components/page-container/page-container';
 import ContentWrapper from '@/components/content-wrapper/content-wrapper';
-import Card from './components/card';
+import DetailCard from './components/detail-card';
+import NoticeContainer from './components/notice-container';
 
 const Home = async () => {
   const currentCompany = await getCurrentCompany();
@@ -23,24 +24,37 @@ const Home = async () => {
     <PageContainer>
       <ContentWrapper>
         <div className="flex flex-col justify-between">
-          <h1 className="text-4xl">{currentCompany.name}</h1>
+          <h1 className="text-4xl font-bold">{currentCompany.name}</h1>
           <p className="text-xl">General statistics</p>
         </div>
         <div className="flex flex-row gap-10">
-          <Card title="Locations" number={allCompanyLocations?.length} icon={LuGlobe2} />
-          <Card
+          <DetailCard
+            title="Locations"
+            number={allCompanyLocations?.length}
+            icon={LuGlobe2}
+          />
+          <DetailCard
             title="Departments"
             number={allCompanyDepartments?.length}
             icon={LuLandmark}
           />
-          <Card title="Employees" number={allCompanyEmployees?.length} icon={LuUsers2} />
-          <Card
+          <DetailCard
+            title="Employees"
+            number={allCompanyEmployees?.length}
+            icon={LuUsers2}
+          />
+          <DetailCard
             title="Settlements"
             number={allCompanySettlements?.length}
             icon={LuMapPin}
           />
         </div>
       </ContentWrapper>
+      <div className="my-10">
+        <NoticeContainer title="Statistics">
+          <p>dsds</p>
+        </NoticeContainer>
+      </div>
     </PageContainer>
   );
 };
