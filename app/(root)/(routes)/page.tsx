@@ -8,8 +8,10 @@ import getCurrentCompany from '@/actions/getCurrentCompany';
 
 import PageContainer from '@/components/page-container/page-container';
 import ContentWrapper from '@/components/content-wrapper/content-wrapper';
+import PieChart from './components/pie-chart';
 import DetailCard from './components/detail-card';
 import NoticeContainer from './components/notice-container';
+import BarChart from './components/bar-chart';
 
 const Home = async () => {
   const currentCompany = await getCurrentCompany();
@@ -50,11 +52,17 @@ const Home = async () => {
           />
         </div>
       </ContentWrapper>
-      <div className="my-10">
-        <NoticeContainer title="Statistics">
-          <p>dsds</p>
-        </NoticeContainer>
-      </div>
+      {allCompanyLocations && allCompanyEmployees && allCompanySettlements && (
+        <div className="my-10">
+          <NoticeContainer title="Statistics">
+            <PieChart locations={allCompanyLocations} employees={allCompanyEmployees} />
+            <BarChart
+              employees={allCompanyEmployees}
+              settlements={allCompanySettlements}
+            />
+          </NoticeContainer>
+        </div>
+      )}
     </PageContainer>
   );
 };
