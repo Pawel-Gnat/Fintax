@@ -37,8 +37,17 @@ export default class PieChart extends PureComponent<PieChartProps> {
       };
     });
 
+    if (locations.length === 0 || employees.length === 0) {
+      return (
+        <p className="my-5 text-center">
+          Your location chart is currently not available. Please assign employees to
+          corresponding locations.
+        </p>
+      );
+    }
+
     return (
-      <ResponsiveContainer width="100%" height="40%">
+      <ResponsiveContainer width="100%" height="40%" minHeight={250}>
         <PieChartLib width={400} height={400}>
           <Pie
             dataKey="value"

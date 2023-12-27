@@ -10,7 +10,7 @@ interface CardProps {
 
 const DetailCard: React.FC<CardProps> = ({ title, number, icon: Icon }) => {
   return (
-    <CardUI className="relative h-max border-none text-center shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)]">
+    <CardUI className="relative h-max border-none text-center">
       <CardHeader className="flex flex-row items-center justify-between">
         <div className="absolute left-[50%] top-0 translate-x-[-50%] translate-y-[-50%] rounded-full bg-tetriary p-4">
           <Icon size={20} />

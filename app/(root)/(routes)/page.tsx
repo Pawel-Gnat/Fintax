@@ -52,9 +52,16 @@ const Home = async () => {
           />
         </div>
       </ContentWrapper>
+
+      <div className="my-10">
+        <NoticeContainer title="Required activities">
+          <p>Currently doing.</p>
+        </NoticeContainer>
+      </div>
+
       {allCompanyLocations && allCompanyEmployees && allCompanySettlements && (
         <div className="my-10">
-          <NoticeContainer title="Statistics">
+          <NoticeContainer title="Charts">
             <PieChart locations={allCompanyLocations} employees={allCompanyEmployees} />
             <BarChart
               employees={allCompanyEmployees}

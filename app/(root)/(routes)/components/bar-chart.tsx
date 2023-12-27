@@ -36,8 +36,17 @@ export default class BarChart extends PureComponent<BarChartProps> {
       };
     });
 
+    if (settlements.length === 0 || employees.length === 0) {
+      return (
+        <p className="my-5 text-center">
+          Your settlement chart is currently not available. Please assign companies to
+          corresponding employees.
+        </p>
+      );
+    }
+
     return (
-      <ResponsiveContainer width="100%" height="60%">
+      <ResponsiveContainer width="100%" height="60%" minHeight={500}>
         <BarChartLib
           width={500}
           height={100}
