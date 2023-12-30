@@ -117,7 +117,7 @@ const ActivitiesBoard: React.FC<ActivitiesBoardProps> = ({
 
   return (
     <div className="my-4 flex flex-col gap-4">
-      {alerts.length > 0 ? (
+      {alerts.flat().length > 0 ? (
         alerts.map((alert) => alert)
       ) : (
         <p className="my-5 text-center">
