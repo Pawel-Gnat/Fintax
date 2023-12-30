@@ -12,6 +12,7 @@ import PieChart from './components/pie-chart';
 import DetailCard from './components/detail-card';
 import NoticeContainer from './components/notice-container';
 import BarChart from './components/bar-chart';
+import ActivitiesBoard from './components/activities-board';
 
 const Home = async () => {
   const currentCompany = await getCurrentCompany();
@@ -53,11 +54,21 @@ const Home = async () => {
         </div>
       </ContentWrapper>
 
-      <div className="my-10">
-        <NoticeContainer title="Required activities">
-          <p>Currently doing.</p>
-        </NoticeContainer>
-      </div>
+      {allCompanyEmployees &&
+        allCompanySettlements &&
+        allCompanyLocations &&
+        allCompanyDepartments && (
+          <div className="my-10">
+            <NoticeContainer title="Required activities">
+              <ActivitiesBoard
+                employees={allCompanyEmployees}
+                settlements={allCompanySettlements}
+                locations={allCompanyLocations}
+                departments={allCompanyDepartments}
+              />
+            </NoticeContainer>
+          </div>
+        )}
 
       {allCompanyLocations && allCompanyEmployees && allCompanySettlements && (
         <div className="my-10">
