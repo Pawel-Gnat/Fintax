@@ -17,13 +17,13 @@ export async function PATCH(request: Request, { params }: { params: ParamsProps 
   const currentEmployee = await getCurrentEmployee(elementId);
 
   if (!currentEmployee) {
-    return NextResponse.error();
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const comparePassword = await bcrypt.compare(password, currentEmployee.hashedPassword);
 
   if (!comparePassword) {
-    return NextResponse.error();
+    return NextResponse.json({ error: 'Invalid password' }, { status: 401 });
   }
 
   const newHashedPassword = await bcrypt.hash(newPassword, 12);

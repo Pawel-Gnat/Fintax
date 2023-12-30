@@ -17,7 +17,7 @@ export async function POST(request: Request, { params }: { params: ParamsProps }
   const currentCompany = await getCurrentCompany();
 
   if (!currentCompany) {
-    return NextResponse.error();
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const existingLocation = await prisma.location.findUnique({
@@ -64,7 +64,7 @@ export async function PATCH(request: Request, { params }: { params: ParamsProps 
   const currentCompany = await getCurrentCompany();
 
   if (!currentCompany || !currentEmployee) {
-    return NextResponse.error();
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const existingLocation = await prisma.location.findUnique({
@@ -105,7 +105,7 @@ export async function DELETE(request: Request, { params }: { params: ParamsProps
   const currentEmployee = await getCurrentEmployee(elementId);
 
   if (!currentEmployee) {
-    return NextResponse.error();
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const employee = await prisma.employee.delete({

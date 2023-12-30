@@ -17,7 +17,7 @@ export async function PATCH(request: Request, { params }: { params: ParamsProps 
   const currentUser = await getCurrentUser();
 
   if (!currentUser) {
-    return NextResponse.error();
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   if (name) {
@@ -38,7 +38,7 @@ export async function PATCH(request: Request, { params }: { params: ParamsProps 
     const comparePassword = await bcrypt.compare(password, currentUser.hashedPassword);
 
     if (!comparePassword) {
-      return NextResponse.error();
+      return NextResponse.json({ error: 'Invalid password' }, { status: 401 });
     }
 
     const newHashedPassword = await bcrypt.hash(newPassword, 12);

@@ -65,9 +65,10 @@ const LocationForm = () => {
         router.refresh();
       })
       .catch((error) => {
+        console.log(error);
         toast({
           variant: 'destructive',
-          description: error.message,
+          description: error.response.data.error,
         });
       })
       .finally(() => {

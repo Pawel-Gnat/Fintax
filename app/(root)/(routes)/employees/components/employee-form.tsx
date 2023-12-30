@@ -51,12 +51,11 @@ const EmployeeForm = () => {
       surname: isEditing && currentEmployee ? currentEmployee.surname : '',
       email: isEditing && currentEmployee ? currentEmployee.email : '',
       password: isEditing ? 'placeholder' : '',
+      // placeholder is added to password while isEditing to pass the formSchema requirements //
       department: isEditing && currentEmployee ? currentEmployee.department?.name : '',
       location: isEditing && currentEmployee ? currentEmployee.location?.name : '',
     },
   });
-
-  // placeholder is added to password while isEditing to pass the formSchema requirements //
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     const formData = {
@@ -88,7 +87,7 @@ const EmployeeForm = () => {
       .catch((error) => {
         toast({
           variant: 'destructive',
-          description: error.message,
+          description: error.response.data.error,
         });
       })
       .finally(() => {

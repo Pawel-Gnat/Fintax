@@ -53,7 +53,7 @@ const PasswordForm: React.FC<PasswordFormProps> = ({ data }) => {
       .catch((error) => {
         toast({
           variant: 'destructive',
-          description: error.message,
+          description: error.response.data.error,
         });
       })
       .finally(() => {

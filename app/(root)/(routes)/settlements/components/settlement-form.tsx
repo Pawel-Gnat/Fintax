@@ -82,7 +82,7 @@ const SettlementForm = () => {
       .catch((error) => {
         toast({
           variant: 'destructive',
-          description: error.message,
+          description: error.response.data.error,
         });
       })
       .finally(() => {

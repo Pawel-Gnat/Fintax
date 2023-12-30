@@ -15,7 +15,7 @@ export async function POST(request: Request, { params }: { params: ParamsProps }
   const currentCompany = await getCurrentCompany();
 
   if (!currentCompany) {
-    return NextResponse.error();
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const newDepartment = await prisma.department.create({
@@ -41,7 +41,7 @@ export async function PATCH(request: Request, { params }: { params: ParamsProps 
   const currentCompany = await getCurrentCompany();
 
   if (!currentDepartment || !currentCompany) {
-    return NextResponse.error();
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const removedDepartment = await prisma.department.delete({
@@ -68,7 +68,7 @@ export async function DELETE(request: Request, { params }: { params: ParamsProps
   const currentDepartment = await getCurrentDepartment(elementId);
 
   if (!currentDepartment) {
-    return NextResponse.error();
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const department = await prisma.department.delete({

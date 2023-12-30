@@ -57,7 +57,7 @@ const CompanyForm: React.FC<CompanyFormProps> = ({ data }) => {
       .catch((error) => {
         toast({
           variant: 'destructive',
-          description: error.message,
+          description: error.response.data.error,
         });
       })
       .finally(() => {

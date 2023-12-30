@@ -15,7 +15,7 @@ export async function POST(request: Request, { params }: { params: ParamsProps }
   const currentCompany = await getCurrentCompany();
 
   if (!currentCompany) {
-    return NextResponse.error();
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const newLocation = await prisma.location.create({
@@ -41,7 +41,7 @@ export async function PATCH(request: Request, { params }: { params: ParamsProps 
   const currentCompany = await getCurrentCompany();
 
   if (!currentLocation || !currentCompany) {
-    return NextResponse.error();
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const removedLocation = await prisma.location.delete({
@@ -68,7 +68,7 @@ export async function DELETE(request: Request, { params }: { params: ParamsProps
   const currentLocation = await getCurrentLocation(elementId);
 
   if (!currentLocation) {
-    return NextResponse.error();
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const location = await prisma.location.delete({

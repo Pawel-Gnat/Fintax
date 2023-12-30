@@ -17,7 +17,7 @@ export async function POST(request: Request, { params }: { params: ParamsProps }
   const currentCompany = await getCurrentCompany();
 
   if (!currentCompany) {
-    return NextResponse.error();
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const existingEmployee = await prisma.employee.findUnique({
@@ -51,7 +51,7 @@ export async function PATCH(request: Request, { params }: { params: ParamsProps 
   const currentCompany = await getCurrentCompany();
 
   if (!currentSettlement || !currentCompany) {
-    return NextResponse.error();
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const existingEmployee = await prisma.employee.findUnique({
@@ -82,7 +82,7 @@ export async function DELETE(request: Request, { params }: { params: ParamsProps
   const currentSettlement = await getCurrentSettlement(elementId);
 
   if (!currentSettlement) {
-    return NextResponse.error();
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const settlement = await prisma.settlement.delete({
