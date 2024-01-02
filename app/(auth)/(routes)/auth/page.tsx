@@ -21,7 +21,7 @@ const AuthPage = () => {
   };
 
   return (
-    <div className="container grid min-h-screen items-center">
+    <div className="container grid min-h-screen items-center px-4 sm:px-8">
       <Card>
         <CardHeader>
           <CardTitle>
@@ -38,8 +38,8 @@ const AuthPage = () => {
         </CardContent>
         <CardFooter>
           <p>{login ? `Don't have an account?` : 'Already have an account?'}</p>
-          <button onClick={toggleAuthStatus} className="ml-1">
-            {login ? 'Create new account' : 'Login'}
+          <button onClick={toggleAuthStatus} className="ml-1 underline">
+            {login ? 'Create new' : 'Login'}
           </button>
         </CardFooter>
       </Card>

@@ -50,12 +50,19 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
   );
 
   return (
-    <nav className="container flex items-center gap-4 p-5">
-      <Link href="/" className="p-2">
-        <Image src={Logo} alt="" aria-hidden="true" width={30} height={30} />
+    <nav className="container flex items-center gap-4 p-4">
+      <Link href="/" className="hidden p-2 lg:block">
+        <Image
+          src={Logo}
+          alt=""
+          aria-hidden="true"
+          width={30}
+          height={30}
+          className="min-w-[30px]"
+        />
       </Link>
 
-      <ul className="ml-10 flex gap-4">
+      <ul className="ml-4 flex gap-4 md:ml-8">
         {PAGES.map((page) => (
           <li key={page.label}>
             <NavLink href={page.src} label={page.label} icon={page.icon} />
@@ -63,7 +70,7 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
         ))}
       </ul>
 
-      <div className="ml-auto flex items-center gap-4">
+      <div className="ml-auto">
         <DropdownMenu
           image={image}
           name={name}

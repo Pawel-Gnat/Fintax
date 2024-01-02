@@ -25,14 +25,14 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
 }) => {
   return (
     <DropdownMenuUI>
-      {name && surname && <Avatar image={image} name={name} surname={surname} />}
       <DropdownMenuTrigger
         className={cn(
-          'p-2 text-tetriary transition-colors hover:text-secondary',
+          'flex items-center gap-4 p-2 text-tetriary transition-colors hover:text-secondary',
           name && 'text-primary',
         )}
       >
-        {name && surname && `${name} ${surname}`}
+        {name && surname && <Avatar image={image} name={name} surname={surname} />}
+        <span className="hidden md:block">{name && surname && `${name} ${surname}`}</span>
         {icon}
       </DropdownMenuTrigger>
       <DropdownMenuContent>

@@ -4,8 +4,8 @@ interface PageContainerProps {
 
 const PageContainer: React.FC<PageContainerProps> = ({ children }) => {
   return (
-    <div className="mt-5">
-      <div className="m-5">{children}</div>
+    <div className="mt-6">
+      <div className="m-4 sm:m-8">{children}</div>
     </div>
   );
 };

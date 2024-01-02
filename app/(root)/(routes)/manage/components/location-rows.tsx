@@ -59,7 +59,7 @@ const LocationRows: React.FC<LocationRowsProps> = ({ data }) => {
       {data.map((element) => (
         <TableRow key={element.id}>
           <TableCell>{element.name}</TableCell>
-          <TableCell className="text-right">
+          <TableCell className="flex justify-end text-right">
             <DropdownMenu
               icon={<LuCircleEllipsis size={20} />}
               actions={buttons(element.id, element.name)}

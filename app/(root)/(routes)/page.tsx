@@ -30,7 +30,7 @@ const Home = async () => {
           <h1 className="text-4xl font-bold">{currentCompany.name}</h1>
           <p className="text-xl">General statistics</p>
         </div>
-        <div className="flex flex-row gap-10">
+        <div className="mt-8 flex flex-wrap justify-center gap-10">
           <DetailCard
             title="Locations"
             number={allCompanyLocations?.length}
@@ -73,11 +73,16 @@ const Home = async () => {
       {allCompanyLocations && allCompanyEmployees && allCompanySettlements && (
         <div className="my-10">
           <NoticeContainer title="Charts">
-            <PieChart locations={allCompanyLocations} employees={allCompanyEmployees} />
-            <BarChart
-              employees={allCompanyEmployees}
-              settlements={allCompanySettlements}
-            />
+            <div className="hidden md:block">
+              <PieChart locations={allCompanyLocations} employees={allCompanyEmployees} />
+              <BarChart
+                employees={allCompanyEmployees}
+                settlements={allCompanySettlements}
+              />
+            </div>
+            <p className="my-5 block text-center md:hidden">
+              The charts are not available for the current screen width.
+            </p>
           </NoticeContainer>
         </div>
       )}

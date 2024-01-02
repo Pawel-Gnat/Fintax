@@ -22,7 +22,14 @@ export default class PieChart extends PureComponent<PieChartProps> {
     const locations = this.props.locations;
     const employees = this.props.employees;
 
-    const chartData = locations.map((location) => {
+    const pieColors = [
+      'rgba(75, 80, 93, 1)',
+      'rgba(75, 80, 93, 0.8)',
+      'rgba(75, 80, 93, 0.6)',
+      'rgba(75, 80, 93, 0.4)',
+    ];
+
+    const chartData = locations.map((location, index) => {
       const employeeCount = employees.reduce((acc, employee) => {
         if (employee.locationId === location.id) {
           acc += 1;
@@ -30,10 +37,12 @@ export default class PieChart extends PureComponent<PieChartProps> {
         return acc;
       }, 0);
 
+      const colorIndex = index % pieColors.length;
+
       return {
         name: location.name,
         value: employeeCount,
-        fill: '#4b505d',
+        fill: pieColors[colorIndex],
       };
     });
 
