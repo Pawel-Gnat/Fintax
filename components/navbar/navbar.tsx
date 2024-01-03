@@ -62,7 +62,7 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
         />
       </Link>
 
-      <ul className="ml-4 flex gap-4 md:ml-8">
+      <ul className="mx-0 flex w-[70%] justify-between gap-4 sm:mx-4 md:ml-8 md:w-auto md:justify-normal">
         {PAGES.map((page) => (
           <li key={page.label}>
             <NavLink href={page.src} label={page.label} icon={page.icon} />
