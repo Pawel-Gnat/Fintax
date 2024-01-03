@@ -18,7 +18,7 @@ const Card: React.FC<CardProps> = ({ title, children, action }) => {
 
   return (
     <CardUI className="h-max w-full border-none shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)]">
-      <CardHeader className="flex flex-row items-center justify-between">
+      <CardHeader className="flex flex-col items-start justify-between  gap-4 sm:flex-row sm:items-center">
         <CardTitle>{title}</CardTitle>
 
         {action && (
