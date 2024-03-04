@@ -27,8 +27,6 @@ const EditButton: React.FC<ButtonProps> = ({ id, name }) => {
   const { setTitle, setIsOpen, setIsEditing, setElementId, setAction, setElementName } =
     useContext(ModalSheetContext);
 
-  console.log(id, name);
-
   return (
     <Button
       onClick={() => {

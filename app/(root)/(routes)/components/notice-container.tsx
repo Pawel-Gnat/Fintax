@@ -1,7 +1,5 @@
 import { ReactNode } from 'react';
 
-import { IconType } from 'react-icons';
-
 interface NoticeContainerProps {
   title: string;
   children: ReactNode;

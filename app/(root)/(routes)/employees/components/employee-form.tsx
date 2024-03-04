@@ -10,6 +10,7 @@ import axios from 'axios';
 import { ModalSheetContext } from '@/context/modal-sheet-context';
 
 import capitalizeFirstLetter from '@/utils/capitalizeFirstLetter';
+import findById from '@/utils/findById';
 
 import { useToast } from '@/components/ui/use-toast';
 import SheetForm from '@/components/sheet-form/sheet-form';
@@ -42,7 +43,7 @@ const EmployeeForm = () => {
     setIsEditing,
   } = useContext(ModalSheetContext);
 
-  const currentEmployee = employees.find((employee) => employee.id === elementId);
+  const currentEmployee = findById(employees, elementId);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

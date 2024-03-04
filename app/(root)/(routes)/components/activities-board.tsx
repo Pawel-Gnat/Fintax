@@ -1,5 +1,7 @@
 import Alert from '@/components/alert/alert';
 
+import capitalizeFirstLetter from '@/utils/capitalizeFirstLetter';
+
 import { SafeEmployee, SafeSettlement } from '@/types/types';
 import { Department, Location } from '@prisma/client';
 
@@ -10,109 +12,77 @@ interface ActivitiesBoardProps {
   departments: Department[];
 }
 
+interface AlertInfo {
+  title: string;
+  description: string;
+  shouldDisplay: boolean;
+}
+
+const renderAlerts = (
+  items: Location[] | Department[] | SafeEmployee[] | SafeSettlement[],
+  variant: 'employee' | 'location' | 'settlement' | 'department',
+  getAlertInfo: (
+    item: SafeEmployee | SafeSettlement | Department | Location,
+  ) => AlertInfo,
+) => {
+  return items.map((item, index) => {
+    const { title, description, shouldDisplay } = getAlertInfo(item);
+    return (
+      shouldDisplay && (
+        <Alert
+          key={`${variant}-${index}`}
+          title={title}
+          description={description}
+          variant={variant}
+        />
+      )
+    );
+  });
+};
+
 const ActivitiesBoard: React.FC<ActivitiesBoardProps> = ({
   employees,
   settlements,
   departments,
   locations,
 }) => {
-  const renderEmployeeDepartmentAlert = () => {
-    return employees.map((employee, index) => {
-      if (!employee.departmentId) {
-        return (
-          <Alert
-            key={`employee-${index}`}
-            title={`${employee.name} ${employee.surname}`}
-            description={`Employee doesn't have an assigned department.`}
-            variant="employee"
-          />
-        );
-      }
-    });
-  };
+  const employeeAlertInfo = (employee: SafeEmployee): AlertInfo => ({
+    title: `${employee.name} ${employee.surname}`,
+    description: `Employee doesn't have an assigned ${
+      employee.departmentId ? 'location' : 'department'
+    }.`,
+    shouldDisplay:
+      !employee.departmentId || !employee.locationId || employee.settlements.length === 0,
+  });
 
-  const renderEmployeeLocationAlert = () => {
-    return employees.map((employee, index) => {
-      if (!employee.locationId) {
-        return (
-          <Alert
-            key={`employee-${index}`}
-            title={`${employee.name} ${employee.surname}`}
-            description={`Employee doesn't have an assigned location.`}
-            variant="employee"
-          />
-        );
-      }
-    });
-  };
+  const settlementAlertInfo = (settlement: SafeSettlement): AlertInfo => ({
+    title: settlement.name,
+    description: `Settlement doesn't have an assigned employee.`,
+    shouldDisplay: !settlement.employeeId,
+  });
 
-  const renderEmployeeSettlementAlert = () => {
-    return employees.map((employee, index) => {
-      if (employee.settlements.length === 0) {
-        return (
-          <Alert
-            key={`employee-${index}`}
-            title={`${employee.name} ${employee.surname}`}
-            description={`Employee doesn't have an assigned settlement.`}
-            variant="employee"
-          />
-        );
-      }
-    });
-  };
-
-  const renderSettlementEmployeeAlert = () => {
-    return settlements.map((settlement, index) => {
-      if (!settlement.employeeId) {
-        return (
-          <Alert
-            key={`settlement-${index}`}
-            title={settlement.name}
-            description={`Settlement doesn't have an assigned employee.`}
-            variant="settlement"
-          />
-        );
-      }
-    });
-  };
-
-  const renderLocationAlert = () => {
-    return locations.map((location, index) => {
-      if (!employees.some((employee) => employee.locationId === location.id)) {
-        return (
-          <Alert
-            key={`location-${index}`}
-            title={location.name}
-            description={`Location doesn't have any employees.`}
-            variant="location"
-          />
-        );
-      }
-    });
-  };
-
-  const renderDepartmentAlert = () => {
-    return departments.map((department, index) => {
-      if (!employees.some((employee) => employee.departmentId === department.id)) {
-        return (
-          <Alert
-            key={`department-${index}`}
-            title={department.name}
-            description={`Department doesn't have any employees.`}
-            variant="department"
-          />
-        );
-      }
-    });
-  };
+  const locationOrDepartmentAlertInfo = (
+    item: Department | Location,
+    itemType: 'location' | 'department',
+  ): AlertInfo => ({
+    title: item.name,
+    description: `${capitalizeFirstLetter(itemType)} doesn't have any employees.`,
+    shouldDisplay: !employees.some((employee) => employee[`${itemType}Id`] === item.id),
+  });
 
   const alerts = [
-    renderLocationAlert(),
-    renderDepartmentAlert(),
-    renderEmployeeDepartmentAlert(),
-    renderEmployeeLocationAlert(),
-    renderEmployeeSettlementAlert(),
-    renderSettlementEmployeeAlert(),
+    ...renderAlerts(locations, 'location', (item) =>
+      locationOrDepartmentAlertInfo(item, 'location'),
+    ),
+    ...renderAlerts(departments, 'department', (item) =>
+      locationOrDepartmentAlertInfo(item, 'department'),
+    ),
+    ...renderAlerts(employees, 'employee', (item) =>
+      employeeAlertInfo(item as SafeEmployee),
+    ),
+    ...renderAlerts(settlements, 'settlement', (item) =>
+      settlementAlertInfo(item as SafeSettlement),
+    ),
   ];
 
   return (
