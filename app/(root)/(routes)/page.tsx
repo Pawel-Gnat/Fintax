@@ -58,33 +58,29 @@ const Home = async () => {
         allCompanySettlements &&
         allCompanyLocations &&
         allCompanyDepartments && (
-          <div className="my-10">
-            <NoticeContainer title="Required activities">
-              <ActivitiesBoard
-                employees={allCompanyEmployees}
-                settlements={allCompanySettlements}
-                locations={allCompanyLocations}
-                departments={allCompanyDepartments}
-              />
-            </NoticeContainer>
-          </div>
+          <NoticeContainer title="Required activities" className="my-10">
+            <ActivitiesBoard
+              employees={allCompanyEmployees}
+              settlements={allCompanySettlements}
+              locations={allCompanyLocations}
+              departments={allCompanyDepartments}
+            />
+          </NoticeContainer>
         )}
 
       {allCompanyLocations && allCompanyEmployees && allCompanySettlements && (
-        <div className="my-10">
-          <NoticeContainer title="Charts">
-            <div className="hidden md:block">
-              <PieChart locations={allCompanyLocations} employees={allCompanyEmployees} />
-              <BarChart
-                employees={allCompanyEmployees}
-                settlements={allCompanySettlements}
-              />
-            </div>
-            <p className="my-5 block text-center md:hidden">
-              The charts are not available for the current screen width.
-            </p>
-          </NoticeContainer>
-        </div>
+        <NoticeContainer title="Charts" className="my-10">
+          <div className="hidden md:block">
+            <PieChart locations={allCompanyLocations} employees={allCompanyEmployees} />
+            <BarChart
+              employees={allCompanyEmployees}
+              settlements={allCompanySettlements}
+            />
+          </div>
+          <p className="my-5 block text-center md:hidden">
+            The charts are not available for the current screen width.
+          </p>
+        </NoticeContainer>
       )}
     </PageContainer>
   );
