@@ -8,6 +8,7 @@ import getCurrentUser from '@/actions/getCurrentUser';
 import Navbar from '@/components/navbar/navbar';
 import ModalSheet from '@/components/modal-sheet/modal-sheet';
 import AlertDialog from '@/components/alert-dialog/alert-dialog';
+import QueryProvider from '@/context/query-context';
 
 export default async function DashboardLayout({
   children,
@@ -21,17 +22,19 @@ export default async function DashboardLayout({
   }
 
   return (
-    <AlertDialogProvider>
-      <ModalSheetProvider>
-        <header>
-          <Navbar user={user} />
-        </header>
-        <main className="container text-primary">
-          {children}
-          <ModalSheet />
-          <AlertDialog />
-        </main>
-      </ModalSheetProvider>
-    </AlertDialogProvider>
+    <QueryProvider>
+      <AlertDialogProvider>
+        <ModalSheetProvider>
+          <header>
+            <Navbar user={user} />
+          </header>
+          <main className="container text-primary">
+            {children}
+            <ModalSheet />
+            <AlertDialog />
+          </main>
+        </ModalSheetProvider>
+      </AlertDialogProvider>
+    </QueryProvider>
   );
 }

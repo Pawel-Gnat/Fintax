@@ -54,19 +54,9 @@ const Home = async () => {
         </div>
       </ContentWrapper>
 
-      {allCompanyEmployees &&
-        allCompanySettlements &&
-        allCompanyLocations &&
-        allCompanyDepartments && (
-          <NoticeContainer title="Required activities" className="my-10">
-            <ActivitiesBoard
-              employees={allCompanyEmployees}
-              settlements={allCompanySettlements}
-              locations={allCompanyLocations}
-              departments={allCompanyDepartments}
-            />
-          </NoticeContainer>
-        )}
+      <NoticeContainer title="Required activities" className="my-10">
+        <ActivitiesBoard />
+      </NoticeContainer>
 
       {allCompanyLocations && allCompanyEmployees && allCompanySettlements && (
         <NoticeContainer title="Charts" className="my-10">

@@ -1,16 +1,16 @@
-import Alert from '@/components/alert/alert';
+import { QueryClientProvider, useQuery } from '@tanstack/react-query';
+
+import getAllLocations from '@/actions/getAllLocations';
+import getAllSettlements from '@/actions/getAllSettlements';
+import getAllDepartments from '@/actions/getAllDepartments';
+import getAllEmployees from '@/actions/getAllEmployees';
 
 import capitalizeFirstLetter from '@/utils/capitalizeFirstLetter';
 
+import Alert from '@/components/alert/alert';
+
 import { SafeEmployee, SafeSettlement } from '@/types/types';
 import { Department, Location } from '@prisma/client';
-
-interface ActivitiesBoardProps {
-  employees: SafeEmployee[];
-  settlements: SafeSettlement[];
-  locations: Location[];
-  departments: Department[];
-}
 
 interface AlertInfo {
   title: string;
@@ -40,61 +40,91 @@ const renderAlerts = (
   });
 };
 
-const ActivitiesBoard: React.FC<ActivitiesBoardProps> = ({
-  employees,
-  settlements,
-  departments,
-  locations,
-}) => {
-  const employeeAlertInfo = (employee: SafeEmployee): AlertInfo => ({
-    title: `${employee.name} ${employee.surname}`,
-    description: `Employee doesn't have an assigned ${
-      employee.departmentId ? 'location' : 'department'
-    }.`,
-    shouldDisplay:
-      !employee.departmentId || !employee.locationId || employee.settlements.length === 0,
-  });
+const ActivitiesBoard = () => {
+  // const {
+  //   data: locations,
+  //   isLoading: isLocationsLoading,
+  //   error: locationsError,
+  // } = useQuery({
+  //   queryKey: ['locations'],
+  //   queryFn: async () => await getAllLocations(),
+  // });
+  // const {
+  //   data: settlements,
+  //   isLoading: isSettlementsLoading,
+  //   error: settlementsError,
+  // } = useQuery({
+  //   queryKey: ['settlements'],
+  //   queryFn: async () => await getAllSettlements,
+  // });
+  // const {
+  //   data: departments,
+  //   isLoading: isDepartmentsLoading,
+  //   error: departmentsError,
+  // } = useQuery({
+  //   queryKey: ['departments'],
+  //   queryFn: async () => getAllDepartments,
+  // });
+  // const {
+  //   data: employees,
+  //   isLoading: isEmployeesLoading,
+  //   error: employeesError,
+  // } = useQuery({
+  //   queryKey: ['employees'],
+  //   queryFn:async () => getAllEmployees,
+  // });
 
-  const settlementAlertInfo = (settlement: SafeSettlement): AlertInfo => ({
-    title: settlement.name,
-    description: `Settlement doesn't have an assigned employee.`,
-    shouldDisplay: !settlement.employeeId,
-  });
+  // const employeeAlertInfo = (employee: SafeEmployee): AlertInfo => ({
+  //   title: `${employee.name} ${employee.surname}`,
+  //   description: `Employee doesn't have an assigned ${
+  //     employee.departmentId ? 'location' : 'department'
+  //   }.`,
+  //   shouldDisplay:
+  //     !employee.departmentId || !employee.locationId || employee.settlements.length === 0,
+  // });
 
-  const locationOrDepartmentAlertInfo = (
-    item: Department | Location,
-    itemType: 'location' | 'department',
-  ): AlertInfo => ({
-    title: item.name,
-    description: `${capitalizeFirstLetter(itemType)} doesn't have any employees.`,
-    shouldDisplay: !employees.some((employee) => employee[`${itemType}Id`] === item.id),
-  });
+  // const settlementAlertInfo = (settlement: SafeSettlement): AlertInfo => ({
+  //   title: settlement.name,
+  //   description: `Settlement doesn't have an assigned employee.`,
+  //   shouldDisplay: !settlement.employeeId,
+  // });
 
-  const alerts = [
-    ...renderAlerts(locations, 'location', (item) =>
-      locationOrDepartmentAlertInfo(item, 'location'),
-    ),
-    ...renderAlerts(departments, 'department', (item) =>
-      locationOrDepartmentAlertInfo(item, 'department'),
-    ),
-    ...renderAlerts(employees, 'employee', (item) =>
-      employeeAlertInfo(item as SafeEmployee),
-    ),
-    ...renderAlerts(settlements, 'settlement', (item) =>
-      settlementAlertInfo(item as SafeSettlement),
-    ),
-  ];
+  // const locationOrDepartmentAlertInfo = (
+  //   item: Department | Location,
+  //   itemType: 'location' | 'department',
+  // ): AlertInfo => ({
+  //   title: item.name,
+  //   description: `${capitalizeFirstLetter(itemType)} doesn't have any employees.`,
+  //   shouldDisplay: !employees!.some((employee) => employee[`${itemType}Id`] === item.id),
+  // });
+
+  // const alerts = [
+  //   ...renderAlerts(locations!, 'location', (item) =>
+  //     locationOrDepartmentAlertInfo(item, 'location'),
+  //   ),
+  //   ...renderAlerts(departments!, 'department', (item) =>
+  //     locationOrDepartmentAlertInfo(item, 'department'),
+  //   ),
+  //   ...renderAlerts(employees!, 'employee', (item) =>
+  //     employeeAlertInfo(item as SafeEmployee),
+  //   ),
+  //   ...renderAlerts(settlements!, 'settlement', (item) =>
+  //     settlementAlertInfo(item as SafeSettlement),
+  //   ),
+  // ];
 
   return (
-    <div className="mt-4 flex flex-col gap-4">
-      {alerts.flat().length > 0 ? (
+    <QueryClientProvider>
+      <div className="mt-4 flex flex-col gap-4">
+        {/* {alerts.flat().length > 0 ? (
         alerts.map((alert) => alert)
-      ) : (
+      ) : ( */}
         <p className="my-5 text-center">
           You don&apos;t have any required activities currently.
         </p>
-      )}
-    </div>
+        {/* )} */}
+      </div>
+    </QueryClientProvider>
   );
 };
 
