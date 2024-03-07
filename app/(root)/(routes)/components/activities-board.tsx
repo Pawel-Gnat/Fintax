@@ -1,4 +1,6 @@
-import { QueryClientProvider, useQuery } from '@tanstack/react-query';
+'use client';
+
+import { useQuery } from '@tanstack/react-query';
 
 import getAllLocations from '@/actions/getAllLocations';
 import getAllSettlements from '@/actions/getAllSettlements';
@@ -41,21 +43,21 @@ const renderAlerts = (
 };
 
 const ActivitiesBoard = () => {
-  // const {
-  //   data: locations,
-  //   isLoading: isLocationsLoading,
-  //   error: locationsError,
-  // } = useQuery({
-  //   queryKey: ['locations'],
-  //   queryFn: async () => await getAllLocations(),
-  // });
+  const {
+    data: locations,
+    isLoading: isLocationsLoading,
+    error: locationsError,
+  } = useQuery({
+    queryKey: ['locations'],
+    queryFn: getAllLocations,
+  });
   // const {
   //   data: settlements,
   //   isLoading: isSettlementsLoading,
   //   error: settlementsError,
   // } = useQuery({
   //   queryKey: ['settlements'],
-  //   queryFn: async () => await getAllSettlements,
+  //   queryFn: getAllSettlements,
   // });
   // const {
   //   data: departments,
@@ -63,7 +65,7 @@ const ActivitiesBoard = () => {
   //   error: departmentsError,
   // } = useQuery({
   //   queryKey: ['departments'],
-  //   queryFn: async () => getAllDepartments,
+  //   queryFn: getAllDepartments,
   // });
   // const {
   //   data: employees,
@@ -71,7 +73,7 @@ const ActivitiesBoard = () => {
   //   error: employeesError,
   // } = useQuery({
   //   queryKey: ['employees'],
-  //   queryFn:async () => getAllEmployees,
+  //   queryFn: getAllEmployees,
   // });
 
   // const employeeAlertInfo = (employee: SafeEmployee): AlertInfo => ({
@@ -114,17 +116,15 @@ const ActivitiesBoard = () => {
   // ];
 
   return (
-    <QueryClientProvider>
-      <div className="mt-4 flex flex-col gap-4">
-        {/* {alerts.flat().length > 0 ? (
+    <div className="mt-4 flex flex-col gap-4">
+      {/* {alerts.flat().length > 0 ? (
         alerts.map((alert) => alert)
       ) : ( */}
-        <p className="my-5 text-center">
-          You don&apos;t have any required activities currently.
-        </p>
-        {/* )} */}
-      </div>
-    </QueryClientProvider>
+      <p className="my-5 text-center">
+        You don&apos;t have any required activities currently.
+      </p>
+      {/* )} */}
+    </div>
   );
 };
 
