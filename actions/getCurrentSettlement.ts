@@ -1,3 +1,5 @@
+'use server';
+
 import prisma from '@/lib/prisma';
 
 const getCurrentSettlement = async (settlementId: string) => {

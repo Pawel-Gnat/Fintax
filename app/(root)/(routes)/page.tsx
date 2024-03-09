@@ -13,6 +13,7 @@ import DetailCard from './components/detail-card';
 import NoticeContainer from './components/notice-container';
 import BarChart from './components/bar-chart';
 import ActivitiesBoard from './components/activities-board';
+import Charts from './components/charts';
 
 const Home = async () => {
   const currentCompany = await getCurrentCompany();
@@ -54,24 +55,8 @@ const Home = async () => {
         </div>
       </ContentWrapper>
 
-      <NoticeContainer title="Required activities" className="my-10">
-        <ActivitiesBoard />
-      </NoticeContainer>
-
-      {allCompanyLocations && allCompanyEmployees && allCompanySettlements && (
-        <NoticeContainer title="Charts" className="my-10">
-          <div className="hidden md:block">
-            <PieChart locations={allCompanyLocations} employees={allCompanyEmployees} />
-            <BarChart
-              employees={allCompanyEmployees}
-              settlements={allCompanySettlements}
-            />
-          </div>
-          <p className="my-5 block text-center md:hidden">
-            The charts are not available for the current screen width.
-          </p>
-        </NoticeContainer>
-      )}
+      <ActivitiesBoard />
+      <Charts />
     </PageContainer>
   );
 };

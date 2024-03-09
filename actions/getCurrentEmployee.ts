@@ -1,3 +1,5 @@
+'use server';
+
 import prisma from '@/lib/prisma';
 
 const getCurrentEmployee = async (employeeId: string) => {
