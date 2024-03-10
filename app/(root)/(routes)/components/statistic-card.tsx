@@ -1,4 +1,5 @@
 import { Card as CardUI, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 
 import { IconType } from 'react-icons';
 
@@ -6,9 +7,12 @@ interface CardProps {
   title: string;
   number: number | undefined;
   icon: IconType;
+  loading: boolean;
 }
 
-const DetailCard: React.FC<CardProps> = ({ title, number, icon: Icon }) => {
+const StatisticCard: React.FC<CardProps> = ({ title, number, icon: Icon, loading }) => {
+  if (loading) return <Skeleton className="h-[158px] w-[140px] rounded-lg bg-card" />;
+
   return (
     <CardUI className="relative h-max border-none text-center">
       <CardHeader className="flex flex-row items-center justify-between">
@@ -24,4 +28,4 @@ const DetailCard: React.FC<CardProps> = ({ title, number, icon: Icon }) => {
   );
 };
 
-export default DetailCard;
+export default StatisticCard;
