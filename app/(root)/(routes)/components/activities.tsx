@@ -19,7 +19,6 @@ const Activities = () => {
   const { locations, isLocationsLoading } = useLocations();
   const { settlements, isSettlementsLoading } = useSettlements();
   const { departments, isDepartmentsLoading } = useDepartments();
-  const { employees, isEmployeesLoading } = useEmployees();
 
   const alertsData = [
     {
@@ -36,11 +35,6 @@ const Activities = () => {
       items: departments,
       isLoading: isDepartmentsLoading,
       variant: 'department',
-    },
-    {
-      items: employees,
-      isLoading: isEmployeesLoading,
-      variant: 'employee',
     },
   ];
 
