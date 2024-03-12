@@ -1,5 +1,5 @@
 import PageContainer from '@/components/page-container/page-container';
-import Activities from './components/activities';
+import Alerts from './components/alerts';
 import Charts from './components/charts';
 import Statistics from './components/statistics';
 
@@ -7,7 +7,7 @@ const Home = async () => {
   return (
     <PageContainer>
       <Statistics />
-      <Activities />
+      <Alerts />
       <Charts />
     </PageContainer>
   );
