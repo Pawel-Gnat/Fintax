@@ -1,25 +1,27 @@
-import getAllEmployees from '@/actions/getAllEmployees';
-import getAllSettlements from '@/actions/getAllSettlements';
+'use client';
+
+import useSettlements from '@/hooks/useSettlements';
+import useEmployees from '@/hooks/useEmployees';
 
 import Card from '@/components/card/card';
 import PageContainer from '@/components/page-container/page-container';
 import DataTable from '@/components/data-table/data-table';
 import { columns } from './components/settlement-cols';
 
-const SettlementsPage = async () => {
-  const allCompanySettlements = await getAllSettlements();
-  const allCompanyEmployees = await getAllEmployees();
+const SettlementsPage = () => {
+  const { settlements, isSettlementsLoading } = useSettlements();
+  const { employees, isEmployeesLoading } = useEmployees();
 
   return (
     <PageContainer>
-      {allCompanySettlements && allCompanyEmployees && (
+      {settlements && employees && (
         <Card title="Settlements" action="setSettlement">
           <DataTable
             title="Settlements"
             columns={columns}
-            data={allCompanySettlements}
-            employees={allCompanyEmployees}
-            settlements={allCompanySettlements}
+            data={settlements}
+            employees={employees}
+            settlements={settlements}
           />
         </Card>
       )}

@@ -1,5 +1,7 @@
-import getAllLocations from '@/actions/getAllLocations';
-import getAllDepartments from '@/actions/getAllDepartments';
+'use client';
+
+import useLocations from '@/hooks/useLocations';
+import useDepartments from '@/hooks/useDepartments';
 
 import PageContainer from '@/components/page-container/page-container';
 import Card from '@/components/card/card';
@@ -8,31 +10,31 @@ import ContentWrapper from '@/components/content-wrapper/content-wrapper';
 import LocationRows from './components/location-rows';
 import DepartmentRows from './components/department-rows';
 
-const ManagePage = async () => {
-  const allCompanyLocations = await getAllLocations();
-  const allCompanyDepartments = await getAllDepartments();
+const ManagePage = () => {
+  const { locations, isLocationsLoading } = useLocations();
+  const { departments, isDepartmentsLoading } = useDepartments();
 
   return (
     <PageContainer>
       <ContentWrapper>
         <div className="flex w-full flex-col justify-between gap-5 md:flex-row">
-          {allCompanyLocations && (
+          {locations && locations.length > 0 && (
             <Card title="Locations" action="setLocation">
               <Table
                 title="Locations"
-                data={allCompanyLocations}
+                data={locations}
                 headers={['Location']}
-                rows={<LocationRows data={allCompanyLocations} />}
+                rows={<LocationRows data={locations} />}
               />
             </Card>
           )}
-          {allCompanyDepartments && (
+          {departments && departments.length > 0 && (
             <Card title="Departments" action="setDepartment">
               <Table
                 title="Departments"
-                data={allCompanyDepartments}
+                data={departments}
                 headers={['Department']}
-                rows={<DepartmentRows data={allCompanyDepartments} />}
+                rows={<DepartmentRows data={departments} />}
               />
             </Card>
           )}
