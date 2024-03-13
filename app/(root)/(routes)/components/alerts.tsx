@@ -119,9 +119,9 @@ const Alerts = () => {
   };
 
   const renderAlerts = (alerts: AlertData[]) => {
-    return alerts.flatMap((alert) => {
+    return alerts.flatMap((alert, index) => {
       if (alert.isLoading) {
-        return <Skeleton className="h-[75px] w-full rounded-lg bg-card" />;
+        return <Skeleton key={index} className="h-[75px] w-full rounded-lg bg-card" />;
       }
 
       if (!Array.isArray(alert.items)) {
