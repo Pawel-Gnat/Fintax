@@ -28,6 +28,7 @@ const ManagePage = () => {
               />
             </Card>
           )}
+
           {departments && departments.length > 0 && (
             <Card title="Departments" action="setDepartment">
               <Table

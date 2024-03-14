@@ -1,28 +1,30 @@
-import getAllDepartments from '@/actions/getAllDepartments';
-import getAllEmployees from '@/actions/getAllEmployees';
-import getAllLocations from '@/actions/getAllLocations';
+'use client';
+
+import useEmployees from '@/hooks/useEmployees';
+import useLocations from '@/hooks/useLocations';
+import useDepartments from '@/hooks/useDepartments';
 
 import Card from '@/components/card/card';
 import PageContainer from '@/components/page-container/page-container';
 import DataTable from '@/components/data-table/data-table';
 import { columns } from './components/employee-cols';
 
-const EmployeesPage = async () => {
-  const allCompanyDepartments = await getAllDepartments();
-  const allCompanyLocations = await getAllLocations();
-  const allCompanyEmployees = await getAllEmployees();
+const EmployeesPage = () => {
+  const { locations, isLocationsLoading } = useLocations();
+  const { departments, isDepartmentsLoading } = useDepartments();
+  const { employees, isEmployeesLoading } = useEmployees();
 
   return (
     <PageContainer>
-      {allCompanyLocations && allCompanyDepartments && allCompanyEmployees && (
+      {locations && departments && employees && (
         <Card title="Employees" action="setEmployee">
           <DataTable
             title="Employees"
             columns={columns}
-            data={allCompanyEmployees}
-            employees={allCompanyEmployees}
-            locations={allCompanyLocations}
-            departments={allCompanyDepartments}
+            data={employees}
+            employees={employees}
+            locations={locations}
+            departments={departments}
           />
         </Card>
       )}

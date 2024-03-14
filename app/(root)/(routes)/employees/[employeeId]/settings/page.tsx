@@ -1,10 +1,11 @@
-import { redirect } from 'next/navigation';
+'use client';
 
-import getCurrentEmployee from '@/actions/getCurrentEmployee';
+import { useRouter } from 'next/navigation';
+
+import useEmployee from '@/hooks/useEmployee';
 
 import Card from '@/components/card/card';
 import PageContainer from '@/components/page-container/page-container';
-
 import PasswordForm from './components/password-form';
 import ProfileForm from './components/profile-form';
 
@@ -12,30 +13,27 @@ interface EmployeeSettingsPageProps {
   employeeId: string;
 }
 
-const EmployeeSettingsPage = async ({
-  params,
-}: {
-  params: EmployeeSettingsPageProps;
-}) => {
-  const currentEmployee = await getCurrentEmployee(params.employeeId);
+const EmployeeSettingsPage = ({ params }: { params: EmployeeSettingsPageProps }) => {
+  const { employee, isEmployeeLoading } = useEmployee(params.employeeId);
+  const router = useRouter();
 
-  if (!currentEmployee) {
-    redirect('/employees');
+  if (!isEmployeeLoading && !employee) {
+    router.push('/employees');
   }
 
   return (
     <PageContainer>
       <div className="mb-5 grid grid-cols-1 gap-5 md:grid-cols-2">
-        {currentEmployee && (
+        {employee && (
           <div className="flex flex-col gap-5">
             <Card title="Employee password">
-              <PasswordForm data={currentEmployee} />
+              <PasswordForm data={employee} />
             </Card>
           </div>
         )}
-        {currentEmployee && (
+        {employee && (
           <Card title="Employee informations">
-            <ProfileForm data={currentEmployee} />
+            <ProfileForm data={employee} />
           </Card>
         )}
       </div>
