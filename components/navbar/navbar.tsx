@@ -3,17 +3,19 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { signOut } from 'next-auth/react';
-import { LuBarChartBig, LuAtom, LuFolderKanban, LuUsers2 } from 'react-icons/lu';
 
+import {
+  LuBarChartBig,
+  LuAtom,
+  LuFolderKanban,
+  LuUsers2,
+  LuLogOut,
+} from 'react-icons/lu';
 import Logo from '@/public/logo.svg';
+
+import { Button } from '@/components/ui/button';
+
 import NavLink from './nav-link';
-import DropdownMenu from '@/components/dropdown-menu/dropdown-menu';
-
-import { User } from '@prisma/client';
-
-interface NavbarProps {
-  user: User;
-}
 
 const PAGES = [
   { src: '/', label: 'Dashboard', icon: LuBarChartBig },
@@ -34,23 +36,9 @@ const PAGES = [
   },
 ];
 
-const Navbar: React.FC<NavbarProps> = ({ user }) => {
-  const { name, surname, image } = user;
-
-  const settings = (
-    <Link href="/settings" className="w-full">
-      Settings
-    </Link>
-  );
-
-  const logOut = (
-    <button onClick={() => signOut()} className="w-full text-left">
-      Log out
-    </button>
-  );
-
+const Navbar = () => {
   return (
-    <nav className="container flex items-center gap-4 p-4">
+    <nav className="sticky flex h-screen flex-col items-center gap-4 border-r-[1px] p-6">
       <Link href="/" className="hidden p-2 lg:block">
         <Image
           src={Logo}
@@ -62,7 +50,7 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
         />
       </Link>
 
-      <ul className="mx-0 flex w-[70%] justify-between gap-4 sm:mx-4 md:ml-8 md:w-auto md:justify-normal">
+      <ul className="mt-10 flex flex-col gap-4">
         {PAGES.map((page) => (
           <li key={page.label}>
             <NavLink href={page.src} label={page.label} icon={page.icon} />
@@ -70,14 +58,9 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
         ))}
       </ul>
 
-      <div className="ml-auto">
-        <DropdownMenu
-          image={image}
-          name={name}
-          surname={surname}
-          actions={[settings, logOut]}
-        />
-      </div>
+      <Button className="mt-auto w-full" onClick={() => signOut()} size="lg">
+        <LuLogOut size={20} /> Log out
+      </Button>
     </nav>
   );
 };

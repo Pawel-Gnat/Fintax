@@ -8,21 +8,17 @@ import {
 } from '@/components/ui/dropdown-menu';
 import Avatar from '@/components/avatar/avatar';
 
+import { User } from '@prisma/client';
+
 interface DropdownMenuProps {
-  image?: string | null | undefined;
-  name?: string;
-  surname?: string;
+  user: User;
   icon?: React.ReactNode;
   actions: JSX.Element[];
 }
 
-const DropdownMenu: React.FC<DropdownMenuProps> = ({
-  image,
-  name,
-  surname,
-  icon,
-  actions,
-}) => {
+const DropdownMenu: React.FC<DropdownMenuProps> = ({ user, icon, actions }) => {
+  const { name, surname, email, image } = user;
+
   return (
     <DropdownMenuUI>
       <DropdownMenuTrigger
@@ -32,7 +28,12 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
         )}
       >
         {name && surname && <Avatar image={image} name={name} surname={surname} />}
-        <span className="hidden md:block">{name && surname && `${name} ${surname}`}</span>
+        <div className="text-left">
+          <span className="hidden font-bold md:block">
+            {name && surname && `${name} ${surname}`}
+          </span>
+          <span className="hidden md:block">{email && `${email}`}</span>
+        </div>
         {icon}
       </DropdownMenuTrigger>
       <DropdownMenuContent>

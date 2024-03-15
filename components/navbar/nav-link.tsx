@@ -18,9 +18,8 @@ const NavLink: React.FC<NavLinkProps> = ({ href, icon: Icon, label }) => {
     <Link
       href={href}
       className={cn(
-        currentRoute !== href && 'hover:text-secondary',
-        'relative flex items-center gap-2 p-2 text-primary transition-colors lg:p-4',
-        currentRoute === href && 'text-tetriary',
+        'relative flex items-center gap-2 rounded-lg p-2 text-primary transition-colors hover:bg-accent/30 lg:px-8 lg:py-4',
+        currentRoute === href && 'bg-accent text-tetriary',
       )}
     >
       {Icon && <Icon size={20} />}
