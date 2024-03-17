@@ -20,18 +20,18 @@ module.exports = {
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
         background: 'rgba(var(--background) / <alpha-value>)',
-        // foreground: 'hsl(var(--foreground))',
+        foreground: 'var(--foreground)',
         primary: {
-          DEFAULT: 'var(--primary)',
+          DEFAULT: 'rgba(var(--primary) / <alpha-value>)',
           // foreground: 'var(--primary-foreground)',
         },
         secondary: {
           DEFAULT: 'var(--secondary)',
           // foreground: 'var(--secondary-foreground)',
         },
-        tetriary: {
-          DEFAULT: 'var(--tetriary)',
-        },
+        // tetriary: {
+        //   DEFAULT: 'var(--tetriary)',
+        // },
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
           // foreground: 'hsl(var(--destructive-foreground))',

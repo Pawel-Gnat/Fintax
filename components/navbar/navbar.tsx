@@ -38,7 +38,7 @@ const PAGES = [
 
 const Navbar = () => {
   return (
-    <nav className="sticky flex h-screen flex-col items-center gap-4 border-r-[1px] p-6">
+    <nav className="sticky flex h-screen flex-col items-center gap-4 p-6">
       <Link href="/" className="hidden p-2 lg:block">
         <Image
           src={Logo}
@@ -50,7 +50,7 @@ const Navbar = () => {
         />
       </Link>
 
-      <ul className="mt-10 flex flex-col gap-4">
+      <ul className="mt-16 flex flex-col gap-4 text-left">
         {PAGES.map((page) => (
           <li key={page.label}>
             <NavLink href={page.src} label={page.label} icon={page.icon} />

@@ -27,7 +27,7 @@ export default async function DashboardLayout({
       <AlertDialogProvider>
         <ModalSheetProvider>
           <Navbar />
-          <div className="h-screen w-full overflow-y-auto">
+          <div className="h-screen w-full overflow-y-auto bg-foreground">
             <Header user={user} />
             <main className="p-12">
               {children}

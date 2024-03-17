@@ -11,7 +11,7 @@ interface CardProps {
 }
 
 const StatisticCard: React.FC<CardProps> = ({ title, number, icon: Icon, loading }) => {
-  if (loading) return <Skeleton className="h-[158px] w-[140px] rounded-lg bg-card" />;
+  if (loading) return <Skeleton className="h-[104px] w-[200px] rounded-lg" />;
 
   return (
     <Card className="flex flex-row gap-4 border-none p-6 shadow-xl">
@@ -20,7 +20,7 @@ const StatisticCard: React.FC<CardProps> = ({ title, number, icon: Icon, loading
       </div>
       <div>
         <p className="">{title}</p>
-        <p className="text-2xl font-bold">{number ?? 0}</p>
+        <p className="text-2xl font-bold">{number}</p>
       </div>
     </Card>
   );

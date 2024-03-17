@@ -1,14 +1,18 @@
 import Alerts from './components/alerts';
-import Charts from './components/charts';
+import Workload from './components/workload';
 import Statistics from './components/statistics';
+import EmployeeDistribution from './components/employee-distribution';
 
 const Home = async () => {
   return (
     <>
-      <h1 className="text-4xl font-bold">Overview</h1>
+      <h2 className="text-4xl font-bold">Overview</h2>
       <Statistics />
-      {/* <Alerts /> */}
-      {/* <Charts /> */}
+      <div className="my-10 flex w-full flex-col gap-4 xl:flex-row">
+        <Workload />
+        <EmployeeDistribution />
+      </div>
+      <Alerts />
     </>
   );
 };
