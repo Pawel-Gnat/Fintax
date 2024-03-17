@@ -1,15 +1,19 @@
-import PageContainer from '@/components/page-container/page-container';
 import Alerts from './components/alerts';
-import Charts from './components/charts';
+import Workload from './components/workload';
 import Statistics from './components/statistics';
+import EmployeeDistribution from './components/employee-distribution';
 
 const Home = async () => {
   return (
-    <PageContainer>
+    <>
+      <h2 className="text-4xl font-bold">Overview</h2>
       <Statistics />
+      <div className="my-10 flex w-full flex-col gap-4 xl:flex-row">
+        <Workload />
+        <EmployeeDistribution />
+      </div>
       <Alerts />
-      <Charts />
-    </PageContainer>
+    </>
   );
 };
 

@@ -9,6 +9,7 @@ import Navbar from '@/components/navbar/navbar';
 import ModalSheet from '@/components/modal-sheet/modal-sheet';
 import AlertDialog from '@/components/alert-dialog/alert-dialog';
 import QueryProvider from '@/context/query-context';
+import Header from '@/components/header/header';
 
 export default async function DashboardLayout({
   children,
@@ -25,14 +26,15 @@ export default async function DashboardLayout({
     <QueryProvider>
       <AlertDialogProvider>
         <ModalSheetProvider>
-          <header>
-            <Navbar user={user} />
-          </header>
-          <main className="container text-primary">
-            {children}
-            <ModalSheet />
-            <AlertDialog />
-          </main>
+          <Navbar />
+          <div className="h-screen w-full overflow-y-auto bg-foreground">
+            <Header user={user} />
+            <main className="p-12">
+              {children}
+              <ModalSheet />
+              <AlertDialog />
+            </main>
+          </div>
         </ModalSheetProvider>
       </AlertDialogProvider>
     </QueryProvider>

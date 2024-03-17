@@ -8,31 +8,32 @@ import {
 } from '@/components/ui/dropdown-menu';
 import Avatar from '@/components/avatar/avatar';
 
+import { User } from '@prisma/client';
+
 interface DropdownMenuProps {
-  image?: string | null | undefined;
-  name?: string;
-  surname?: string;
+  user?: User;
   icon?: React.ReactNode;
   actions: JSX.Element[];
 }
 
-const DropdownMenu: React.FC<DropdownMenuProps> = ({
-  image,
-  name,
-  surname,
-  icon,
-  actions,
-}) => {
+const DropdownMenu: React.FC<DropdownMenuProps> = ({ user, icon, actions }) => {
   return (
     <DropdownMenuUI>
       <DropdownMenuTrigger
         className={cn(
-          'flex items-center gap-4 p-2 text-tetriary transition-colors hover:text-secondary',
-          name && 'text-primary',
+          'text-tetriary flex items-center gap-4 p-2 transition-colors hover:text-accent/30',
+          user?.name && 'text-primary',
         )}
       >
-        {name && surname && <Avatar image={image} name={name} surname={surname} />}
-        <span className="hidden md:block">{name && surname && `${name} ${surname}`}</span>
+        {user?.name && user?.surname && (
+          <Avatar image={user?.image} name={user?.name} surname={user?.surname} />
+        )}
+        <div className="text-left">
+          <span className="hidden font-bold md:block">
+            {user?.name && user?.surname && `${user?.name} ${user?.surname}`}
+          </span>
+          <span className="hidden md:block">{user?.email && `${user?.email}`}</span>
+        </div>
         {icon}
       </DropdownMenuTrigger>
       <DropdownMenuContent>

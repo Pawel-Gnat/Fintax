@@ -4,18 +4,23 @@ import useSettlements from '@/hooks/useSettlements';
 import useEmployees from '@/hooks/useEmployees';
 
 import Card from '@/components/card/card';
-import PageContainer from '@/components/page-container/page-container';
 import DataTable from '@/components/data-table/data-table';
+import { Skeleton } from '@/components/ui/skeleton';
+
 import { columns } from './components/settlement-cols';
 
 const SettlementsPage = () => {
   const { settlements, isSettlementsLoading } = useSettlements();
   const { employees, isEmployeesLoading } = useEmployees();
 
+  if (isSettlementsLoading || isEmployeesLoading) {
+    return <Skeleton className="mt-10 h-[400px] w-full rounded-lg" />;
+  }
+
   return (
-    <PageContainer>
+    <>
       {settlements && employees && (
-        <Card title="Settlements" action="setSettlement">
+        <Card title="Settlements" action="setSettlement" className="mt-10">
           <DataTable
             title="Settlements"
             columns={columns}
@@ -25,7 +30,7 @@ const SettlementsPage = () => {
           />
         </Card>
       )}
-    </PageContainer>
+    </>
   );
 };
 

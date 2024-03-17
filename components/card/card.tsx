@@ -4,24 +4,27 @@ import { useContext } from 'react';
 
 import { ModalSheetContext } from '@/context/modal-sheet-context';
 
+import { cn } from '@/lib/utils';
+
 import { Card as CardUI, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 
 interface CardProps {
-  title: string;
+  className?: string;
+  title?: string;
   action?: string;
   children: React.ReactNode;
 }
 
-const Card: React.FC<CardProps> = ({ title, children, action }) => {
+const Card: React.FC<CardProps> = ({ className, title, children, action }) => {
   const { setTitle, setIsOpen, setAction, setIsEditing } = useContext(ModalSheetContext);
 
   return (
-    <CardUI className="h-max w-full border-none shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)]">
-      <CardHeader className="flex flex-col items-start justify-between  gap-4 sm:flex-row sm:items-center">
+    <CardUI className={cn('h-max border-none bg-card shadow-xl', className)}>
+      <CardHeader className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
         <CardTitle>{title}</CardTitle>
 
-        {action && (
+        {action && title && (
           <Button
             onClick={() => {
               setIsOpen(true);

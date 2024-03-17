@@ -19,38 +19,38 @@ module.exports = {
         border: 'var(--border)',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
-        background: 'var(--background)',
-        foreground: 'hsl(var(--foreground))',
+        background: 'rgba(var(--background) / <alpha-value>)',
+        foreground: 'var(--foreground)',
         primary: {
-          DEFAULT: 'var(--primary)',
-          foreground: 'var(--primary-foreground)',
+          DEFAULT: 'rgba(var(--primary) / <alpha-value>)',
+          // foreground: 'var(--primary-foreground)',
         },
         secondary: {
           DEFAULT: 'var(--secondary)',
-          foreground: 'var(--secondary-foreground)',
+          // foreground: 'var(--secondary-foreground)',
         },
-        tetriary: {
-          DEFAULT: 'var(--tetriary)',
-        },
+        // tetriary: {
+        //   DEFAULT: 'var(--tetriary)',
+        // },
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))',
+          // foreground: 'hsl(var(--destructive-foreground))',
         },
         muted: {
           DEFAULT: '(var(--muted))',
-          foreground: 'var(--muted-foreground)',
+          // foreground: 'var(--muted-foreground)',
         },
         accent: {
-          DEFAULT: 'var(--accent)',
-          foreground: 'var(--accent-foreground)',
+          DEFAULT: 'rgba(var(--accent) / <alpha-value>)',
+          // foreground: 'var(--accent-foreground)',
         },
         popover: {
           DEFAULT: 'var(--popover)',
-          foreground: 'hsl(var(--popover-foreground))',
+          // foreground: 'hsl(var(--popover-foreground))',
         },
         card: {
           DEFAULT: 'var(--card)',
-          foreground: 'var(--card-foreground)',
+          // foreground: 'var(--card-foreground)',
         },
       },
       borderRadius: {

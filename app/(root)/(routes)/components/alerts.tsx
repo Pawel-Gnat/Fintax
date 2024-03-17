@@ -11,7 +11,7 @@ import capitalizeFirstLetter from '@/utils/capitalizeFirstLetter';
 
 import { Skeleton } from '@/components/ui/skeleton';
 import Alert from '@/components/alert/alert';
-import NoticeContainer from './notice-container';
+import Card from '@/components/card/card';
 
 import { Department, Location } from '@prisma/client';
 import { SafeEmployee, SafeSettlement } from '@/types/types';
@@ -119,11 +119,7 @@ const Alerts = () => {
   };
 
   const renderAlerts = (alerts: AlertData[]) => {
-    return alerts.flatMap((alert, index) => {
-      if (alert.isLoading) {
-        return <Skeleton key={index} className="h-[75px] w-full rounded-lg bg-card" />;
-      }
-
+    return alerts.flatMap((alert) => {
       if (!Array.isArray(alert.items)) {
         return null;
       }
@@ -146,59 +142,16 @@ const Alerts = () => {
     });
   };
 
-  // const renderAlerts = (alerts: AlertData[]) => {
-  //   const renderedAlerts = alerts.flatMap((alert) => {
-  //     if (alert.isLoading) {
-  //       return null;
-  //     }
-
-  //     if (!Array.isArray(alert.items)) {
-  //       return null;
-  //     }
-
-  //     return alert.items.map((item, index) => {
-  //       const { title, description, icon, shouldDisplay } = getAlertInfo(
-  //         item,
-  //         alert.variant,
-  //       );
-  //       return shouldDisplay ? (
-  //         <Alert
-  //           key={`${alert.variant}-${index}`}
-  //           icon={icon}
-  //           title={title}
-  //           description={description}
-  //         />
-  //       ) : null;
-  //     });
-  //   });
-
-  //   if (!isLoading && renderedAlerts.length === 0) {
-  //     return <p className="my-5 text-center">There are no alerts. Everything is fine.</p>;
-  //   }
-
-  //   return renderedAlerts;
-  // };
-
   return (
-    <NoticeContainer title="Alerts" className="my-10">
-      <div className="mt-4 flex flex-col gap-4">
-        {/* {alerts.flat().length > 0 ? (
-          alerts.map((alert) => alert)
-        ) : (
-          <p className="my-5 text-center">
-            There are no alerts. Everything is fine.
-          </p>
-        )} */}
-
-        {renderAlerts(alertsData)}
-
-        {/* {isLoading ? (
-          <Skeleton className="h-[75px] w-full rounded-lg bg-card" />
-        ) : (
-          renderAlerts(alertsData)
-        )} */}
-      </div>
-    </NoticeContainer>
+    <>
+      {isLoading ? (
+        <Skeleton className="h-[400px] w-full rounded-lg" />
+      ) : (
+        <Card title="Alerts" className="my-10">
+          <div className="flex flex-col gap-4">{renderAlerts(alertsData)}</div>
+        </Card>
+      )}
+    </>
   );
 };
 
