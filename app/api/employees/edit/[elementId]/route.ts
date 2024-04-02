@@ -19,7 +19,7 @@ export async function PATCH(request: Request, { params }: { params: ParamsProps 
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const employee = await prisma.employee.update({
+  await prisma.employee.update({
     where: { id: currentEmployee.id },
     data: {
       name,
@@ -29,5 +29,5 @@ export async function PATCH(request: Request, { params }: { params: ParamsProps 
     },
   });
 
-  return NextResponse.json(employee);
+  return NextResponse.json('Employee updated');
 }

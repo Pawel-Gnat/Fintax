@@ -16,7 +16,7 @@ const Statistics = () => {
   const { employees, isEmployeesLoading } = useEmployees();
 
   return (
-    <div className="mt-8 flex flex-wrap justify-start gap-4">
+    <div className="mt-8 grid grid-cols-[repeat(auto-fill,240px)] gap-4">
       <StatisticCard
         title="Locations"
         number={locations?.length}

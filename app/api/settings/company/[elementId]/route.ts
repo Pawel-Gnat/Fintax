@@ -19,12 +19,12 @@ export async function PATCH(request: Request, { params }: { params: ParamsProps 
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const company = await prisma.company.update({
+  await prisma.company.update({
     where: { id: currentCompany.id },
     data: {
       name,
     },
   });
 
-  return NextResponse.json(company);
+  return NextResponse.json('Company updated');
 }

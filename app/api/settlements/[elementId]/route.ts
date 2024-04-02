@@ -30,7 +30,7 @@ export async function POST(request: Request, { params }: { params: ParamsProps }
     },
   });
 
-  const settlement = await prisma.settlement.create({
+  await prisma.settlement.create({
     data: {
       name,
       location,
@@ -39,7 +39,7 @@ export async function POST(request: Request, { params }: { params: ParamsProps }
     },
   });
 
-  return NextResponse.json(settlement);
+  return NextResponse.json('Settlement added');
 }
 
 export async function PATCH(request: Request, { params }: { params: ParamsProps }) {
@@ -64,7 +64,7 @@ export async function PATCH(request: Request, { params }: { params: ParamsProps 
     },
   });
 
-  const settlement = await prisma.settlement.update({
+  await prisma.settlement.update({
     where: { id: currentSettlement.id },
     data: {
       name,
@@ -73,7 +73,7 @@ export async function PATCH(request: Request, { params }: { params: ParamsProps 
     },
   });
 
-  return NextResponse.json(settlement);
+  return NextResponse.json('Settlement updated');
 }
 
 export async function DELETE(request: Request, { params }: { params: ParamsProps }) {
@@ -89,5 +89,5 @@ export async function DELETE(request: Request, { params }: { params: ParamsProps
     where: { id: currentSettlement.id },
   });
 
-  return NextResponse.json(settlement);
+  return NextResponse.json(`${settlement.name} deleted`);
 }

@@ -31,7 +31,7 @@ export async function POST(request: Request) {
     },
   });
 
-  const newCompany = await prisma.company.create({
+  await prisma.company.create({
     data: {
       name: company,
       user: {
@@ -42,5 +42,5 @@ export async function POST(request: Request) {
     },
   });
 
-  return NextResponse.json(user);
+  return NextResponse.json('Account created');
 }

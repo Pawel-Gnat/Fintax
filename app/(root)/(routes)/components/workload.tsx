@@ -17,7 +17,7 @@ const Workload = () => {
       {isSettlementsLoading || isEmployeesLoading ? (
         <Skeleton className="h-[400px] w-full rounded-lg" />
       ) : (
-        <Card title="Workload" className="xl:w-3/4">
+        <Card title="Workload" className="2xl:w-3/4">
           <div className="hidden md:block">
             <BarChart employees={employees ?? []} settlements={settlements ?? []} />
           </div>

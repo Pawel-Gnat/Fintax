@@ -48,9 +48,9 @@ const CompanyForm: React.FC<CompanyFormProps> = ({ data }) => {
 
     axios
       .patch(`/api/settings/company/${data.id}`, formData)
-      .then(() => {
+      .then((response) => {
         toast({
-          description: 'Company has been updated.',
+          description: response.data,
         });
         router.refresh();
       })

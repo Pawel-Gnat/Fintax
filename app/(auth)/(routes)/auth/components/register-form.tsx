@@ -71,9 +71,9 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ toggleAuthStatus }) => {
 
     axios
       .post('/api/register', formData)
-      .then(() => {
+      .then((response) => {
         toast({
-          description: 'The account has been created.',
+          description: response.data,
         });
         toggleAuthStatus();
       })

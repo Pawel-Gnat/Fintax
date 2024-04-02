@@ -8,7 +8,7 @@ export default function useCompany() {
     isLoading: isCompanyLoading,
     error: companyError,
   } = useQuery({
-    queryKey: ['departments'],
+    queryKey: ['company'],
     queryFn: async () => await getCurrentCompany(),
   });
 

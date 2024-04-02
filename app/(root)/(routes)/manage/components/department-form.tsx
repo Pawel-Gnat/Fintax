@@ -54,11 +54,9 @@ const DepartmentForm = () => {
     const requestParams = isEditing ? elementId : formData.department;
 
     requestMethod(`/api/departments/${requestParams}`, formData)
-      .then(() => {
+      .then((response) => {
         toast({
-          description: isEditing
-            ? 'Department has been updated.'
-            : 'New department has been added.',
+          description: response.data,
         });
         setIsOpen(false);
         setIsEditing(false);

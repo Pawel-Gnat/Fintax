@@ -70,11 +70,9 @@ const SettlementForm = () => {
     const requestParams = isEditing ? elementId : formData.name;
 
     requestMethod(`/api/settlements/${requestParams}`, formData)
-      .then(() => {
+      .then((response) => {
         toast({
-          description: isEditing
-            ? 'Settlement has been updated.'
-            : 'New settlement has been added.',
+          description: response.data,
         });
         setIsOpen(false);
         setIsEditing(false);

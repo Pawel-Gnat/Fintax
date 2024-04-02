@@ -75,11 +75,9 @@ const EmployeeForm = () => {
     const requestParams = isEditing ? elementId : formData.name;
 
     requestMethod(`/api/employees/${requestParams}`, formData)
-      .then(() => {
+      .then((response) => {
         toast({
-          description: isEditing
-            ? 'Employee has been updated.'
-            : 'New employee has been added.',
+          description: response.data,
         });
         setIsOpen(false);
         setIsEditing(false);

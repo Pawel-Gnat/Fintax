@@ -54,11 +54,9 @@ const LocationForm = () => {
     const requestParams = isEditing ? elementId : formData.location;
 
     requestMethod(`/api/locations/${requestParams}`, formData)
-      .then(() => {
+      .then((response) => {
         toast({
-          description: isEditing
-            ? 'Location has been updated.'
-            : 'New location has been added.',
+          description: response.data,
         });
         setIsOpen(false);
         setIsEditing(false);
