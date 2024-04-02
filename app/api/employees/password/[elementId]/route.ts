@@ -28,12 +28,12 @@ export async function PATCH(request: Request, { params }: { params: ParamsProps 
 
   const newHashedPassword = await bcrypt.hash(newPassword, 12);
 
-  const employee = await prisma.employee.update({
+  await prisma.employee.update({
     where: { id: currentEmployee.id },
     data: {
       hashedPassword: newHashedPassword,
     },
   });
 
-  return NextResponse.json(employee);
+  return NextResponse.json('Employee password updated');
 }

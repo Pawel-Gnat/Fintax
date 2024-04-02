@@ -59,9 +59,9 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ data }) => {
 
     axios
       .patch(`/api/employees/edit/${data.id}`, formData)
-      .then(() => {
+      .then((response) => {
         toast({
-          description: 'Employee has been updated.',
+          description: response.data,
         });
         router.refresh();
       })

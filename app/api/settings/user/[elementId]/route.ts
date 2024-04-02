@@ -21,7 +21,7 @@ export async function PATCH(request: Request, { params }: { params: ParamsProps 
   }
 
   if (name) {
-    const user = await prisma.user.update({
+    await prisma.user.update({
       where: { id: currentUser.id },
       data: {
         name,
@@ -31,7 +31,7 @@ export async function PATCH(request: Request, { params }: { params: ParamsProps 
       },
     });
 
-    return NextResponse.json(user);
+    return NextResponse.json('User updated');
   }
 
   if (password) {
@@ -43,13 +43,13 @@ export async function PATCH(request: Request, { params }: { params: ParamsProps 
 
     const newHashedPassword = await bcrypt.hash(newPassword, 12);
 
-    const user = await prisma.user.update({
+    await prisma.user.update({
       where: { id: currentUser.id },
       data: {
         hashedPassword: newHashedPassword,
       },
     });
 
-    return NextResponse.json(user);
+    return NextResponse.json('User updated');
   }
 }

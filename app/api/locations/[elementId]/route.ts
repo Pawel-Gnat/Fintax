@@ -18,7 +18,7 @@ export async function POST(request: Request, { params }: { params: ParamsProps }
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const newLocation = await prisma.location.create({
+  await prisma.location.create({
     data: {
       name: location,
       company: {
@@ -29,7 +29,7 @@ export async function POST(request: Request, { params }: { params: ParamsProps }
     },
   });
 
-  return NextResponse.json(newLocation);
+  return NextResponse.json('Location added');
 }
 
 export async function PATCH(request: Request, { params }: { params: ParamsProps }) {
@@ -44,11 +44,11 @@ export async function PATCH(request: Request, { params }: { params: ParamsProps 
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const removedLocation = await prisma.location.delete({
+  await prisma.location.delete({
     where: { id: currentLocation.id },
   });
 
-  const newLocation = await prisma.location.create({
+  await prisma.location.create({
     data: {
       name: location,
       company: {
@@ -59,7 +59,7 @@ export async function PATCH(request: Request, { params }: { params: ParamsProps 
     },
   });
 
-  return NextResponse.json(newLocation);
+  return NextResponse.json('Location updated');
 }
 
 export async function DELETE(request: Request, { params }: { params: ParamsProps }) {
@@ -75,5 +75,5 @@ export async function DELETE(request: Request, { params }: { params: ParamsProps
     where: { id: currentLocation.id },
   });
 
-  return NextResponse.json(location);
+  return NextResponse.json(`${location.name} deleted`);
 }

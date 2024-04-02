@@ -30,7 +30,6 @@ const AlertDialog = () => {
     setIsAlertOpen,
     alertElementId,
     alertDatabaseRoute,
-    alertElementName,
     isLoading,
     setIsLoading,
   } = useContext(AlertDialogContext);
@@ -46,9 +45,9 @@ const AlertDialog = () => {
 
     axios
       .delete(`/api/${alertDatabaseRoute}/${alertElementId}`)
-      .then(() => {
+      .then((response) => {
         toast({
-          description: `${alertElementName} has been deleted.`,
+          description: response.data,
         });
         router.refresh();
       })

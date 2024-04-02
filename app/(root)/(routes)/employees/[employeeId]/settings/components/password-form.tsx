@@ -43,9 +43,9 @@ const PasswordForm: React.FC<PasswordFormProps> = ({ data }) => {
 
     axios
       .patch(`/api/employees/password/${data.id}`, values)
-      .then(() => {
+      .then((response) => {
         toast({
-          description: 'Employee password has been updated.',
+          description: response.data,
         });
         router.refresh();
         form.reset();

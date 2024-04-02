@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 
 import prisma from '@/lib/prisma';
+
 import getCurrentCompany from '@/actions/getCurrentCompany';
 import getCurrentDepartment from '@/actions/getCurrentDepartment';
 
@@ -18,7 +19,7 @@ export async function POST(request: Request, { params }: { params: ParamsProps }
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const newDepartment = await prisma.department.create({
+  await prisma.department.create({
     data: {
       name: department,
       company: {
@@ -29,7 +30,7 @@ export async function POST(request: Request, { params }: { params: ParamsProps }
     },
   });
 
-  return NextResponse.json(newDepartment);
+  return NextResponse.json('Department added');
 }
 
 export async function PATCH(request: Request, { params }: { params: ParamsProps }) {
@@ -44,11 +45,11 @@ export async function PATCH(request: Request, { params }: { params: ParamsProps 
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const removedDepartment = await prisma.department.delete({
+  await prisma.department.delete({
     where: { id: currentDepartment.id },
   });
 
-  const newDepartment = await prisma.department.create({
+  await prisma.department.create({
     data: {
       name: department,
       company: {
@@ -59,7 +60,7 @@ export async function PATCH(request: Request, { params }: { params: ParamsProps 
     },
   });
 
-  return NextResponse.json(newDepartment);
+  return NextResponse.json('Department updated');
 }
 
 export async function DELETE(request: Request, { params }: { params: ParamsProps }) {
@@ -75,5 +76,5 @@ export async function DELETE(request: Request, { params }: { params: ParamsProps
     where: { id: currentDepartment.id },
   });
 
-  return NextResponse.json(department);
+  return NextResponse.json(`${department.name} deleted`);
 }

@@ -39,7 +39,7 @@ export async function POST(request: Request, { params }: { params: ParamsProps }
   });
 
   const hashedPassword = await bcrypt.hash(password, 12);
-  const employee = await prisma.employee.create({
+  await prisma.employee.create({
     data: {
       name,
       surname,
@@ -52,7 +52,7 @@ export async function POST(request: Request, { params }: { params: ParamsProps }
     },
   });
 
-  return NextResponse.json(employee);
+  return NextResponse.json('Employee added');
 }
 
 export async function PATCH(request: Request, { params }: { params: ParamsProps }) {
@@ -85,7 +85,7 @@ export async function PATCH(request: Request, { params }: { params: ParamsProps 
     },
   });
 
-  const employee = await prisma.employee.update({
+  await prisma.employee.update({
     where: { id: currentEmployee.id },
     data: {
       name,
@@ -96,7 +96,7 @@ export async function PATCH(request: Request, { params }: { params: ParamsProps 
     },
   });
 
-  return NextResponse.json(employee);
+  return NextResponse.json('Employee updated');
 }
 
 export async function DELETE(request: Request, { params }: { params: ParamsProps }) {
@@ -112,5 +112,5 @@ export async function DELETE(request: Request, { params }: { params: ParamsProps
     where: { id: currentEmployee.id },
   });
 
-  return NextResponse.json(employee);
+  return NextResponse.json(`${employee.name} deleted`);
 }

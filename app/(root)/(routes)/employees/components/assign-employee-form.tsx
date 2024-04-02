@@ -56,9 +56,9 @@ const AssignEmployeeForm = () => {
 
     axios
       .patch(`/api/employees/assign/${elementId}`, formData)
-      .then(() => {
+      .then((response) => {
         toast({
-          description: 'Employee has been assigned.',
+          description: response.data,
         });
         setIsOpen(false);
         setIsEditing(false);

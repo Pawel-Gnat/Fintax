@@ -39,7 +39,7 @@ export async function PATCH(request: Request, { params }: { params: ParamsProps 
     },
   });
 
-  const employee = await prisma.employee.update({
+  await prisma.employee.update({
     where: { id: currentEmployee.id },
     data: {
       departmentId: existingDepartment?.id || null,
@@ -47,5 +47,5 @@ export async function PATCH(request: Request, { params }: { params: ParamsProps 
     },
   });
 
-  return NextResponse.json(employee);
+  return NextResponse.json('Employee assigned');
 }

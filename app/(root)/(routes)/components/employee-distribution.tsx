@@ -17,7 +17,7 @@ const EmployeeDistribution = () => {
       {isLocationsLoading || isEmployeesLoading ? (
         <Skeleton className="h-[400px] w-full rounded-lg" />
       ) : (
-        <Card title="Employee distribution" className="h-full xl:w-1/4">
+        <Card title="Employee distribution" className="h-full 2xl:w-1/4">
           <div className="hidden md:block">
             <PieChart locations={locations ?? []} employees={employees ?? []} />
           </div>
