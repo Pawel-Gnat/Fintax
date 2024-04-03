@@ -20,7 +20,7 @@ const getAllEmployees = async (): Promise<SafeEmployee[] | null> => {
       include: {
         department: true,
         location: true,
-        settlements: true,
+        clients: true,
       },
     });
 

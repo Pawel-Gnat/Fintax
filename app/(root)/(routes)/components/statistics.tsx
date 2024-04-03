@@ -3,7 +3,7 @@
 import { LuUsers2, LuLandmark, LuMapPin, LuGlobe2 } from 'react-icons/lu';
 
 import useLocations from '@/hooks/useLocations';
-import useSettlements from '@/hooks/useSettlements';
+import useClients from '@/hooks/useClients';
 import useDepartments from '@/hooks/useDepartments';
 import useEmployees from '@/hooks/useEmployees';
 
@@ -11,7 +11,7 @@ import StatisticCard from './statistic-card';
 
 const Statistics = () => {
   const { locations, isLocationsLoading } = useLocations();
-  const { settlements, isSettlementsLoading } = useSettlements();
+  const { clients, isClientsLoading } = useClients();
   const { departments, isDepartmentsLoading } = useDepartments();
   const { employees, isEmployeesLoading } = useEmployees();
 
@@ -36,10 +36,10 @@ const Statistics = () => {
         loading={isEmployeesLoading}
       />
       <StatisticCard
-        title="Settlements"
-        number={settlements?.length}
+        title="Clients"
+        number={clients?.length}
         icon={LuMapPin}
-        loading={isSettlementsLoading}
+        loading={isClientsLoading}
       />
     </div>
   );

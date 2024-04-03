@@ -9,10 +9,10 @@ import {
 } from '@/components/ui/table';
 
 import { Department, Location } from '@prisma/client';
-import { SafeEmployee, SafeSettlement } from '@/types/types';
+import { SafeClient, SafeEmployee } from '@/types/types';
 interface ManageTableProps {
   title: string;
-  data: SafeEmployee[] | Department[] | Location[] | SafeSettlement[];
+  data: SafeEmployee[] | Department[] | Location[] | SafeClient[];
   headers: string[];
   rows: any;
 }

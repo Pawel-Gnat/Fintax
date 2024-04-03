@@ -8,35 +8,34 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
-  Legend,
   ResponsiveContainer,
+  Tooltip,
 } from 'recharts';
 
-import { SafeEmployee, SafeSettlement } from '@/types/types';
+import { SafeClient, SafeEmployee } from '@/types/types';
 
 interface BarChartProps {
-  settlements: SafeSettlement[];
+  clients: SafeClient[];
   employees: SafeEmployee[];
 }
 
 export default class BarChart extends PureComponent<BarChartProps> {
   render() {
-    const settlements = this.props.settlements;
+    const clients = this.props.clients;
     const employees = this.props.employees;
 
     const chartData = employees.map((employee) => {
-      const employeeSettlements = settlements.filter(
-        (settlement) => settlement.employeeId === employee.id,
+      const employeeClients = clients.filter(
+        (client) => client.employeeId === employee.id,
       );
 
       return {
         fullName: `${employee.name} ${employee.surname}`,
-        'Managed Settlements': employeeSettlements.length,
+        'Managed Clients': employeeClients.length,
       };
     });
 
-    if (settlements.length === 0 || employees.length === 0) {
+    if (clients.length === 0 || employees.length === 0) {
       return (
         <p className="my-5 text-center">
           Your settlement chart is currently not available. Please assign companies to
@@ -63,7 +62,7 @@ export default class BarChart extends PureComponent<BarChartProps> {
           <YAxis />
           <Tooltip />
           <Bar
-            dataKey={'Managed Settlements'}
+            dataKey={'Managed Clients'}
             fill="#4b505d"
             activeBar={<Rectangle fill="#d9a21b" stroke="#4b505d" />}
           />

@@ -1,7 +1,7 @@
 import EmployeeForm from '@/app/(root)/(routes)/employees/components/employee-form';
 import LocationForm from '@/app/(root)/(routes)/manage/components/location-form';
 import DepartmentForm from '@/app/(root)/(routes)/manage/components/department-form';
-import SettlementForm from '@/app/(root)/(routes)/settlements/components/settlement-form';
+import ClientForm from '@/app/(root)/(routes)/clients/components/client-form';
 import AssignEmployeeForm from '@/app/(root)/(routes)/employees/components/assign-employee-form';
 
 const getModalForm = (action: string) => {
@@ -21,8 +21,8 @@ const getModalForm = (action: string) => {
     return <AssignEmployeeForm />;
   }
 
-  if (action === 'setSettlement') {
-    return <SettlementForm />;
+  if (action === 'setClient') {
+    return <ClientForm />;
   }
 };
 

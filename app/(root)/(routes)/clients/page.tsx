@@ -1,32 +1,32 @@
 'use client';
 
-import useSettlements from '@/hooks/useSettlements';
+import useClients from '@/hooks/useClients';
 import useEmployees from '@/hooks/useEmployees';
 
 import Card from '@/components/card/card';
 import DataTable from '@/components/data-table/data-table';
 import { Skeleton } from '@/components/ui/skeleton';
 
-import { columns } from './components/settlement-cols';
+import { columns } from './components/client-cols';
 
-const SettlementsPage = () => {
-  const { settlements, isSettlementsLoading } = useSettlements();
+const ClientsPage = () => {
+  const { clients, isClientsLoading } = useClients();
   const { employees, isEmployeesLoading } = useEmployees();
 
-  if (isSettlementsLoading || isEmployeesLoading) {
+  if (isClientsLoading || isEmployeesLoading) {
     return <Skeleton className="mt-10 h-[400px] w-full rounded-lg" />;
   }
 
   return (
     <>
-      {settlements && employees && (
-        <Card title="Settlements" action="setSettlement" className="mt-10">
+      {clients && employees && (
+        <Card title="Clients" action="setClient" className="mt-10">
           <DataTable
-            title="Settlements"
+            title="Clients"
             columns={columns}
-            data={settlements}
+            data={clients}
             employees={employees}
-            settlements={settlements}
+            clients={clients}
           />
         </Card>
       )}
@@ -34,4 +34,4 @@ const SettlementsPage = () => {
   );
 };
 
-export default SettlementsPage;
+export default ClientsPage;

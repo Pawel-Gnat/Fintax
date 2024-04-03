@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import Button from '@/components/button/button';
 
-import { SafeEmployee, SafeSettlement } from '@/types/types';
+import { SafeClient, SafeEmployee } from '@/types/types';
 
 interface ButtonProps {
   id: string;
@@ -32,12 +32,12 @@ const EditButton: React.FC<ButtonProps> = ({ id, name }) => {
       onClick={() => {
         setIsOpen(true);
         setIsEditing(true);
-        setTitle('Settlements');
+        setTitle('Clients');
         setElementId(id);
         setElementName(name);
-        setAction('setSettlement');
+        setAction('setClient');
       }}
-      text="Edit settlement"
+      text="Edit client"
       icon={<LuFileEdit />}
     />
   );
@@ -57,15 +57,15 @@ const DeleteButton: React.FC<ButtonProps> = ({ id, name }) => {
         setIsAlertOpen(true);
         setAlertElementId(id);
         setAlertElementName(name);
-        setAlertDatabaseRoute('settlements');
+        setAlertDatabaseRoute('clients');
       }}
-      text="Delete settlement"
+      text="Delete client"
       icon={<LuFileMinus2 />}
     />
   );
 };
 
-export const columns: ColumnDef<SafeSettlement>[] = [
+export const columns: ColumnDef<SafeClient>[] = [
   {
     accessorKey: 'name',
     header: ({ column }) => {
@@ -73,7 +73,7 @@ export const columns: ColumnDef<SafeSettlement>[] = [
         <Button
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           icon={<ArrowUpDown className="ml-2 h-4 w-4" />}
-          text="Settlement"
+          text="Client"
         />
       );
     },
@@ -107,7 +107,7 @@ export const columns: ColumnDef<SafeSettlement>[] = [
 
       return (
         <DropdownMenu>
-          <DropdownMenuTrigger className="p-2 text-tetriary transition-colors hover:text-secondary">
+          <DropdownMenuTrigger className="text-tetriary p-2 transition-colors hover:text-secondary">
             <span className="sr-only">Open menu</span>
             <LuCircleEllipsis size={20} />
           </DropdownMenuTrigger>

@@ -1,12 +1,9 @@
 'use client';
 
 import { Controller, UseFormReturn } from 'react-hook-form';
-import { CSSProperties } from 'react';
-import ClipLoader from 'react-spinners/ClipLoader';
 
 import capitalizeFirstLetter from '@/utils/capitalizeFirstLetter';
 
-import { Button } from '@/components/ui/button';
 import {
   Form as FormUI,
   FormControl,
@@ -19,6 +16,8 @@ import { Input } from '@/components/ui/input';
 import ControllerLabel from '@/components/controller-label/controller-label';
 import ImageUpload from '@/components/image-upload/image-upload';
 
+import { LoadingButton } from '../loading-button/loading-button';
+
 interface FormProps {
   form: UseFormReturn<any>;
   inputs: string[];
@@ -28,10 +27,6 @@ interface FormProps {
   isLoading: boolean;
   onSubmit: (values: any) => void;
 }
-
-const override: CSSProperties = {
-  borderColor: 'var(--background) var(--background) transparent',
-};
 
 const Form: React.FC<FormProps> = ({
   form,
@@ -93,9 +88,7 @@ const Form: React.FC<FormProps> = ({
           />
         )}
 
-        <Button type="submit" className={isLoading ? 'w-full opacity-60' : 'w-full'}>
-          {isLoading ? <ClipLoader size={25} cssOverride={override} /> : 'Save changes'}
-        </Button>
+        <LoadingButton isLoading={isLoading} text="Save changes" />
       </form>
     </FormUI>
   );

@@ -9,5 +9,5 @@ export default async function AuthLayout({ children }: { children: React.ReactNo
     redirect('/');
   }
 
-  return <main>{children}</main>;
+  return <main className="w-full">{children}</main>;
 }
