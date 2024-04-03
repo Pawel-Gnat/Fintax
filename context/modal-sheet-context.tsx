@@ -1,6 +1,6 @@
 'use client';
 
-import { SafeEmployee, SafeSettlement } from '@/types/types';
+import { SafeClient, SafeEmployee } from '@/types/types';
 import { Department, Location } from '@prisma/client';
 import { Dispatch, SetStateAction, createContext, useState } from 'react';
 
@@ -25,8 +25,8 @@ interface ModalSheetContextProps {
   setDepartments: Dispatch<SetStateAction<Department[]>>;
   employees: SafeEmployee[];
   setEmployees: Dispatch<SetStateAction<SafeEmployee[]>>;
-  settlements: SafeSettlement[];
-  setSettlements: Dispatch<SetStateAction<SafeSettlement[]>>;
+  clients: SafeClient[];
+  setClients: Dispatch<SetStateAction<SafeClient[]>>;
 }
 
 export const ModalSheetContext = createContext<ModalSheetContextProps>({
@@ -50,8 +50,8 @@ export const ModalSheetContext = createContext<ModalSheetContextProps>({
   setDepartments: () => {},
   employees: [],
   setEmployees: () => {},
-  settlements: [],
-  setSettlements: () => {},
+  clients: [],
+  setClients: () => {},
 });
 
 export const ModalSheetProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -67,7 +67,7 @@ export const ModalSheetProvider: React.FC<{ children: React.ReactNode }> = ({
   const [locations, setLocations] = useState<Location[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
   const [employees, setEmployees] = useState<SafeEmployee[]>([]);
-  const [settlements, setSettlements] = useState<SafeSettlement[]>([]);
+  const [clients, setClients] = useState<SafeClient[]>([]);
 
   return (
     <ModalSheetContext.Provider
@@ -92,8 +92,8 @@ export const ModalSheetProvider: React.FC<{ children: React.ReactNode }> = ({
         setDepartments,
         employees,
         setEmployees,
-        settlements,
-        setSettlements,
+        clients,
+        setClients,
       }}
     >
       {children}

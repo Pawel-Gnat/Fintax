@@ -18,7 +18,7 @@ import {
 import Avatar from '@/components/avatar/avatar';
 import Button from '@/components/button/button';
 
-import { SafeEmployee, SafeSettlement } from '@/types/types';
+import { SafeClient, SafeEmployee } from '@/types/types';
 import { Department, Location } from '@prisma/client';
 
 interface ButtonProps {
@@ -123,11 +123,11 @@ export const columns: ColumnDef<SafeEmployee>[] = [
     },
   },
   {
-    accessorKey: 'settlements',
-    header: 'Managed companies',
+    accessorKey: 'clients',
+    header: 'Managed clients',
     cell: ({ row }) => {
-      const currentSettlements: SafeSettlement[] = row.getValue('settlements');
-      return `${currentSettlements.length}`;
+      const currentClients: SafeClient[] = row.getValue('clients');
+      return `${currentClients.length}`;
     },
   },
   {
@@ -138,7 +138,7 @@ export const columns: ColumnDef<SafeEmployee>[] = [
 
       return (
         <DropdownMenu>
-          <DropdownMenuTrigger className="p-2 text-tetriary transition-colors hover:text-secondary">
+          <DropdownMenuTrigger className="text-tetriary p-2 transition-colors hover:text-secondary">
             <span className="sr-only">Open menu</span>
             <LuCircleEllipsis size={20} />
           </DropdownMenuTrigger>

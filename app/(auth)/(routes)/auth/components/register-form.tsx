@@ -1,13 +1,11 @@
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { CSSProperties, useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
-import ClipLoader from 'react-spinners/ClipLoader';
 
 import capitalizeFirstLetter from '@/utils/capitalizeFirstLetter';
 
-import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -18,6 +16,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
+import { LoadingButton } from '@/components/loading-button/loading-button';
 
 interface RegisterFormProps {
   toggleAuthStatus: () => void;
@@ -38,10 +37,6 @@ const formSchema = z.object({
     message: 'Password must be at least 4 characters.',
   }),
 });
-
-const override: CSSProperties = {
-  borderColor: 'var(--background) var(--background) transparent',
-};
 
 const RegisterForm: React.FC<RegisterFormProps> = ({ toggleAuthStatus }) => {
   const { toast } = useToast();
@@ -156,9 +151,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ toggleAuthStatus }) => {
             </FormItem>
           )}
         />
-        <Button type="submit" className={loading ? 'w-full opacity-60' : 'w-full'}>
-          {loading ? <ClipLoader size={25} cssOverride={override} /> : 'Register'}
-        </Button>
+        <LoadingButton isLoading={loading} text="Register" />
       </form>
     </Form>
   );

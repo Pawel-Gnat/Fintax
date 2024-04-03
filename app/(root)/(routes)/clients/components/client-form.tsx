@@ -25,7 +25,7 @@ const formSchema = z.object({
   employee: z.string(),
 });
 
-const SettlementForm = () => {
+const ClientForm = () => {
   const { toast } = useToast();
   const router = useRouter();
   const {
@@ -34,20 +34,20 @@ const SettlementForm = () => {
     isEditing,
     isLoading,
     setIsLoading,
-    settlements,
+    clients,
     setIsEditing,
   } = useContext(ModalSheetContext);
 
-  const currentSettlement = findById(settlements, elementId);
+  const currentClient = findById(clients, elementId);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: isEditing && currentSettlement ? currentSettlement.name : '',
-      location: isEditing && currentSettlement ? currentSettlement.location : '',
+      name: isEditing && currentClient ? currentClient.name : '',
+      location: isEditing && currentClient ? currentClient.location : '',
       employee:
-        isEditing && currentSettlement
-          ? `${currentSettlement.employee?.name} ${currentSettlement.employee?.surname}`
+        isEditing && currentClient
+          ? `${currentClient.employee?.name} ${currentClient.employee?.surname}`
           : '',
     },
   });
@@ -69,7 +69,7 @@ const SettlementForm = () => {
     const requestMethod = isEditing ? axios.patch : axios.post;
     const requestParams = isEditing ? elementId : formData.name;
 
-    requestMethod(`/api/settlements/${requestParams}`, formData)
+    requestMethod(`/api/clients/${requestParams}`, formData)
       .then((response) => {
         toast({
           description: response.data,
@@ -101,4 +101,4 @@ const SettlementForm = () => {
   );
 };
 
-export default SettlementForm;
+export default ClientForm;

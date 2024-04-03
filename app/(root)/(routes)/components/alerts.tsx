@@ -3,7 +3,7 @@
 import { LuGlobe2, LuLandmark, LuMapPin, LuUsers2 } from 'react-icons/lu';
 
 import useLocations from '@/hooks/useLocations';
-import useSettlements from '@/hooks/useSettlements';
+import useClients from '@/hooks/useClients';
 import useDepartments from '@/hooks/useDepartments';
 import useEmployees from '@/hooks/useEmployees';
 
@@ -14,7 +14,7 @@ import Alert from '@/components/alert/alert';
 import Card from '@/components/card/card';
 
 import { Department, Location } from '@prisma/client';
-import { SafeEmployee, SafeSettlement } from '@/types/types';
+import { SafeClient, SafeEmployee } from '@/types/types';
 
 interface AlertInfo {
   title: string;
@@ -24,14 +24,14 @@ interface AlertInfo {
 }
 
 interface AlertData {
-  items: Location[] | Department[] | SafeSettlement[] | SafeEmployee[];
+  items: Location[] | Department[] | SafeClient[] | SafeEmployee[];
   isLoading: boolean;
-  variant: 'employee' | 'location' | 'settlement' | 'department';
+  variant: 'employee' | 'location' | 'client' | 'department';
 }
 
 const Alerts = () => {
   const { locations, isLocationsLoading } = useLocations();
-  const { settlements, isSettlementsLoading } = useSettlements();
+  const { clients, isClientsLoading } = useClients();
   const { departments, isDepartmentsLoading } = useDepartments();
   const { employees, isEmployeesLoading } = useEmployees();
 
@@ -42,9 +42,9 @@ const Alerts = () => {
       variant: 'location',
     },
     {
-      items: settlements ?? [],
-      isLoading: isSettlementsLoading,
-      variant: 'settlement',
+      items: clients ?? [],
+      isLoading: isClientsLoading,
+      variant: 'client',
     },
     {
       items: departments ?? [],
@@ -61,8 +61,8 @@ const Alerts = () => {
   const isLoading = alertsData.some((alert) => alert.isLoading);
 
   const getAlertInfo = (
-    item: Location | Department | SafeSettlement | SafeEmployee,
-    variant: 'employee' | 'location' | 'settlement' | 'department',
+    item: Location | Department | SafeClient | SafeEmployee,
+    variant: 'employee' | 'location' | 'client' | 'department',
   ): AlertInfo => {
     let alertInfo = {
       title: '',
@@ -83,17 +83,17 @@ const Alerts = () => {
           shouldDisplay:
             !employee.departmentId ||
             !employee.locationId ||
-            employee.settlements.length === 0,
+            employee.clients.length === 0,
         };
         break;
 
-      case 'settlement':
-        const settlement = item as SafeSettlement;
+      case 'client':
+        const client = item as SafeClient;
         alertInfo = {
-          title: settlement.name,
-          description: `Settlement doesn't have an assigned employee.`,
+          title: client.name,
+          description: `Client doesn't have an assigned employee.`,
           icon: <LuGlobe2 className="h-4 w-4" />,
-          shouldDisplay: !settlement.employeeId,
+          shouldDisplay: !client.employeeId,
         };
         break;
 

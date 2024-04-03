@@ -3,8 +3,7 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
 import getCurrentCompany from '@/actions/getCurrentCompany';
-import getCurrentEmployee from '@/actions/getCurrentEmployee';
-import getCurrentSettlement from '@/actions/getCurrentSettlement';
+import getCurrentClient from '@/actions/getCurrentClient';
 
 interface ParamsProps {
   elementId: string;
@@ -30,7 +29,7 @@ export async function POST(request: Request, { params }: { params: ParamsProps }
     },
   });
 
-  await prisma.settlement.create({
+  await prisma.client.create({
     data: {
       name,
       location,
@@ -39,7 +38,7 @@ export async function POST(request: Request, { params }: { params: ParamsProps }
     },
   });
 
-  return NextResponse.json('Settlement added');
+  return NextResponse.json('Client added');
 }
 
 export async function PATCH(request: Request, { params }: { params: ParamsProps }) {
@@ -47,10 +46,10 @@ export async function PATCH(request: Request, { params }: { params: ParamsProps 
   const body = await request.json();
   const { name, location, employee } = body;
 
-  const currentSettlement = await getCurrentSettlement(elementId);
+  const currentClient = await getCurrentClient(elementId);
   const currentCompany = await getCurrentCompany();
 
-  if (!currentSettlement || !currentCompany) {
+  if (!currentClient || !currentCompany) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
@@ -64,8 +63,8 @@ export async function PATCH(request: Request, { params }: { params: ParamsProps 
     },
   });
 
-  await prisma.settlement.update({
-    where: { id: currentSettlement.id },
+  await prisma.client.update({
+    where: { id: currentClient.id },
     data: {
       name,
       location,
@@ -73,21 +72,21 @@ export async function PATCH(request: Request, { params }: { params: ParamsProps 
     },
   });
 
-  return NextResponse.json('Settlement updated');
+  return NextResponse.json('Client updated');
 }
 
 export async function DELETE(request: Request, { params }: { params: ParamsProps }) {
   const { elementId } = params;
 
-  const currentSettlement = await getCurrentSettlement(elementId);
+  const currentClient = await getCurrentClient(elementId);
 
-  if (!currentSettlement) {
+  if (!currentClient) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const settlement = await prisma.settlement.delete({
-    where: { id: currentSettlement.id },
+  const client = await prisma.client.delete({
+    where: { id: currentClient.id },
   });
 
-  return NextResponse.json(`${settlement.name} deleted`);
+  return NextResponse.json(`${client.name} deleted`);
 }

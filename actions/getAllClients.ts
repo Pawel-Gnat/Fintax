@@ -4,7 +4,7 @@ import prisma from '@/lib/prisma';
 
 import getCurrentCompany from './getCurrentCompany';
 
-const getAllSettlements = async () => {
+const getAllClients = async () => {
   try {
     const currentCompany = await getCurrentCompany();
 
@@ -12,7 +12,7 @@ const getAllSettlements = async () => {
       return null;
     }
 
-    const settlements = await prisma.settlement.findMany({
+    const clients = await prisma.client.findMany({
       where: {
         companyId: currentCompany.id,
       },
@@ -21,14 +21,14 @@ const getAllSettlements = async () => {
       },
     });
 
-    if (!settlements) {
+    if (!clients) {
       return null;
     }
 
-    return settlements;
+    return clients;
   } catch (error) {
     return null;
   }
 };
 
-export default getAllSettlements;
+export default getAllClients;

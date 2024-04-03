@@ -30,8 +30,8 @@ const PAGES = [
     icon: LuUsers2,
   },
   {
-    src: '/settlements',
-    label: 'Settlements',
+    src: '/clients',
+    label: 'Clients',
     icon: LuFolderKanban,
   },
 ];

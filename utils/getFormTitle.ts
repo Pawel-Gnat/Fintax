@@ -11,8 +11,8 @@ const getTitle = (action: string) => {
     return 'employee';
   }
 
-  if (action === 'setSettlement') {
-    return 'settlement';
+  if (action === 'setClient') {
+    return 'client';
   }
 };
 

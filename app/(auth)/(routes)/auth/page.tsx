@@ -22,7 +22,7 @@ const AuthPage = () => {
 
   return (
     <div className="container grid min-h-screen items-center px-4 sm:px-8">
-      <Card>
+      <Card className="mx-auto">
         <CardHeader>
           <CardTitle>
             {login ? 'Log in to your account.' : 'Create your account.'}

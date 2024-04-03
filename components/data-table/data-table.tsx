@@ -26,7 +26,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-import { SafeEmployee, SafeSettlement } from '@/types/types';
+import { SafeClient, SafeEmployee } from '@/types/types';
 import { Department, Location } from '@prisma/client';
 
 interface DataTableProps<TData, TValue> {
@@ -34,7 +34,7 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   employees?: SafeEmployee[];
-  settlements?: SafeSettlement[];
+  clients?: SafeClient[];
   locations?: Location[];
   departments?: Department[];
 }
@@ -44,14 +44,14 @@ const DataTable = <TData, TValue>({
   columns,
   data,
   employees,
-  settlements,
+  clients,
   locations,
   departments,
 }: DataTableProps<TData, TValue>) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
-  const { setLocations, setDepartments, setEmployees, setSettlements } =
+  const { setLocations, setDepartments, setEmployees, setClients } =
     useContext(ModalSheetContext);
 
   useEffect(() => {
@@ -67,8 +67,8 @@ const DataTable = <TData, TValue>({
   }, [employees, setEmployees]);
 
   useEffect(() => {
-    if (settlements) setSettlements(settlements);
-  }, [settlements, setSettlements]);
+    if (clients) setClients(clients);
+  }, [clients, setClients]);
 
   const table = useReactTable({
     data,
@@ -107,10 +107,10 @@ const DataTable = <TData, TValue>({
       );
     }
 
-    if (title === 'Settlements') {
+    if (title === 'Clients') {
       return (
         <Input
-          placeholder="Filter settlements..."
+          placeholder="Filter clients..."
           value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
           onChange={(event) =>
             table.getColumn('name')?.setFilterValue(event.target.value)
