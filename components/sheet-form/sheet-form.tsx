@@ -141,7 +141,7 @@ const SheetForm: React.FC<SheetFormProps> = ({
                       variant="secondary"
                       role="combobox"
                       aria-expanded={openDepartmentController}
-                      className="w-[300px] justify-between"
+                      className="w-full justify-between"
                     >
                       {valueDepartmentController
                         ? departments.find(
@@ -153,7 +153,7 @@ const SheetForm: React.FC<SheetFormProps> = ({
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-[300px] p-0">
+                  <PopoverContent className="w-[335px] max-w-[60vw] p-0">
                     <Command>
                       <CommandInput placeholder="Assign department..." />
                       <CommandEmpty>No department found.</CommandEmpty>
@@ -213,7 +213,7 @@ const SheetForm: React.FC<SheetFormProps> = ({
                       variant="secondary"
                       role="combobox"
                       aria-expanded={openLocationController}
-                      className="w-[300px] justify-between"
+                      className="w-full justify-between"
                     >
                       {valueLocationController
                         ? locations.find(
@@ -225,7 +225,7 @@ const SheetForm: React.FC<SheetFormProps> = ({
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-[300px] p-0">
+                  <PopoverContent className="w-[335px] max-w-[60vw] p-0">
                     <Command>
                       <CommandInput placeholder="Assign location..." />
                       <CommandEmpty>No location found.</CommandEmpty>
@@ -285,7 +285,7 @@ const SheetForm: React.FC<SheetFormProps> = ({
                       variant="secondary"
                       role="combobox"
                       aria-expanded={openEmployeeController}
-                      className="w-[300px] justify-between"
+                      className="w-full justify-between"
                     >
                       {valueEmployeeController
                         ? `${employees.find(
@@ -302,7 +302,7 @@ const SheetForm: React.FC<SheetFormProps> = ({
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-[300px] p-0">
+                  <PopoverContent className="w-[335px] max-w-[60vw] p-0">
                     <Command>
                       <CommandInput placeholder="Assign employee..." />
                       <CommandEmpty>No employee found.</CommandEmpty>
