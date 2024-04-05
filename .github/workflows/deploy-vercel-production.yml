@@ -16,7 +16,7 @@ jobs:
         uses: ./.github/actions/setup-project
 
       - name: Format & Lint code
-        uses: ./.github/actions/format-lint-code
+        uses: ./.github/actions/format-code
 
       - name: Build app
         run: npm run build
