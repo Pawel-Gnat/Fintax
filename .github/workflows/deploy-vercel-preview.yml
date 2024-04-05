@@ -1,0 +1,31 @@
+name: GitHub Actions Vercel Preview Deployment
+
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  Deploy-Preview:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure node
+        uses: ./.github/actions/setup-project
+
+      - name: Format & Lint code
+        uses: ./.github/actions/format-lint-code
+
+      - name: Build app
+        run: npm run build
+
+      - name: Deploy app to Vercel preview env
+        uses: ./.github/actions/vercel-deployment
+        with:
+          mode: 'preview'
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
