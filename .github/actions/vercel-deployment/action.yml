@@ -28,6 +28,6 @@ runs:
       if: ${{ inputs.mode == 'preview' }}
       run: |
         vercel pull --yes --environment=preview --token=${{ inputs.vercel-token }}
-        vercel build --token=${{ inputs.vercel-token }} --env DATABASE_URL=${{ inputs.DATABASE_URL }} --env NEXTAUTH_SECRET=${{ inputs.NEXTAUTH_SECRET }} --env NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=${{ inputs.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME }}
-        vercel deploy --prebuilt --token=${{ inputs.vercel-token }} --env DATABASE_URL=${{ inputs.DATABASE_URL }} --env NEXTAUTH_SECRET=${{ inputs.NEXTAUTH_SECRET }} --env NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=${{ inputs.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME }}
+        vercel build --token=${{ inputs.vercel-token }}
+        vercel deploy --prebuilt --token=${{ inputs.vercel-token }}
       shell: bash
