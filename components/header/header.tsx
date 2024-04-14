@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import useCompany from '@/hooks/useCompany';
 
-import DropdownMenu from '@/components/dropdown-menu/dropdown-menu';
+import Avatar from '../avatar/avatar';
 
 import { User } from '@prisma/client';
 
@@ -15,16 +15,23 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ user }) => {
   const { company } = useCompany();
 
-  const settings = (
-    <Link href="/settings" className="w-full">
-      Settings
-    </Link>
-  );
-
   return (
     <header className="sticky top-0 z-10 ml-1 flex items-center justify-between rounded-bl-lg bg-background p-6">
       <h1 className="text-3xl font-bold">{company?.name}</h1>
-      <DropdownMenu user={user} actions={[settings]} />
+
+      <Link href="/settings">
+        <div className="flex flex-row gap-4">
+          {user?.name && user?.surname && (
+            <Avatar image={user?.image} name={user?.name} surname={user?.surname} />
+          )}
+          <div className="text-left">
+            <span className="hidden font-bold md:block">
+              {user?.name && user?.surname && `${user?.name} ${user?.surname}`}
+            </span>
+            <span className="hidden md:block">{user?.email && `${user?.email}`}</span>
+          </div>
+        </div>
+      </Link>
     </header>
   );
 };
