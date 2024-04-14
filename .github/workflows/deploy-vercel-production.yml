@@ -25,7 +25,7 @@ jobs:
           NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
           NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: ${{ secrets.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME }}
 
-      - name: Deploy app to Vercel preview env
+      - name: Deploy app to Vercel production env
         uses: ./.github/actions/vercel-deployment
         with:
           mode: 'production'
