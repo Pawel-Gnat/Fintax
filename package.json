@@ -7,7 +7,7 @@
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write .",
+    "format": "prettier --write --ignore-unknown",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -43,6 +43,8 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.2.2",
+    "@commitlint/config-conventional": "^19.2.2",
     "@tanstack/eslint-plugin-query": "^5.20.1",
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^20",
