@@ -19,11 +19,19 @@ const getCurrentUser = async () => {
       },
     });
 
-    if (!user) {
+    const employee = await prisma.employee.findUnique({
+      where: {
+        email: session.user.email as string,
+      },
+    });
+
+    const account = user || employee;
+
+    if (!account) {
       return null;
     }
 
-    return user;
+    return account;
   } catch (error) {
     return null;
   }

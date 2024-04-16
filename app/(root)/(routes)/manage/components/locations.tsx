@@ -8,8 +8,15 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 import LocationRows from './location-rows';
 
-const Locations = () => {
+import { User } from '@prisma/client';
+
+interface LocationsProps {
+  user: User;
+}
+
+const Locations: React.FC<LocationsProps> = ({ user }) => {
   const { locations, isLocationsLoading } = useLocations();
+  const cardAction = user.role === 'admin' ? 'setLocation' : undefined;
 
   if (isLocationsLoading) {
     return <Skeleton className="h-[300px] w-full rounded-lg" />;
@@ -17,13 +24,13 @@ const Locations = () => {
 
   return (
     <>
-      {locations && locations.length > 0 && (
-        <Card title="Locations" action="setLocation" className="w-full">
+      {locations && (
+        <Card title="Locations" action={cardAction} className="w-full">
           <Table
             title="Locations"
             data={locations}
             headers={['Location']}
-            rows={<LocationRows data={locations} />}
+            rows={<LocationRows data={locations} user={user}/>}
           />
         </Card>
       )}
