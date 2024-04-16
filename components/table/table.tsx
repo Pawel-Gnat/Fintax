@@ -10,6 +10,7 @@ import {
 
 import { Department, Location } from '@prisma/client';
 import { SafeClient, SafeEmployee } from '@/types/types';
+
 interface ManageTableProps {
   title: string;
   data: SafeEmployee[] | Department[] | Location[] | SafeClient[];

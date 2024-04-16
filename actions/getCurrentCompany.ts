@@ -12,17 +12,41 @@ const getCurrentCompany = async () => {
       return null;
     }
 
-    const company = await prisma.company.findUnique({
+    // const company = await prisma.company.findUnique({
+    //   where: {
+    //     id: user.companyId,
+    //   },
+    // });
+
+    // if (!company) {
+    //   return null;
+    // }
+
+    // return company;
+
+    if (user.companyId) {
+      const companyByCompanyId = await prisma.company.findUnique({
+        where: {
+          id: user.companyId,
+        },
+      });
+
+      if (companyByCompanyId) {
+        return companyByCompanyId;
+      }
+    }
+
+    const companyByUserId = await prisma.company.findUnique({
       where: {
         userId: user.id,
       },
     });
 
-    if (!company) {
-      return null;
+    if (companyByUserId) {
+      return companyByUserId;
     }
 
-    return company;
+    return null;
   } catch (error) {
     return null;
   }

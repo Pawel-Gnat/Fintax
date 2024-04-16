@@ -31,20 +31,28 @@ export const authOptions: AuthOptions = {
           },
         });
 
-        if (!user || !user?.hashedPassword) {
+        const employee = await prisma.employee.findUnique({
+          where: {
+            email: credentials.email,
+          },
+        });
+
+        const account = user || employee;
+
+        if (!account || !account.hashedPassword) {
           throw new Error('Invalid credentials');
         }
 
-        const comparePassword = await bcrypt.compare(
+        const isPasswordValid = await bcrypt.compare(
           credentials.password,
-          user.hashedPassword,
+          account.hashedPassword,
         );
 
-        if (!comparePassword) {
+        if (!isPasswordValid) {
           throw new Error('Invalid credentials');
         }
 
-        return user;
+        return account;
       },
     }),
   ],

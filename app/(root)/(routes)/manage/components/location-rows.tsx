@@ -10,13 +10,14 @@ import DropdownMenu from '@/components/dropdown-menu/dropdown-menu';
 import Button from '@/components/button/button';
 import { TableCell, TableRow } from '@/components/ui/table';
 
-import { Location } from '@prisma/client';
+import { Location, User } from '@prisma/client';
 
 interface LocationRowsProps {
+  user: User;
   data: Location[];
 }
 
-const LocationRows: React.FC<LocationRowsProps> = ({ data }) => {
+const LocationRows: React.FC<LocationRowsProps> = ({ data, user }) => {
   const { setTitle, setIsOpen, setIsEditing, setElementId, setAction, setElementName } =
     useContext(ModalSheetContext);
 
@@ -59,12 +60,14 @@ const LocationRows: React.FC<LocationRowsProps> = ({ data }) => {
       {data.map((element) => (
         <TableRow key={element.id}>
           <TableCell>{element.name}</TableCell>
-          <TableCell className="flex justify-end text-right">
-            <DropdownMenu
-              icon={<LuCircleEllipsis size={20} />}
-              actions={buttons(element.id, element.name)}
-            />
-          </TableCell>
+          {user.role === 'admin' && (
+            <TableCell className="flex justify-end text-right">
+              <DropdownMenu
+                icon={<LuCircleEllipsis size={20} />}
+                actions={buttons(element.id, element.name)}
+              />
+            </TableCell>
+          )}
         </TableRow>
       ))}
     </>

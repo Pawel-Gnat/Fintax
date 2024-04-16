@@ -32,8 +32,9 @@ model User {
   id                String      @id @default(auto()) @map("_id") @db.ObjectId
   name              String
   surname           String
-  company           Company?
-  companyId         String?
+  role              String      @default("admin")
+  company           Company?     
+  companyId         String?     @db.ObjectId
   email             String      @unique
   emailVerified     DateTime?
   hashedPassword    String
@@ -41,6 +42,28 @@ model User {
   createdAt         DateTime    @default(now())
   updatedAt         DateTime    @updatedAt
   accounts          Account[]
+}
+
+model Employee {
+  id              String        @id @default(auto()) @map("_id") @db.ObjectId
+  name            String
+  surname         String
+  email           String        @unique
+  emailVerified   DateTime?
+  hashedPassword  String
+  image           String
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  role            String        @default("employee")
+  accounts        Account[]     
+  location        Location?     @relation(fields: [locationId], references: [id], onDelete: SetNull)
+  locationId      String?       @db.ObjectId
+  department      Department?   @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+  departmentId    String?       @db.ObjectId
+  clients         Client[] 
+  company         Company       @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId       String        @db.ObjectId
+  @@unique([companyId, name, surname])
 }
 
 model Company {
@@ -76,27 +99,6 @@ model Department {
   companyId   String     @db.ObjectId
   employees   Employee[]  
   @@unique([companyId, name])
-}
-
-model Employee {
-  id              String        @id @default(auto()) @map("_id") @db.ObjectId
-  name            String
-  surname         String
-  email           String        @unique
-  emailVerified   DateTime?
-  hashedPassword  String
-  image           String
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
-  accounts        Account[]     
-  location        Location?     @relation(fields: [locationId], references: [id], onDelete: SetNull)
-  locationId      String?       @db.ObjectId
-  department      Department?   @relation(fields: [departmentId], references: [id], onDelete: SetNull)
-  departmentId    String?       @db.ObjectId
-  clients         Client[] 
-  company         Company       @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  companyId       String        @db.ObjectId
-  @@unique([companyId, name, surname])
 }
 
 model Client {

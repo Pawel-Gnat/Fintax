@@ -1,37 +1,17 @@
-'use client';
+import { redirect } from 'next/navigation';
 
-import useClients from '@/hooks/useClients';
-import useEmployees from '@/hooks/useEmployees';
+import getCurrentUser from '@/actions/getCurrentUser';
 
-import Card from '@/components/card/card';
-import DataTable from '@/components/data-table/data-table';
-import { Skeleton } from '@/components/ui/skeleton';
+import { ClientsTable } from './components/clients-table';
 
-import { columns } from './components/client-cols';
+const ClientsPage = async () => {
+  const user = await getCurrentUser();
 
-const ClientsPage = () => {
-  const { clients, isClientsLoading } = useClients();
-  const { employees, isEmployeesLoading } = useEmployees();
-
-  if (isClientsLoading || isEmployeesLoading) {
-    return <Skeleton className="mt-10 h-[400px] w-full rounded-lg" />;
+  if (!user) {
+    redirect('/auth');
   }
 
-  return (
-    <>
-      {clients && employees && (
-        <Card title="Clients" action="setClient" className="mt-10">
-          <DataTable
-            title="Clients"
-            columns={columns}
-            data={clients}
-            employees={employees}
-            clients={clients}
-          />
-        </Card>
-      )}
-    </>
-  );
+  return <ClientsTable user={user} />;
 };
 
 export default ClientsPage;

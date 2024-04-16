@@ -1,44 +1,32 @@
-'use client';
+import { redirect } from 'next/navigation';
 
-import { useRouter } from 'next/navigation';
+import getCurrentUser from '@/actions/getCurrentUser';
 
-import useEmployee from '@/hooks/useEmployee';
-
-import Card from '@/components/card/card';
 import PageContainer from '@/components/page-container/page-container';
-import { Skeleton } from '@/components/ui/skeleton';
 
-import PasswordForm from './components/password-form';
-import ProfileForm from './components/profile-form';
+import { PasswordCard } from './components/password-card';
+import { ProfileCard } from './components/profile-card';
 
 interface EmployeeSettingsPageProps {
   employeeId: string;
 }
 
-const EmployeeSettingsPage = ({ params }: { params: EmployeeSettingsPageProps }) => {
-  const { employee, isEmployeeLoading } = useEmployee(params.employeeId);
-  const router = useRouter();
+const EmployeeSettingsPage = async ({
+  params,
+}: {
+  params: EmployeeSettingsPageProps;
+}) => {
+  const user = await getCurrentUser();
 
-  if (!isEmployeeLoading && !employee) {
-    router.push('/employees');
+  if (user && user.role !== 'admin') {
+    redirect('/auth');
   }
 
   return (
     <PageContainer>
       <div className="mb-5 grid grid-cols-1 gap-5 md:grid-cols-2">
-        {isEmployeeLoading && <Skeleton className="h-[300px] w-full rounded-lg" />}
-        {isEmployeeLoading && <Skeleton className="h-[700px] w-full rounded-lg" />}
-
-        {employee && (
-          <Card title="Employee password">
-            <PasswordForm data={employee} />
-          </Card>
-        )}
-        {employee && (
-          <Card title="Employee informations">
-            <ProfileForm data={employee} />
-          </Card>
-        )}
+        <PasswordCard id={params.employeeId} />
+        <ProfileCard id={params.employeeId} />
       </div>
     </PageContainer>
   );

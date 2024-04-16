@@ -8,8 +8,15 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 import DepartmentRows from './department-rows';
 
-const Departments = () => {
+import { User } from '@prisma/client';
+
+interface DepartmentsProps {
+  user: User;
+}
+
+const Departments: React.FC<DepartmentsProps> = ({ user }) => {
   const { departments, isDepartmentsLoading } = useDepartments();
+  const cardAction = user.role === 'admin' ? 'setDepartment' : undefined;
 
   if (isDepartmentsLoading) {
     return <Skeleton className="h-[300px] w-full rounded-lg" />;
@@ -17,13 +24,13 @@ const Departments = () => {
 
   return (
     <>
-      {departments && departments.length > 0 && (
-        <Card title="Departments" action="setDepartment" className="w-full">
+      {departments && (
+        <Card title="Departments" action={cardAction} className="w-full">
           <Table
             title="Departments"
             data={departments}
             headers={['Department']}
-            rows={<DepartmentRows data={departments} />}
+            rows={<DepartmentRows data={departments} user={user} />}
           />
         </Card>
       )}

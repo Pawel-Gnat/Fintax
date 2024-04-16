@@ -10,13 +10,14 @@ import DropdownMenu from '@/components/dropdown-menu/dropdown-menu';
 import Button from '@/components/button/button';
 import { TableCell, TableRow } from '@/components/ui/table';
 
-import { Department } from '@prisma/client';
+import { Department, User } from '@prisma/client';
 
 interface DepartmentRowsProps {
+  user: User;
   data: Department[];
 }
 
-const DepartmentRows: React.FC<DepartmentRowsProps> = ({ data }) => {
+const DepartmentRows: React.FC<DepartmentRowsProps> = ({ data, user }) => {
   const { setTitle, setIsOpen, setIsEditing, setElementId, setAction, setElementName } =
     useContext(ModalSheetContext);
 
@@ -59,12 +60,14 @@ const DepartmentRows: React.FC<DepartmentRowsProps> = ({ data }) => {
       {data.map((element) => (
         <TableRow key={element.id}>
           <TableCell>{element.name}</TableCell>
-          <TableCell className="flex justify-end text-right">
-            <DropdownMenu
-              icon={<LuCircleEllipsis size={20} />}
-              actions={buttons(element.id, element.name)}
-            />
-          </TableCell>
+          {user.role === 'admin' && (
+            <TableCell className="flex justify-end text-right">
+              <DropdownMenu
+                icon={<LuCircleEllipsis size={20} />}
+                actions={buttons(element.id, element.name)}
+              />
+            </TableCell>
+          )}
         </TableRow>
       ))}
     </>

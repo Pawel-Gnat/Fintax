@@ -27,7 +27,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
 import { SafeClient, SafeEmployee } from '@/types/types';
-import { Department, Location } from '@prisma/client';
+import { Department, Location, User } from '@prisma/client';
 
 interface DataTableProps<TData, TValue> {
   title: string;
@@ -37,6 +37,7 @@ interface DataTableProps<TData, TValue> {
   clients?: SafeClient[];
   locations?: Location[];
   departments?: Department[];
+  user: User;
 }
 
 const DataTable = <TData, TValue>({
@@ -47,6 +48,7 @@ const DataTable = <TData, TValue>({
   clients,
   locations,
   departments,
+  user,
 }: DataTableProps<TData, TValue>) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -129,7 +131,15 @@ const DataTable = <TData, TValue>({
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
+                {headerGroup.headers.map((header, index) => {
+                  if (index === headerGroup.headers.length - 1 && user.role !== 'admin')
+                    return (
+                      <TableHead
+                        key={header.id}
+                        className="first-of-type:align-left text-center last-of-type:text-right"
+                      ></TableHead>
+                    );
+
                   return (
                     <TableHead
                       key={header.id}
@@ -144,27 +154,30 @@ const DataTable = <TData, TValue>({
               </TableRow>
             ))}
           </TableHeader>
+
           <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
-                  {row.getVisibleCells().map((cell) => (
+            {table.getRowModel().rows.map((row) => (
+              <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+                {row.getVisibleCells().map((cell, index) => {
+                  if (index === row.getVisibleCells().length - 1 && user.role !== 'admin')
+                    return (
+                      <TableCell
+                        key={cell.id}
+                        className="text-center first-of-type:text-left last-of-type:text-right"
+                      ></TableCell>
+                    );
+
+                  return (
                     <TableCell
                       key={cell.id}
                       className="text-center first-of-type:text-left last-of-type:text-right"
                     >
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
-                  No results.
-                </TableCell>
+                  );
+                })}
               </TableRow>
-            )}
+            ))}
           </TableBody>
         </Table>
       </div>

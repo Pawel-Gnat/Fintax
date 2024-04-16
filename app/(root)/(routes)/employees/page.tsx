@@ -1,40 +1,17 @@
-'use client';
+import { redirect } from 'next/navigation';
 
-import useEmployees from '@/hooks/useEmployees';
-import useLocations from '@/hooks/useLocations';
-import useDepartments from '@/hooks/useDepartments';
+import getCurrentUser from '@/actions/getCurrentUser';
 
-import Card from '@/components/card/card';
-import DataTable from '@/components/data-table/data-table';
-import { Skeleton } from '@/components/ui/skeleton';
+import { EmployeeTable } from './components/employee-table';
 
-import { columns } from './components/employee-cols';
+const EmployeesPage = async () => {
+  const user = await getCurrentUser();
 
-const EmployeesPage = () => {
-  const { locations, isLocationsLoading } = useLocations();
-  const { departments, isDepartmentsLoading } = useDepartments();
-  const { employees, isEmployeesLoading } = useEmployees();
-
-  if (isLocationsLoading || isDepartmentsLoading || isEmployeesLoading) {
-    return <Skeleton className="mt-10 h-[400px] w-full rounded-lg" />;
+  if (!user) {
+    redirect('/auth');
   }
 
-  return (
-    <>
-      {locations && departments && employees && (
-        <Card title="Employees" action="setEmployee" className="mt-10">
-          <DataTable
-            title="Employees"
-            columns={columns}
-            data={employees}
-            employees={employees}
-            locations={locations}
-            departments={departments}
-          />
-        </Card>
-      )}
-    </>
-  );
+  return <EmployeeTable user={user} />;
 };
 
 export default EmployeesPage;
