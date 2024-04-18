@@ -1,3 +1,5 @@
+'use client';
+
 import useEmployee from '@/hooks/useEmployee';
 
 import Card from '@/components/card/card';
