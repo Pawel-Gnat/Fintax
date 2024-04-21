@@ -1,0 +1,8 @@
+name: Lint commit
+description: Lint commit with commitlint
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Validate current commit (last commit) with commitlint
+      run: npx commitlint --last --verbose

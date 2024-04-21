@@ -15,6 +15,9 @@ jobs:
       - name: Configure node
         uses: ./.github/actions/setup-project
 
+      - name: Lint commit
+        uses: ./.github/actions/lint-commit
+
       - name: Format & Lint code
         uses: ./.github/actions/format-code
 
