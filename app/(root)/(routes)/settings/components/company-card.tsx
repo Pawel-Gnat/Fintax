@@ -1,14 +1,16 @@
 'use client';
 
 import useCompany from '@/hooks/useCompany';
+import useUser from '@/hooks/useUser';
 
 import Card from '@/components/card/card';
+import { Skeleton } from '@/components/ui/skeleton';
 
 import CompanyForm from './company-form';
-import { Skeleton } from '@/components/ui/skeleton';
 
 export const CompanyCard = () => {
   const { company, isCompanyLoading } = useCompany();
+  const { user } = useUser();
 
   if (isCompanyLoading) {
     return <Skeleton className="h-[200px] w-full rounded-lg" />;
@@ -18,7 +20,11 @@ export const CompanyCard = () => {
     <>
       {company && (
         <Card title="Company informations">
-          <CompanyForm data={company} />
+          {user?.role === 'admin' ? (
+            <CompanyForm data={company} />
+          ) : (
+            <p>{company.name}</p>
+          )}
         </Card>
       )}
     </>

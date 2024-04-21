@@ -27,7 +27,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, imageSrc }) => {
               e.preventDefault();
               open?.();
             }}
-            className="relative flex aspect-square w-full min-w-[5rem] max-w-[15rem] flex-col items-center justify-center rounded-lg border border-dashed transition-opacity hover:opacity-70"
+            className="relative flex aspect-square w-full min-w-[5rem] max-w-[15rem] flex-col items-center justify-center overflow-hidden rounded-lg border border-dashed transition-opacity hover:opacity-70"
           >
             <LuImagePlus size={20} />
             <p className="text-sm font-medium">Upload an Image</p>
