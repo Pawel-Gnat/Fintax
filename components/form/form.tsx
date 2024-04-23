@@ -82,7 +82,7 @@ const Form: React.FC<FormProps> = ({
             render={({ field }) => (
               <div>
                 {ControllerLabel('Image')}
-                <ImageUpload onChange={onChangeImage} imageSrc={imageSrc} />
+                <ImageUpload onChange={onChangeImage} imageSrc={imageSrc}/>
               </div>
             )}
           />
